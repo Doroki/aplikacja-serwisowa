@@ -1,0 +1,11 @@
+.form-input {
+    text-align: left;
+    font-weight: 300;
+    margin-top: 1.5em;
+}
+
+.header {
+    font-size: 2em;
+    margin: 1.5em 0;
+    font-weight: 600;
+}
