@@ -1,5 +1,5 @@
 .side-navbar {
-    width: 200px;
+    width: 250px;
     height: 100vh;
     background-color: #1C2331;
     box-shadow: 4px 2px 5px 0 rgba(0,0,0,.16), 4px 2px 5px 0 rgba(0,0,0,.12);
@@ -39,8 +39,20 @@
 }
 
 .side-navbar .logo {
-    font-size: 40px;
-    padding: 20px;
+    width: 30%;
+    height: auto;
+    margin-right: 5px;
+}
+
+
+.side-navbar .container-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4em;
+    background-color: #1c5992;
+    margin: 5px;
+    border-radius: 8px;
 }
 
 

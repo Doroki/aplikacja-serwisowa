@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import { Container, Button, Modal, ModalBody, ModalHeader, ModalFooter } from 'mdbreact';
+import { Container, Button, Modal, ModalBody, ModalHeader } from 'mdbreact';
 import Task from './task';
-import styles from './task-button.css'
+import './task-button.css'
 
 class TaskButton extends Component {
     constructor(props) {
@@ -42,12 +42,13 @@ class TaskButton extends Component {
     }
 
     refreshTaskList(keyValue) {
-        let newTaskList = this.state.tasks;
-        let index = newTaskList.indexOf(newTaskList.filter(element => element.key == keyValue)[0]);
+        const keyOfElement = keyValue.toString();
+        let taskList = this.state.tasks;
+        let index = taskList.indexOf(taskList.filter(element => element.key === keyOfElement)[0]);
         if (index > -1) {
-            newTaskList.splice(index, 1);
+            taskList.splice(index, 1);
         }
-        this.setState({tasks: newTaskList});
+        this.setState({tasks: taskList});
     }
 
     taskCounter() {

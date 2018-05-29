@@ -1,11 +1,11 @@
 import React from 'react';
-import styles from "./side-navbar.css";
+import "./side-navbar.css";
 
 const SideNavbar = (props) => {
 
-    const links = props.children.map(element => {
+    const links = props.children.map((element, index) => {
         return (
-            <li>
+            <li key={index}>
                 {element}
             </li>
         );

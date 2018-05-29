@@ -1,6 +1,6 @@
 import React from 'react';
-import { Container, NavItem, Button, Modal, ModalBody, ModalHeader, ModalFooter } from 'mdbreact';
-import styles from './nav-buttons.css';
+import { Container, Button, Modal, ModalBody, ModalHeader, ModalFooter } from 'mdbreact';
+import './contact-button.css';
 
 
 class ContactButton extends React.Component {

@@ -1,7 +1,7 @@
 import React, {Component} from "react";
-import styles from "./form.css"
+import "./form.css"
 
-class Content extends Component {
+class NewNotification extends Component {
     constructor(props) {
         super(props);
 
@@ -45,8 +45,23 @@ class Content extends Component {
                         <label htmlFor="postal-code">kod pocztowy</label>
                         <input type="text" className="form-control" id="postal-code" placeholder="Podaj kod pocztowy" />
                     </div>
+                    <div className="col-6 form-input">
+                        <label htmlFor="textarea">Uwagi do zgłoszenia</label>
+                        <select className="form-control" id="textarea" rows="5">
+                            <option value="default">Wybierz temat...</option>
+                            <option value="temat1">temat1</option>
+                            <option value="temat2">temat2</option>
+                        </select>
+                    </div>
+                    <div className="col-6 form-input">
+                        <label htmlFor="textarea">Typ Zgłoszenia</label>
+                        <select className="form-control" id="textarea" rows="5">
+                            <option value="default">Wybierz rodzaj zgłosznia...</option>
+                            <option value="Errors">Błąd</option>
+                            <option value="Funcionalities">Nowa funkcjonalność</option>
+                        </select>
+                    </div>
                 </div>
-
                 <div className="form-input">
                     <label htmlFor="textarea">Uwagi do zgłoszenia</label>
                     <textarea className="form-control" id="textarea" rows="5" placeholder="Wpisz uwagi do zgłoszenia..."></textarea>
@@ -60,4 +75,4 @@ class Content extends Component {
 
 }
 
-export default Content;
+export default NewNotification;

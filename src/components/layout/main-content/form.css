@@ -9,3 +9,13 @@
     margin: 1.5em 0;
     font-weight: 600;
 }
+
+.table-fixed {
+    table-layout: fixed;
+    overflow: hidden;
+}
+
+.custom-table {
+    width: 90%;
+    margin: auto;
+}

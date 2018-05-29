@@ -2,23 +2,27 @@ import React, { Component } from 'react';
 import "./reset.css";
 import './App.css';
 import {
-  BrowserRouter as Router,
+  HashRouter as Router,
   Route,
   Link
 } from 'react-router-dom';
 
-// layout
-import Navbar from './components/layout/navbar';
-import SideNavbar from './components/layout/side-navbar';
+// navbars
+import Navbar from './components/layout/navbar/navbar';
+import SideNavbar from './components/layout/sidebar/side-navbar';
 
 //header-nav-buttons
-import ContactButton from './components/head-navbar/contact_button'
-import TaskButton from './components/head-navbar/task-button'
-import ProfileButton from './components/head-navbar/profile-button'
+import ContactButton from './components/buttons/contact-button/contact_button'
+import TaskButton from './components/buttons/task-button/task-button'
+import ProfileButton from './components/buttons/profile-button/profile-button'
 
 // content
-import Content from "./components/main-content/content";
-import Complain from './components/main-content/compain';
+import NewNotification from "./components/layout/main-content/new-notification";
+import ErrorList from './components/layout/main-content/list-of-errors';
+import Functionalities from './components/layout/main-content/functionalities';
+import DefaultContent from './components/layout/main-content/default-content/default-content';
+import ComplainList from './components/layout/main-content/complains';
+import ClientList from './components/layout/main-content/clients-list';
 
 class App extends Component {
 
@@ -27,10 +31,12 @@ class App extends Component {
       <Router>
         <div className="App d-flex h-100">
           <SideNavbar>
-            <h1>LOGO ?</h1>
-            <Link to="/zgloszenia">Nowe zgłoszenie</Link>
-            <Link to="/lista-zgloszen">Zgłoszenia</Link>
-            <Link to="/reklamacje">Reklamacje</Link>
+            <h1 className='container-logo'><img className='logo' src='../img/Logo.png' alt='' /><span>SERVICE</span></h1>
+            <Link to="/">Strona główna</Link>
+            <Link to="/nowe-zgloszenie">Nowe zgłoszenie</Link>
+            <Link to="/lista-bledow">Zgłoszone błędy</Link>
+            <Link to="/lista-reklamacji">Reklamacje</Link>
+            <Link to="/lista-funkcjonalnosci">Nowe funkcjonalnosci</Link>
             <Link to="/lista-klientow">Lista klientow</Link>
           </SideNavbar>
           <section className="container-fluid p-0">
@@ -40,8 +46,12 @@ class App extends Component {
               <ProfileButton />
             </Navbar>
             <div className="main-content"> 
-              <Route path="/zgloszenia" component={Content} />
-              {/* <Route exact path="/reklamacje" component={Complain} /> */}
+              <Route exact path="/" component={DefaultContent} />
+              <Route path="/nowe-zgloszenie" component={NewNotification} />
+              <Route path="/lista-bledow" component={ErrorList} />
+              <Route path="/lista-reklamacji" component={ComplainList} />
+              <Route path="/lista-funkcjonalnosci" component={Functionalities} />
+              <Route path="/lista-klientow" component={ClientList} />
             </div>
           </section>
         </div>
