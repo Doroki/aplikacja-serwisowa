@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import "./form.css";
 import Table from "../../tabel/tabel"
-import SearchForm from "../../search-form/search-form";
+import SearchForm from "../../forms/search-form/search-form";
 
 class Functionalities extends Component {
     constructor(props) {

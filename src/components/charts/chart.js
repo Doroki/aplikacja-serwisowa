@@ -35,7 +35,6 @@ class Chart extends React.Component {
     return (
     <Container>
         <Line height={120} data={data} />
-        {console.log(<Line height={234}/>)}
     </Container>
     );
   }

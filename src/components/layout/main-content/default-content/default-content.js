@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 import { Button, Card, CardBody, CardImage, CardTitle, CardText } from 'mdbreact';
-import { Link } from 'react-router-dom';
 import Chart from '../../../charts/chart';
 import "./default-content.css"
 
@@ -48,9 +47,7 @@ class DefaultContent extends Component {
                     </CardBody>
                 </Card>
             </div>
-            <div className="jakas">
-            <Chart />
-            </div>
+                <Chart />
             </div>
         );
     }
