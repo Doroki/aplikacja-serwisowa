@@ -38,16 +38,7 @@ class DefaultContent extends Component {
                         <Button className='btn-sm' href="#">Opis oprogramowania</Button>
                     </CardBody>
                 </Card>
-                <Card>
-                    <CardImage className="img-fluid" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20%282%29.jpg" />
-                    <CardBody>
-                        <CardTitle>Nazwa oprogramowania</CardTitle>
-                        <CardText>Jakiś przykładowy teks. krótki opis oprogramowania</CardText>
-                        <Button className='btn-sm' href="#">Opis oprogramowania</Button>
-                    </CardBody>
-                </Card>
             </div>
-                <Chart />
             </div>
         );
     }

@@ -17,8 +17,10 @@ class LoginAdmin extends React.Component {
         e.preventDefault();
         this.setState({login: login, password: password})
 
-        if(this.state.login === "test" && this.state.password === "test") {
-            this.props.onLoginSubmit({adminAuth: true, userAuth: false});
+        if(login === "test" && password === "test") {
+            this.props.onLoginSubmit({userAuth: false, adminAuth: true});
+            
+            this.props.history.push('/admin-panel')
         }
 
     }
@@ -31,7 +33,7 @@ class LoginAdmin extends React.Component {
                     header = {"SERWIS"}
                     subheader = {"Admin Panel"} 
                     onSubmitBtn = {this.authorizeEntry.bind(this)} />
-                <Link to="/">Panel Klienta</Link>
+                <Link className="btn btn-mdb-color" to="/">Panel Klienta</Link>
             </div>
         );
     }

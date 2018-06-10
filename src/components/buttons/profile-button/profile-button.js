@@ -2,7 +2,7 @@ import React from 'react';
 import './profile-button.css';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'mdbreact';
 
-  class ProfileButton extends React.Component {
+  class DropDownButton extends React.Component {
   constructor(props) {
     super(props);
     this.toggle = this.toggle.bind(this);
@@ -10,11 +10,13 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'mdbreact';
       dropdownOpen: false,
     };
   }
+
   toggle() {
     this.setState({
       dropdownOpen: !this.state.dropdownOpen
     });
   }
+
   render() {
     return (
         <Dropdown isOpen = { this.state.dropdownOpen } toggle = { this.toggle }>
@@ -23,11 +25,10 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'mdbreact';
             Profil
           </DropdownToggle>
           <DropdownMenu>
-            <DropdownItem href="#">Mój Profil</DropdownItem>
-            <DropdownItem href="#">Wyloguj</DropdownItem>
+            {this.props.children}
           </DropdownMenu>
         </Dropdown>
     );
   }
 }
-export default ProfileButton;
+export default DropDownButton;

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {Navbar, Dropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'mdbreact';
 import './client-page.css';
 import {Tab, TabBody, TabContainer, TabList, TabPanel} from '../../components/tab-container/tab-container';
-import {Form, Row, Input, Select, Textarea} from '../../components/forms/form-components/form-components';
+import {Form, Row, Input, Select, Textarea, Submit} from '../../components/forms/form-components/form-components';
 
 
 class ClientPage extends Component {
@@ -12,10 +12,9 @@ class ClientPage extends Component {
         this.toggle = this.toggle.bind(this);
 
         this.state = {
+            userName: "{Nazwa firmy / Imię i Nazwisko}",
             activeTab: "1",
             dropdownOpen: false,
-            userAuth: false,
-            adminAuth: false
         };
     }
 
@@ -31,15 +30,21 @@ class ClientPage extends Component {
         this.setState({activeTab: e.target.dataset.targetTab});
     }
 
+    logout() {
+        this.props.onLogout({userAuth: false});
+        this.props.history.push('/')
+    }
+
     render() {
         return (
             <div className="w-100">
                 {/* ---- Navbar ---- */}
-                <Navbar color="indigo" dark>
+                <Navbar className="" dark>
+                    <span className="user-data">{this.state.userName}</span>
                     <Dropdown isOpen = { this.state.dropdownOpen } toggle = { this.toggle }>
-                        <DropdownToggle className="dropdown-button fa fa-user-circle" />
+                        <DropdownToggle color="default" className="dropdown-button fa fa-user-circle" />
                         <DropdownMenu>
-                            <DropdownItem href="">Wyloguj</DropdownItem>
+                            <DropdownItem onClick={this.logout.bind(this)} >Wyloguj</DropdownItem>
                         </DropdownMenu>
                     </Dropdown>
                 </Navbar>
@@ -50,9 +55,6 @@ class ClientPage extends Component {
                         <img className="banner__img z-depth-1" src="img/Logo.png" alt="" />
                         <h1>SERVICE</h1>
                     </div>
-                    <p className="banner__content z-depth-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur purus nunc, pellentesque vitae ornare ut, lacinia
-                        eget tellus. Pellentesque ac gravida leo. Proin sit amet nulla urna. Vestibulum maximus nisl orci. Nam imperdiet
-                        tempus volutpat. Nulla hendrerit bibendum luctus. Suspendisse dictum libero at molestie aliquam.</p>
                 </section>
 
                 {/* ---- Main content - Forms ---- */}
@@ -60,19 +62,13 @@ class ClientPage extends Component {
                     <TabList onClickTab={e => this.selectTab(e)}>
                         <Tab active={this.state.activeTab} targetTab="1">Awaria</Tab>
                         <Tab active={this.state.activeTab} targetTab="2">Reklamacja</Tab>
-                        <Tab active={this.state.activeTab} targetTab="3">Nowa Funkcja</Tab>
-                        <Tab active={this.state.activeTab} targetTab="4">Wiadomość</Tab>
-                        <Tab active={this.state.activeTab} targetTab="5">Status</Tab>
                     </TabList>
+
                     <TabBody>
                         <TabPanel active={this.state.activeTab} id="1">
                             <Form>
                                 <Row>
                                     <Input id="1" label="Podaj osobę do kontaktu:"/>
-                                    <Select id="2" label="Wybierz tryb:">
-                                        <option value="normalny">Normalny</option>
-                                        <option value="pilny">Pilny</option>
-                                    </Select>
                                     <Input id="3" label="ID kienta:" disabled />
                                 </Row>
                                 <Row>
@@ -80,8 +76,14 @@ class ClientPage extends Component {
                                     <Input id="5" label="Podaj e-mail:"/>
                                 </Row>
                                 <Row>
-                                    <Select id="2" label="Wybierz tryb:">
-                                        <option value=""></option>
+                                    <Select id="2" label="Wybierz oprogramowanie:">
+                                        <option value="normalny">Jakie oprogramowanie...</option>
+                                        <option value="pilny">Pierwsze</option>
+                                        <option value="pilny">Drugie</option>
+                                        <option value="pilny">Trzecie</option>
+                                    </Select>
+                                    <Select id="2" label="Wybierz katagorie problemu:">
+                                        <option value="">Wybierz katagorie problemu...</option>
                                         <option value=""></option>
                                         <option value=""></option>
                                         <option value=""></option>
@@ -91,27 +93,25 @@ class ClientPage extends Component {
                                 </Row>
                                 <Row>
                                     <Textarea label="Opisz problem:" col="30" row="12" />
-                                </Row>          
+                                </Row>
+                                <Row>
+                                    <Submit value="Wyślij" disabled/>
+                                </Row>           
                             </Form>   
                         </TabPanel>
 
                         <TabPanel active={this.state.activeTab} id="2">
                             <Form>
                                 <Row>
-                                    <Input id="1" label="Podaj osobę do kontaktu:"/>
-                                    <Select id="2" label="Wybierz tryb:">
-                                        <option value="normalny">Normalny</option>
-                                        <option value="pilny">Pilny</option>
+                                    <Select id="2" label="Wybierz numer zgłoszenia:">
+                                        <option value="normalny">11111</option>
+                                        <option value="pilny">22222</option>
                                     </Select>
                                     <Input id="3" label="ID kienta:" disabled />
                                 </Row>
                                 <Row>
-                                    <Input id="4" label="Podaj nr telefonu"/>
-                                    <Input id="5" label="Podaj e-mail:"/>
-                                </Row>
-                                <Row>
-                                    <Select id="2" label="Wybierz tryb:">
-                                        <option value=""></option>
+                                    <Select id="2" label="Wybierz przyczynę reklamacji:">
+                                        <option value="">Wybierz przyczynę reklamacji...</option>
                                         <option value=""></option>
                                         <option value=""></option>
                                         <option value=""></option>
@@ -121,19 +121,13 @@ class ClientPage extends Component {
                                 </Row>
                                 <Row>
                                     <Textarea label="Opisz problem:" col="30" row="12" />
-                                </Row>          
+                                </Row>     
+                                <Row>
+                                    <Submit value="Wyślij" disabled/>
+                                </Row>      
                             </Form>   
                         </TabPanel>
 
-                        <TabPanel active={this.state.activeTab} id="3">
-                        
-                        </TabPanel>
-                        <TabPanel active={this.state.activeTab} id="4">
-                        
-                        </TabPanel>
-                        <TabPanel active={this.state.activeTab} id="5">
-                        
-                        </TabPanel>
                     </TabBody>
                 </TabContainer>
 

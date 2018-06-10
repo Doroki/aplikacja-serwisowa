@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-
+import './tabel.css';
 
 class Table extends Component {
     constructor(props) {
@@ -16,7 +16,7 @@ class Table extends Component {
         return(
             <tr>
                 {headingsArr.map((head, index)=>{
-                    return <th key={`head-${index}`}>{head}</th>
+                    return <th key={`head-${index}`} className="table_lp">{head}</th>
                 })}
             </tr>   
         );     
@@ -28,7 +28,7 @@ class Table extends Component {
                 {this.state.data.map((data, index)=>{
                     return (
                         <React.Fragment key={`r-fragment${index}`}>
-                            {<td key={`lp-${index}`}>1</td>}
+                            {<th key={`lp-${index}`} className="table_lp">{index+1}</th>}
                             {this.fillRowWithData(data, index)}
                         </React.Fragment>
                     );
@@ -59,7 +59,7 @@ class Table extends Component {
         return (
             <div className="card custom-table">
                 <div className="card-body">    
-                    <table className="table table-hover table-responsive-md table-fixed">
+                    <table className="table table-hover table-responsive-md">
                         {/* {Table header} */}
                         <thead>
                             {this.createTableHeader()}

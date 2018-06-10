@@ -31,7 +31,7 @@
 .contact__item--active {
     position: relative;
     z-index: 1000;
-    background-color: #0069da;
+    background-color: #00838f;
 }
 
 .contact__item--active .contact__link {
@@ -57,9 +57,9 @@
 .contact__content {
     position: relative;
     z-index: 500;
-    border: .5em solid #0069da;
+    border: .3em solid #00838f;
     border-radius: 5px;
-    background-color: #0069da;
+    background-color: #00838f;
 }
 
 .content__form {

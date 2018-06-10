@@ -46,5 +46,11 @@ const Textarea = (props) => {
     );
 }
 
+const Submit = (props) => {
+    return (
+        <button className="form__submit" disabled={(props.disabled) ? true : false}>{props.value}</button>
+    );
+}
 
-export {Form, Row,Input, Select, Textarea};
+
+export {Form, Row, Input, Select, Textarea, Submit};

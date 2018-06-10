@@ -17,10 +17,11 @@ class LoginClient extends Component {
         e.preventDefault();
         this.setState({login: login, password: password})
 
-        if(this.state.login === "test" && this.state.password === "test") {
+        if(login === "test" && password === "test") {
             this.props.onLoginSubmit({userAuth: true, adminAuth: false});
-        }
 
+            this.props.history.push('/client-panel')
+        }
     }
 
     render() {
@@ -30,7 +31,7 @@ class LoginClient extends Component {
                     system = {"Client"}
                     header = {"SERWIS"}
                     onSubmitBtn = {this.authorizeEntry.bind(this)} />
-                <Link to="/admin">Panel Admina</Link>
+                <Link className="btn btn-mdb-color" to="/admin">Panel Admina</Link>
             </div>
         )
     }
