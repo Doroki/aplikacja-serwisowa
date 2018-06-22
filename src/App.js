@@ -15,7 +15,7 @@ class App extends Component {
     super(props);
 
     this.state = {
-      userAuth: true,
+      userAuth: false,
       adminAuth: false
     };
 

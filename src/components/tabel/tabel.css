@@ -1,7 +1,6 @@
 .custom-table {
-
-}
-
-.table__lp {
-    width: 50px;
+    width: 90%;
+    margin: auto;
+    min-height: 584px;
+    margin-bottom: 15px;
 }

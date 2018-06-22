@@ -4,10 +4,6 @@ import './tabel.css';
 class Table extends Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            data: this.props.data
-        };
     }
 
     createTableHeader() {
@@ -23,17 +19,17 @@ class Table extends Component {
     }
 
     createTableRows() {
+        if(!this.props.data || this.props.data.length < 1) return;
         return(
-            <tr>
-                {this.state.data.map((data, index)=>{
+            <React.Fragment>
+                {this.props.data.map((data, index)=>{
                     return (
-                        <React.Fragment key={`r-fragment${index}`}>
-                            {<th key={`lp-${index}`} className="table_lp">{index+1}</th>}
+                        <tr key={`r-fragment${index + (Math.random()*10)}`}>
                             {this.fillRowWithData(data, index)}
-                        </React.Fragment>
+                        </tr>
                     );
                 })}
-            </tr>   
+            </React.Fragment>
         );     
     }
 
@@ -43,7 +39,7 @@ class Table extends Component {
         for (const key in data) {
             if (data.hasOwnProperty(key)) {
                 const element = data[key];
-                filledRow.push(<td key={`${element}${index}`}>{element}</td>);
+                filledRow.push(<td key={`${index}${Math.random()*5}`}>{element}</td>);
             }
         }
 
@@ -55,7 +51,6 @@ class Table extends Component {
     }
 
     render() {
-        // this.setState({data: this.props.data});
         return (
             <div className="card custom-table">
                 <div className="card-body">    
