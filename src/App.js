@@ -15,15 +15,17 @@ class App extends Component {
     super(props);
 
     this.state = {
-      userAuth: false,
-      adminAuth: false
+      userAuth: true,
+      adminAuth: true,
+      id: 0,
+      name: "Imię i nazwisko"
     };
 
     this.history = createHashHistory();
   }
 
   render() {
-
+    console.log(this.state)
     return (
       <Router>
         <div className="d-flex h-100 w-100">
@@ -33,11 +35,11 @@ class App extends Component {
           <Route 
             exact
             path="/client-panel" 
-            render={() => ((this.state.userAuth) ? <ClientPage onLogout={this.setState.bind(this)} history={this.history} /> : <Redirect to='/'/>)}
+            render={() => ((this.state.userAuth) ? <ClientPage userID={this.state.id} userName={this.state.name} onLogout={this.setState.bind(this)} history={this.history} /> : <Redirect to='/'/>)}
           />
           <Route 
             path="/admin-panel" 
-            render={() => ((this.state.adminAuth) ? <Admin onLogout={this.setState.bind(this)} history={this.history}/> : <Redirect to='/admin'/>)} 
+            render={() => ((this.state.adminAuth) ? <Admin adminID={this.state.id} onLogout={this.setState.bind(this)} history={this.history}/> : <Redirect to='/admin'/>)} 
           />
         </div>
       </Router>

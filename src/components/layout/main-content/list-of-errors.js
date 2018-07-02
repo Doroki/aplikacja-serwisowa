@@ -16,10 +16,11 @@ class ErrorList extends Component {
     }
 
     componentDidMount() {
-        fetch('../data/issues-data.json')
+        // fetch('../data/issues-data.json')
+        fetch('http://localhost:8080/issues')
             .then(response => response.json())
             .then(resp => {
-                let data = resp;
+                let data = resp.data;
                 let pagesArr = this.splitDataToPages(data);
 
                 this.setState({
@@ -81,24 +82,15 @@ class ErrorList extends Component {
         return (
             <div>
                 <h2 className="header">Zgłoszone błędy</h2>
-                <SearchForm elements={["Imię", "Nazwisko", "Firma", "Nr tel.", "E-mail", "Nr sprawy"]}/>
+                <SearchForm elements={["Imię", "Nazwisko", "Stan"]}/>
                 <Table 
                     headings = {["Nr zgloszenia", "Nr Klienta", "Firma", "Kategoria", "Oprogramowanie", "Data", "Stan"]} 
                     data = {this.loadData()}
                 />
                 <Pagination className="justify-content-center">
-                    <PageItem disabled >
-                        <PageLink className="page-link" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                        </PageLink>
-                    </PageItem>
                     
                     {this.createPages()}
-                    <PageItem>
-                        <PageLink className="page-link">
-                        &raquo;
-                        </PageLink>
-                    </PageItem>
+
                 </Pagination>
             </div>
         );

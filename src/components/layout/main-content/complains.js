@@ -16,10 +16,11 @@ class ComplainList extends Component {
     }
 
     componentDidMount() {
-        fetch('../data/complains-data.json')
+        // fetch('../data/complains-data.json')
+        fetch("http://localhost:8080/complains")
             .then(response => response.json())
             .then(resp => {
-                let data = resp;
+                let data = resp.data;
                 let pagesArr = this.splitDataToPages(data);
 
                 this.setState({
@@ -84,23 +85,15 @@ class ComplainList extends Component {
         return (
             <div>
                 <h2 className="header">Zgłoszone reklamacje</h2>
-                <SearchForm elements={["Nr Reklamacji", "Nr Klienta", "Nr zgłoszenia", "Firma", "Nr tel.", "Data", "Status"]}/>
+                <SearchForm elements={["Nr Reklamacji", "Nr Klienta", "Nr zgłoszenia"]}/>
                 <Table 
-                    headings = {["Nr Reklamacji", "Nr Klienta", "Nr zgłoszenia", "Firma", "Nr tel.", "Data", "Status"]} 
+                    headings = {["Nr Reklamacji", "Nr złoszenia", "Nr klienta", "Firma", "Data", "Status"]} 
                     data = {this.loadData()}
                 />
                 <Pagination className="justify-content-center">
-                    <PageItem disabled >
-                        <PageLink className="page-link" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                        </PageLink>
-                    </PageItem>
+
                         {this.createPages()}
-                    <PageItem>
-                        <PageLink className="page-link">
-                        &raquo;
-                        </PageLink>
-                    </PageItem>
+                        
                 </Pagination>
             </div>
         );

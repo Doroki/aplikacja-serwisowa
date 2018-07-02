@@ -12,10 +12,24 @@ class ClientPage extends Component {
         this.toggle = this.toggle.bind(this);
 
         this.state = {
-            userName: "{Nazwa firmy / Imię i Nazwisko}",
+            userName: this.props.userName,
+            userID: this.props.userID,
             activeTab: "1",
             dropdownOpen: false,
-        };
+        },
+
+        this.issue = {
+            id: this.props.userID,
+            program: "",
+            category: "",
+            text: ""
+        },
+
+        this.complain = {
+            id: this.props.userID,
+            issueNubmer: 0,
+            text: ""
+        }
     }
 
     toggle() {
@@ -33,6 +47,56 @@ class ClientPage extends Component {
     logout() {
         this.props.onLogout({userAuth: false});
         this.props.history.push('/')
+    }
+
+    setFormData(obj, value) {
+        let objToSave = obj[0];
+        objToSave[obj[1]] = value;
+    }
+
+    sendData(url, data) {
+        fetch(url, {
+            method: "PUT",
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(res => res.json())
+          .then(res => {    
+            if(res.done) {
+                console.log(res)
+            } else {
+                console.log(res)
+            }
+        })
+    }
+
+    sendIssue() {
+        for (const key in this.issue) {
+            if (this.issue.hasOwnProperty(key)) {
+                const element = this.issue[key];
+                if(element === "") {
+                    // warn of wrong data
+                    return;
+                } else {
+                }
+            }
+        }
+        this.sendData("http://localhost:8080/client/issues", this.issue)
+    }
+
+    sendComplain() {
+        for (const key in this.complain) {
+            if (this.complain.hasOwnProperty(key)) {
+                const element = this.complain[key];
+                if(element === "") {
+                    // warn of wrong data
+                    return;
+                } else {
+                }
+            }
+        }
+        this.sendData("http://localhost:8080/client/complains", this.complain)
     }
 
     render() {
@@ -64,38 +128,35 @@ class ClientPage extends Component {
                         <Tab active={this.state.activeTab} targetTab="2">Reklamacja</Tab>
                     </TabList>
 
+                    {/* ---- Issue ---- */}
                     <TabBody>
                         <TabPanel active={this.state.activeTab} id="1">
                             <Form>
                                 <Row>
-                                    <Input id="1" label="Podaj osobę do kontaktu:"/>
-                                    <Input id="3" label="ID kienta:" disabled />
+                                    <Input id="3" label="ID kienta:" value={this.state.userID} disabled />
                                 </Row>
                                 <Row>
-                                    <Input id="4" label="Podaj nr telefonu"/>
-                                    <Input id="5" label="Podaj e-mail:"/>
-                                </Row>
-                                <Row>
-                                    <Select id="2" label="Wybierz oprogramowanie:">
-                                        <option value="normalny">Jakie oprogramowanie...</option>
-                                        <option value="pilny">Pierwsze</option>
-                                        <option value="pilny">Drugie</option>
-                                        <option value="pilny">Trzecie</option>
+                                    <Select id="2" label="Wybierz oprogramowanie:" onChangeField={this.setFormData.bind(this)} target={[this.issue, "program"]}>
+                                        <option value="">Jakie oprogramowanie...</option>
+                                        <option value="1">Drukarz</option>
+                                        <option value="2">Mortes</option>
+                                        <option value="3">Inspector</option>
                                     </Select>
-                                    <Select id="2" label="Wybierz katagorie problemu:">
+                                    <Select id="2" label="Wybierz katagorie problemu:" onChangeField={this.setFormData.bind(this)} target={[this.issue, "category"]}>
                                         <option value="">Wybierz katagorie problemu...</option>
-                                        <option value=""></option>
-                                        <option value=""></option>
-                                        <option value=""></option>
-                                        <option value=""></option>
-                                        <option value=""></option>
+                                        <option value="1">Interfejs aplikacji</option>
+                                        <option value="2">Wyświetlanie danych</option>
+                                        <option value="3">Przetwarzanie danych</option>
+                                        <option value="4">Tworzenie dokumentów</option>
+                                        <option value="5">Przekazywanie informacji</option>
+                                        <option value="6">Inna...</option>
                                     </Select>
                                 </Row>
                                 <Row>
-                                    <Textarea label="Opisz problem:" col="30" row="12" />
+                                    <Textarea label="Opisz problem:" col="30" row="12" onChangeField={this.setFormData.bind(this)} target={[this.issue, "text"]}/>
                                 </Row>
                                 <Row>
-                                    <Submit value="Wyślij" disabled/>
+                                    <Submit value="Wyślij" onAccept={this.sendIssue.bind(this)} />
                                 </Row>           
                             </Form>   
                         </TabPanel>
@@ -103,27 +164,25 @@ class ClientPage extends Component {
                         <TabPanel active={this.state.activeTab} id="2">
                             <Form>
                                 <Row>
-                                    <Select id="2" label="Wybierz numer zgłoszenia:">
-                                        <option value="normalny">11111</option>
-                                        <option value="pilny">22222</option>
-                                    </Select>
-                                    <Input id="3" label="ID kienta:" disabled />
+                                    <Input id="1" label="Podaj numer zgłoszenia:" onChangeField={this.setFormData.bind(this)} target={[this.complain, "issueNubmer"]}/>
+                                    <Input id="3" label="ID kienta:" value={this.state.userID} disabled />
                                 </Row>
                                 <Row>
-                                    <Select id="2" label="Wybierz przyczynę reklamacji:">
-                                        <option value="">Wybierz przyczynę reklamacji...</option>
-                                        <option value=""></option>
-                                        <option value=""></option>
-                                        <option value=""></option>
-                                        <option value=""></option>
-                                        <option value=""></option>
+                                    <Select id="2" label="Wybierz przyczynę reklamacji:" onChangeField={this.setFormData.bind(this)} target={[this.complain, "problem"]}>
+                                        <option value="">Wybierz katagorie problemu...</option>
+                                        <option value="1">Interfejs aplikacji</option>
+                                        <option value="2">Wyświetlanie danych</option>
+                                        <option value="3">Przetwarzanie danych</option>
+                                        <option value="4">Tworzenie dokumentów</option>
+                                        <option value="5">Przekazywanie informacji</option>
+                                        <option value="6">Inna...</option>
                                     </Select>
                                 </Row>
                                 <Row>
-                                    <Textarea label="Opisz problem:" col="30" row="12" />
+                                    <Textarea label="Opisz problem:" col="30" row="12" onChangeField={this.setFormData.bind(this)} target={[this.complain, "text"]}/>
                                 </Row>     
                                 <Row>
-                                    <Submit value="Wyślij" disabled/>
+                                    <Submit value="Wyślij" onAccept={this.sendComplain.bind(this)}/>
                                 </Row>      
                             </Form>   
                         </TabPanel>
