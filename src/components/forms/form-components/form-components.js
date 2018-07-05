@@ -3,7 +3,7 @@ import './form-components.css';
 
 const Form = (props) => {  
     return (
-        <form className="w-100">
+        <form className={(props.className) ? props.className : "" + "w-100"}>
             {props.children}
         </form>
     )
@@ -11,7 +11,7 @@ const Form = (props) => {
 
 const Row = (props) => {  
     return (
-        <div class="row">
+        <div className={(props.className) ? props.className : "" + "row m-1" }>
             {props.children}
         </div>
     )
@@ -20,15 +20,14 @@ const Row = (props) => {
 const Input = (props) => {
 
     const saveData = (value) => {
-        let objToChange = props.target;
-        props.onChangeField(objToChange, value);
+        props.onChangeField(props.target, value);
     };
 
     return (
         <div className="form__field col">
             <label htmlFor={`field${props.id}`} className="form__label">{props.label}</label>
             <input 
-                type="text" 
+                type={props.type || "text"}
                 name="name" 
                 id={`field${props.id}`} 
                 className="form__input" 
@@ -43,8 +42,7 @@ const Input = (props) => {
 const Select = (props) => {
     
     const saveData = (value) => {
-        let objToChange = props.target;
-        props.onChangeField(objToChange, value);
+        props.onChangeField(props.target, value);
     };
     
     return (
@@ -54,6 +52,7 @@ const Select = (props) => {
                 className="form__input" 
                 disabled={(props.disabled) ? true : false} 
                 onChange={(e) => saveData(e.target.value)}
+                value={props.value}
             >
                 {props.children}
             </select>
@@ -64,8 +63,7 @@ const Select = (props) => {
 const Textarea = (props) => {
 
     const saveData = (value) => {
-        let objToChange = props.target;
-        props.onChangeField(objToChange, value);
+        props.onChangeField(props.target, value);
     };
 
     return (
@@ -76,7 +74,8 @@ const Textarea = (props) => {
                 cols={props.col} 
                 rows={props.row} 
                 className="form__input" 
-                disabled={(props.disabled) ? true : false} 
+                disabled={(props.disabled) ? true : false}
+                value={props.value} 
                 onChange={(e) => saveData(e.target.value)}>
             </textarea>
         </div>
@@ -87,11 +86,11 @@ const Submit = (props) => {
 
     const sumbitForm = (e) => {
         e.preventDefault();
-        props.onAccept();
+        props.onAccept(props.type);
     }
 
     return (
-        <button className="form__submit" disabled={(props.disabled) ? true : false} onClick={e => sumbitForm(e)} >{props.value}</button>
+        <button className={(props.className) ? props.className : "form__submit"} disabled={(props.disabled) ? true : false} onClick={e => sumbitForm(e)} >{props.value}</button>
     );
 }
 

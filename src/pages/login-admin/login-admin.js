@@ -46,7 +46,7 @@ class LoginAdmin extends React.Component {
                     onSubmitBtn = {this.authorizeEntry.bind(this)} 
                     error={this.state.falseLogin} />
                 <Link className="btn btn-mdb-color" to="/">Panel Klienta</Link>
-                <span>NA CZAS TESTÓW: <br/> id: test <br/> hasło: test</span>
+                <span>NA CZAS TESTÓW: <br/> id: admin <br/> hasło: admin</span>
             </div>
         );
     }

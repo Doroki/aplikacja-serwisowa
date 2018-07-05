@@ -85,7 +85,7 @@ class ComplainList extends Component {
         return (
             <div>
                 <h2 className="header">Zgłoszone reklamacje</h2>
-                <SearchForm elements={["Nr Reklamacji", "Nr Klienta", "Nr zgłoszenia"]}/>
+                {/* <SearchForm elements={["Nr Reklamacji", "Nr Klienta", "Nr zgłoszenia"]}/> */}
                 <Table 
                     headings = {["Nr Reklamacji", "Nr złoszenia", "Nr klienta", "Firma", "Data", "Status"]} 
                     data = {this.loadData()}

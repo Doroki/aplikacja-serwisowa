@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import LoginForm from '../../components/forms/login-form/login-form';
-import PopUp from '../../components/pop-up-info/pop-up';
 
 
 class LoginClient extends Component {
@@ -38,17 +37,22 @@ class LoginClient extends Component {
         });
     }
 
+    hideWarning() {
+        this.setState({falseLogin: ""});
+    }
+
     render() {
         return (
-            <div className="d-flex h-100 w-100 flex-column justify-content-center align-items-center">
-                {((this.state.falseLogin === true) ? <PopUp content="Brawa" type="success"/> : "")}
+            <div className="d-flex h-100 w-100 flex-column justify-content-center align-items-center"
+                onFocus={this.hideWarning.bind(this)}    
+            >
                 <LoginForm
                     system = {"Client"}
                     header = {"SERWIS"}
                     onSubmitBtn = {this.authorizeEntry.bind(this)} 
                     error={this.state.falseLogin} />
                 <Link className="btn btn-mdb-color" to="/admin">Panel Admina</Link>
-                <span>NA CZAS TESTÓW: <br/> id: test <br/> hasło: test</span>   
+                <span>NA CZAS TESTÓW (dane jednego z użytkowników): <br/> id: 10041 <br/> hasło: bella80</span>   
             </div>
         )
     }

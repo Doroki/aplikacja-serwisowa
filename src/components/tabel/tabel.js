@@ -32,13 +32,14 @@ class Table extends Component {
             </React.Fragment>
         );     
     }
-
+    
     fillRowWithData(data, index) {
         let filledRow = [];
-
+        
         for (const key in data) {
             if (data.hasOwnProperty(key)) {
-                const element = data[key];
+                let element = data[key];
+                if(/^data*/g.test(key)) element = data[key].split("T")[0];
                 filledRow.push(<td key={`${index}${Math.random()*5}`}>{element}</td>);
             }
         }

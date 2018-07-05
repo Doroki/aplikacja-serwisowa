@@ -16,7 +16,6 @@ class ErrorList extends Component {
     }
 
     componentDidMount() {
-        // fetch('../data/issues-data.json')
         fetch('http://localhost:8080/issues')
             .then(response => response.json())
             .then(resp => {
@@ -82,7 +81,7 @@ class ErrorList extends Component {
         return (
             <div>
                 <h2 className="header">Zgłoszone błędy</h2>
-                <SearchForm elements={["Imię", "Nazwisko", "Stan"]}/>
+                {/* <SearchForm elements={["Imię", "Nazwisko", "Stan"]}/> */}
                 <Table 
                     headings = {["Nr zgloszenia", "Nr Klienta", "Firma", "Kategoria", "Oprogramowanie", "Data", "Stan"]} 
                     data = {this.loadData()}
