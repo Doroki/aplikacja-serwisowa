@@ -12,7 +12,14 @@ class Table extends Component {
         return(
             <tr>
                 {headingsArr.map((head, index)=>{
-                    return <th key={`head-${index}`} className="table_lp">{head}</th>
+                    return <th 
+
+                                onClick={() => this.props.onHeadingClick(index)}
+                                key={`head-${index}`} 
+                                className={(this.props.dataKeys[index] === this.props.sortBy) ? `table_lp ${this.props.sortMethod}` : "table_lp"}
+                                >
+                                    {head}
+                            </th>
                 })}
             </tr>   
         );     

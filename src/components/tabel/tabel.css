@@ -3,4 +3,49 @@
     margin: auto;
     min-height: 584px;
     margin-bottom: 15px;
+    table-layout: fixed;
+    width: 90%;
+}
+
+.custom-table th {
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 10px;
+    border: solid 1px #dee2e6;
+    cursor: pointer;
+    user-select: none;
+    width: 15%;
+}
+
+.custom-table th::after {
+    content: "";
+    position: absolute;
+    left: 10px;
+    top: 15px;
+    transform: translate(-50%, 0);
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid #d9d9d9;
+}
+
+.custom-table th::before {
+    content: "";
+    position: absolute;
+    left: 10px;
+    bottom: 15px;
+    transform: translate(-50%, 0);
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #d9d9d9;
+}
+
+th.asc::after {
+    border-bottom-color: #000;
+}
+th.dsc::before {
+    border-top-color: #000;
 }
