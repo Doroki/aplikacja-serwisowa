@@ -24,6 +24,10 @@ import ComplainList from '../../components/layout/main-content/complains';
 class Admin extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      tasks: []
+    }
     
   }
 
@@ -44,7 +48,7 @@ class Admin extends Component {
           </SideNavbar>
           <section className="container-fluid p-0">
             <Navbar>
-              <TaskButton />
+              <TaskButton tasks={this.state.tasks} />
               <DropDownButton>
                 <DropdownItem onClick={this.logout.bind(this)} > Wyloguj </DropdownItem>
               </DropDownButton>

@@ -9,19 +9,30 @@ class LoginAdmin extends React.Component {
 
         this.state = {
             login: "",
-            password: ""
+            password: "",
+            falseLogin: false
         }
     }
 
     authorizeEntry(e, login, password) {
         e.preventDefault();
-        this.setState({login: login, password: password})
 
-        if(login === "test" && password === "test") {
-            this.props.onLoginSubmit({userAuth: false, adminAuth: true});
-            
-            this.props.history.push('/admin-panel')
-        }
+        fetch("http://wsb-aplikacja.herokuapp.com/api/login-admin", {
+            method: "POST",
+            body: JSON.stringify({login: login, password: password}),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(res => res.json())
+          .then(res => {    
+            if(res.auth) {
+                this.props.onLoginSubmit({ userAuth: false, adminAuth: true});
+
+                this.props.history.push('/admin-panel')
+            } else {
+                this.setState({falseLogin: true})
+            }
+        })
 
     }
 
@@ -32,8 +43,10 @@ class LoginAdmin extends React.Component {
                     system = {"Admin"}
                     header = {"SERWIS"}
                     subheader = {"Admin Panel"} 
-                    onSubmitBtn = {this.authorizeEntry.bind(this)} />
+                    onSubmitBtn = {this.authorizeEntry.bind(this)} 
+                    error={this.state.falseLogin} />
                 <Link className="btn btn-mdb-color" to="/">Panel Klienta</Link>
+                <span>NA CZAS TESTÓW: <br/> id: admin <br/> hasło: admin</span>
             </div>
         );
     }
