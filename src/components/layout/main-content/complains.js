@@ -16,8 +16,7 @@ class ComplainList extends Component {
     }
 
     componentDidMount() {
-        // fetch('../data/complains-data.json')
-        fetch("http://localhost:8080/complains")
+        fetch("http://wsb-aplikacja.herokuapp.com/api/complains")
             .then(response => response.json())
             .then(resp => {
                 let data = resp.data;

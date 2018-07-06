@@ -92,7 +92,7 @@ class ClientPage extends Component {
             return;
         } 
 
-        this.sendData(`http://localhost:8080/new-${linkToSend}`, dataToSend)
+        this.sendData(`http://wsb-aplikacja.herokuapp.com/api/new-${linkToSend}`, dataToSend)
     }
 
     sendData(url, data) {

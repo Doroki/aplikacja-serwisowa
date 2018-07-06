@@ -17,11 +17,11 @@ class LoginClient extends Component {
     authorizeEntry(e, login, password) {
         e.preventDefault();
         this.setState({login: login, password: password})
-        fetch("http://localhost:8080/login-client", {
+        fetch("http://wsb-aplikacja.herokuapp.com/api/login-client", {
             method: "POST",
             body: JSON.stringify({login: login, password: password}),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             }
         }).then(res => res.json())
           .then(res => {    

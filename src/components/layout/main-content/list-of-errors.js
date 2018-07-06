@@ -16,7 +16,7 @@ class ErrorList extends Component {
     }
 
     componentDidMount() {
-        fetch('http://localhost:8080/issues')
+        fetch('http://wsb-aplikacja.herokuapp.com/api/issues')
             .then(response => response.json())
             .then(resp => {
                 let data = resp.data;

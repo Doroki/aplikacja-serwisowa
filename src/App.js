@@ -25,7 +25,6 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.state)
     return (
       <Router>
         <div className="d-flex h-100 w-100">
