@@ -49,6 +49,13 @@ class NewNotification extends Component {
                 issueNubmer: this.state.issueNubmer, 
                 text: this.state.text
             }
+        } else if(this.state.type === "funkcjonalnosc") {
+            linkToSend = "functionality";
+            dataToSend = {
+                id: this.state.clientID, 
+                program: this.state.program, 
+                text: this.state.text
+            }
         }
 
         if (dataToSend.hasOwnProperty("id")) {
@@ -109,7 +116,7 @@ class NewNotification extends Component {
                         <Select id="2" label="Wybierz kategorie zgloszenia:" onChangeField={this.setFormData.bind(this)} target="type" value={this.state.type}>
                             <option value="">Wybierz rodzaj zgłosznia...</option>
                             <option value="zgloszenie">Zgłoszenie</option>
-                            {/* <option value="funkcjonalnosc">Nowa funkcjonalność</option> */}
+                            <option value="funkcjonalnosc">Nowa funkcjonalność</option>
                             <option value="reklamacje">Reklamacje</option>
                         </Select>
                     </Row>
@@ -137,7 +144,7 @@ class NewNotification extends Component {
                         onChangeField={this.setFormData.bind(this)} 
                         target="category" 
                         value={this.state.category}
-                        disabled={(this.state.type === "" || this.state.type === "reklamacje" ) ? true : false}
+                        disabled={(this.state.type !== "zgloszenie" ) ? true : false}
                         >
                             <option value="">Wybierz katagorie problemu...</option>
                             <option value="1">Interfejs aplikacji</option>
