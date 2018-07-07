@@ -4,6 +4,7 @@ import './client-page.css';
 import {Tab, TabBody, TabContainer, TabList, TabPanel} from '../../components/tab-container/tab-container';
 import {Form, Row, Input, Select, Textarea, Submit} from '../../components/forms/form-components/form-components';
 import PopUp from '../../components/pop-up-info/pop-up';
+import Table from "../../components/tabel/tabel"
 
 class ClientPage extends Component {
     constructor(props) {
@@ -73,6 +74,13 @@ class ClientPage extends Component {
             dataToSend = {
                 id: this.state.id, 
                 issueNubmer: this.state.issueNubmer, 
+                text: this.state.text
+            }
+        } else if(type === "funkcjonalnosc") {
+            linkToSend = "functionality";
+            dataToSend = {
+                id: this.state.id, 
+                program: this.state.program,
                 text: this.state.text
             }
         }
@@ -152,6 +160,8 @@ class ClientPage extends Component {
                     <TabList onClickTab={e => this.selectTab(e)}>
                         <Tab active={this.state.activeTab} targetTab="1">Awaria</Tab>
                         <Tab active={this.state.activeTab} targetTab="2">Reklamacja</Tab>
+                        <Tab active={this.state.activeTab} targetTab="3">Funkcjonalność</Tab>
+                        <Tab active={this.state.activeTab} targetTab="4">Status zgłoszen</Tab>
                     </TabList>
 
                     {/* ---- Issue ---- */}
@@ -224,11 +234,69 @@ class ClientPage extends Component {
                                     <Textarea label="Opisz problem:" col="30" row="12" onChangeField={this.setFormData.bind(this)} target="text" value={this.state.text}/>
                                 </Row>     
                                 <Row>
-                                    <Submit value="Wyślij" onAccept={this.sendNotification.bind(this)} type="reklamacje"/>
+                                    <Submit value="Wyślij" onAccept={this.sendNotification.bind(this)} type="funkcjonalnosc"/>
                                 </Row>      
                             </Form>   
                         </TabPanel>
 
+                        
+                        <TabPanel active={this.state.activeTab} id="3">
+                            <Form>
+                                <Row>
+                                    <Input id="3" label="ID kienta:" value={this.state.id} disabled />
+                                    <Select id="2" label="Wybierz oprogramowanie:"
+                                        onChangeField={this.setFormData.bind(this)} 
+                                        target="program" 
+                                        value={this.state.program}                            
+                                        >
+                                        <option value="">Jakie oprogramowanie...</option>
+                                        <option value="1">Drukarz</option>
+                                        <option value="2">Mortes</option>
+                                        <option value="3">Inspector</option>
+                                    </Select>
+                                </Row>
+                                <Row>
+                                    <Select id="2" label="Wybierz katagorie rozszerzenia:" 
+                                        onChangeField={this.setFormData.bind(this)} 
+                                        target="category" 
+                                        value={this.state.category}                                    
+                                        >                                    
+                                        <option value="">Wybierz katagorie problemu...</option>
+                                        <option value="1">Interfejs aplikacji</option>
+                                        <option value="2">Wyświetlanie danych</option>
+                                        <option value="3">Przetwarzanie danych</option>
+                                        <option value="4">Tworzenie dokumentów</option>
+                                        <option value="5">Przekazywanie informacji</option>
+                                        <option value="6">Inna...</option>
+                                    </Select>
+                                </Row>
+                                <Row>
+                                    <Textarea label="Opisz problem:" col="30" row="12" onChangeField={this.setFormData.bind(this)} target="text" value={this.state.text}/>
+                                </Row>
+                                <Row>
+                                    <Submit value="Wyślij" onAccept={this.sendNotification.bind(this)} type="funkcjonalnosc" />
+                                </Row>           
+                            </Form>   
+                        </TabPanel>
+
+                        <TabPanel active={this.state.activeTab} id="4">
+                            <Form>
+                                <Row>
+                                    <Input id="3" label="ID kienta:" value={this.state.id} disabled />
+                                    <Input id="3" label="Używany program:" value={this.state.id} disabled />
+                                </Row>
+                                <Row>
+                                <Table 
+                                    // headings = {["Nr zgloszenia", "Nr Klienta", "Firma", "Oprogramowanie", "Stan", "Data"]} 
+                                    // onHeadingClick={this.sortData.bind(this)} 
+                                    // sortBy = {this.state.dataSortBy}
+                                    // sortMethod = {this.state.dataSortMethod} 
+                                    // dataKeys = {this.state.dataKeys}
+                                    data = {[{id: "Nr zgloszenia", nr: "Nr Klienta", firma: "Firma", program: "Oprogramowanie", stan: "Stan", data: "Data"}]} 
+                                />
+                                </Row>      
+                            </Form>   
+                        </TabPanel>
                     </TabBody>
                 </TabContainer>
 

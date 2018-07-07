@@ -7,6 +7,7 @@ class Table extends Component {
     }
 
     createTableHeader() {
+        if(!this.props.headings) return;
         const headingsArr = this.props.headings; //It will be passed as Array;
 
         return(
