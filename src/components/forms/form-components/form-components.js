@@ -25,7 +25,7 @@ const Input = (props) => {
 
     return (
         <div className="form__field col">
-            <label htmlFor={`field${props.id}`} className="form__label">{props.label}</label>
+            <label htmlFor={`field${props.id}`} className={(props.className) ? `form__input ${props.className}` : "form__label"}>{props.label}</label>
             <input 
                 type={props.type || "text"}
                 name="name" 

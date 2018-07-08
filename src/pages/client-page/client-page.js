@@ -4,20 +4,21 @@ import './client-page.css';
 import {Tab, TabBody, TabContainer, TabList, TabPanel} from '../../components/tab-container/tab-container';
 import {Form, Row, Input, Select, Textarea, Submit} from '../../components/forms/form-components/form-components';
 import PopUp from '../../components/pop-up-info/pop-up';
-import Table from "../../components/tabel/tabel"
+import Table from "../../components/tabel/tabel";
 
 class ClientPage extends Component {
     constructor(props) {
         super(props);
 
-        this.toggle = this.toggle.bind(this);
-
+        
         this.state = {
             userName: this.props.userName,
             activeTab: "1",
             dropdownOpen: false,
             dataSend: null,
             PopMessage: "",
+            data: "",
+            
             //Data to send
             id: this.props.userID,
             issueNubmer: "",
@@ -25,6 +26,9 @@ class ClientPage extends Component {
             category: "",
             text: ""
         }
+        
+        this.toggle = this.toggle.bind(this);
+        this.getDirectData = this.getDirectData.bind(this);
     }
 
     toggle() {
@@ -32,6 +36,38 @@ class ClientPage extends Component {
             dropdownOpen: !this.state.dropdownOpen
         });
     };
+
+    getDirectData(data) {
+        if(typeof data !== "object") return {};
+        let id;
+        let stan;
+        let dataZgłoszenia;
+
+        switch(data.type) {
+            case 'Awaria':
+                id = data.id_zgloszenia;
+                stan = data.stan_zgloszenia;
+                dataZgłoszenia = data.data_zgloszenia;
+                break;
+            case 'Reklamacja':
+                id = data.id_reklamancja;
+                stan = data.stan_reklamancja;
+                dataZgłoszenia = data.data_reklamancja;
+                break;
+            case 'Funkcjonalność':
+                id = data.id_funkcjonalnosc;
+                stan = data.stan_funkcjonalnosc;
+                dataZgłoszenia = data.data_funkcjonalnosc;
+                break;
+        }
+        return [
+            {title: "Typ zgłoszenia:", content: data.type},
+            {title: "ID zgłoszenia:", content: id},
+            {title: "Stan zgłoszenia:", content: stan},
+            {title: "Data zgłoszenia:", content: dataZgłoszenia},
+            {title: "Treść zgłoszenia:", content: data.tresc}
+        ]
+    }
 
     selectTab(e) {
         e.preventDefault();
@@ -56,6 +92,7 @@ class ClientPage extends Component {
             text: ""
         });
     }
+
 
     sendNotification(type) {
         let dataToSend = {};
@@ -119,6 +156,22 @@ class ClientPage extends Component {
                 this.setState({PopMessage: "Coś poszło nie tak! Nire udało się wysłać zgłoszenia", dataSend: false})
             }
         })
+    }
+
+    getNotifications() {
+        fetch(`http://localhost:8080/api/get-all-notifications/${this.state.id}`)
+            .then(res => res.json())
+            .then(res => {    
+                if(res) {
+                    let dataToDisplay = [];
+                    dataToDisplay = [...res.data.complains, ...res.data.issues, res.data.functionalities];
+                    this.setState({data: dataToDisplay});
+                } 
+            })
+    }
+
+    componentDidMount() {
+        this.getNotifications();
     }
 
     showPopUp() {
@@ -281,18 +334,14 @@ class ClientPage extends Component {
 
                         <TabPanel active={this.state.activeTab} id="4">
                             <Form>
-                                <Row>
+                                <Row className="row w-75 m-auto">
                                     <Input id="3" label="ID kienta:" value={this.state.id} disabled />
-                                    <Input id="3" label="Używany program:" value={this.state.id} disabled />
                                 </Row>
                                 <Row>
-                                <Table 
-                                    // headings = {["Nr zgloszenia", "Nr Klienta", "Firma", "Oprogramowanie", "Stan", "Data"]} 
-                                    // onHeadingClick={this.sortData.bind(this)} 
-                                    // sortBy = {this.state.dataSortBy}
-                                    // sortMethod = {this.state.dataSortMethod} 
-                                    // dataKeys = {this.state.dataKeys}
-                                    data = {[{id: "Nr zgloszenia", nr: "Nr Klienta", firma: "Firma", program: "Oprogramowanie", stan: "Stan", data: "Data"}]} 
+                                <Table
+                                    fetchData = {this.getDirectData} 
+                                    headings = {["Typ złoszenia", "Nr zgłoszniea", "Stan", "Data"]} 
+                                    data = {this.state.data} 
                                 />
                                 </Row>      
                             </Form>   
@@ -323,6 +372,7 @@ class ClientPage extends Component {
                         perspiciatis vel ut aliquam! Magnam sequi delectus doloribus dicta, quidem accusamus laboriosam. Animi.
                     </p>
                 </footer>
+
             </div>
         );
     }
