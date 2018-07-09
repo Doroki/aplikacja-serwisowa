@@ -35,7 +35,6 @@ class Table extends Component {
             <tr>
                 {headingsArr.map((head, index)=>{
                     return <th 
-
                                 onClick={(this.props.onHeadingClick) ? (() => this.props.onHeadingClick(index)) : null}
                                 key={`head-${index}`} 
                                 className={(this.props.dataKeys && this.props.dataKeys[index] === this.props.sortBy) ? `table_lp ${this.props.sortMethod}` : "table_lp"}
@@ -60,9 +59,7 @@ class Table extends Component {
                     return (
                         <tr 
                             key={`r-fragment${index + (Math.random()*10)}`}
-                            onClick={(e) => {
-                                this.toggle(data)
-                            }}
+                            onClick={(this.props.modal) ? (e) => {this.toggle(data)} : null}
                         >
                             {this.fillRowWithData(data, index)}
                         </tr>
@@ -129,14 +126,19 @@ class Table extends Component {
     render() {
         return (
             <div className="card custom-table">
-                <Container>
+                {(this.props.modal)
+                    ?
+                (<Container>
                     <Modal isOpen={this.state.modal} toggle={this.toggle}>
                     <ModalHeader toggle={this.toggle}><span className="modal__header">Zgłoszenie</span></ModalHeader>
                         <ModalBody>
                             {this.createModalContent()}
                         </ModalBody>
                     </Modal>
-                </Container>
+                </Container>)
+                    :
+                    ""
+                }
                 <div className="card-body">    
                     <table className="table table-hover table-responsive-md">
                         {/* {Table header} */}
