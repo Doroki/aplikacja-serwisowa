@@ -60,9 +60,7 @@ class Table extends Component {
                     return (
                         <tr 
                             key={`r-fragment${index + (Math.random()*10)}`}
-                            onClick={(e, error) => {
-                                if(error) console.log(error)
-                                console.log(e.target)
+                            onClick={(e) => {
                                 this.toggle(data)
                             }}
                         >
@@ -78,6 +76,7 @@ class Table extends Component {
         let filledRow = [];
         
         for (const key in data) {
+            if(key === "tresc") continue;
             if (data.hasOwnProperty(key)) {
                 let element = data[key];
                 if(/^data*/g.test(key)) element = data[key].split("T")[0];
@@ -94,15 +93,40 @@ class Table extends Component {
 
     createModalContent() {
         if(this.state.modalContent.length <= 0) return; 
+
+        const modalContent = this.state.modalContent;
+        
+
         return (
             <React.Fragment>
-                {this.state.modalContent.map((element, index) => (<div key={index}><h3>{this.state.modalContent[index].title}</h3><p>{this.state.modalContent[index].content}</p></div>))}
+                {modalContent.map((element, index) => 
+                    (
+                        (this.props.editable && modalContent[index].title === "Stan zgłoszenia:")
+                        ?
+                            <select value={modalContent[index].content}>
+                                <option value="Przyjęto">Przyjęto</option>
+                                <option value="W realizacji">W realizacji</option>
+                                <option value="Zrealizowano">Zrealizowano</option>
+                            </select>
+                        :
+                        (this.props.editable && modalContent[index].title === "Treść zgłoszenia:" || modalContent[index].title === "Uwagi serwisowe:")
+                        ?
+                            (<div key={index}>
+                                <label>{modalContent[index].title}</label>
+                                <textarea value={modalContent[index].content} />
+                            </div>)
+                        :
+                            (<div key={index}>
+                                <h3>{modalContent[index].title}</h3>
+                                <p>{(/^\d{4}\-\d{2}\-\d{2}.*/g.test(modalContent[index].content)) ? modalContent[index].content.split("T")[0] : modalContent[index].content}</p>
+                            </div>)
+                    )
+                )}
             </React.Fragment>
         )  
     }
 
     render() {
-        console.log(this.state)
         return (
             <div className="card custom-table">
                 <Container>
