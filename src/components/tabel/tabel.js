@@ -109,16 +109,16 @@ class Table extends Component {
                                 <option value="Zrealizowano">Zrealizowano</option>
                             </select>
                         :
-                        (this.props.editable && modalContent[index].title === "Treść zgłoszenia:" || modalContent[index].title === "Uwagi serwisowe:")
+                        (modalContent[index].title === "Treść zgłoszenia:" || modalContent[index].title === "Uwagi serwisowe:")
                         ?
-                            (<div key={index}>
-                                <label>{modalContent[index].title}</label>
-                                <textarea value={modalContent[index].content} />
+                            (<div key={index} className="modal__info">
+                                <label className="modal__title">{modalContent[index].title}</label>
+                                <textarea className="modal__context modal__textarea" value={modalContent[index].content} disabled={(this.props.editable) ? false : true}/>
                             </div>)
                         :
-                            (<div key={index}>
-                                <h3>{modalContent[index].title}</h3>
-                                <p>{(/^\d{4}\-\d{2}\-\d{2}.*/g.test(modalContent[index].content)) ? modalContent[index].content.split("T")[0] : modalContent[index].content}</p>
+                            (<div key={index} className="modal__info">
+                                <h3 className="modal__title">{modalContent[index].title}</h3>
+                                <p className="modal__context">{(/^\d{4}\-\d{2}\-\d{2}.*/g.test(modalContent[index].content)) ? modalContent[index].content.split("T")[0] : modalContent[index].content}</p>
                             </div>)
                     )
                 )}
@@ -131,7 +131,7 @@ class Table extends Component {
             <div className="card custom-table">
                 <Container>
                     <Modal isOpen={this.state.modal} toggle={this.toggle}>
-                    <ModalHeader toggle={this.toggle}>Zgłoszenie</ModalHeader>
+                    <ModalHeader toggle={this.toggle}><span className="modal__header">Zgłoszenie</span></ModalHeader>
                         <ModalBody>
                             {this.createModalContent()}
                         </ModalBody>
