@@ -45,3 +45,16 @@
     font-size: 0.95rem;
 }
           
+
+@media (max-width: 500px) {
+    .login, .login__body {
+        width: 100%;
+        padding: 0.5em;
+    }
+}
+
+@media (max-height: 580px) {
+    .login {
+        margin-top: 30px;
+    }
+  }

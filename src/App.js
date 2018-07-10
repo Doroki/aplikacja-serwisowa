@@ -15,8 +15,8 @@ class App extends Component {
     super(props);
 
     this.state = {
-      userAuth: false,
-      adminAuth: false
+      userAuth: true,
+      adminAuth: true
     };
 
     this.history = createHashHistory();

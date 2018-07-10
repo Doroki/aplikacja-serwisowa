@@ -5,6 +5,12 @@
     padding: 3em;
 }
 
+@media (max-width: 500px) {
+    .form {
+      padding: 20px 10px;
+    }
+  }
+
 .form__field {
     display: -webkit-box;
     display: -ms-flexbox;

@@ -11,14 +11,22 @@
     display: -ms-flexbox;
     display: flex;
     margin-left: 10px;
+    margin-right: 10px;
+    flex-wrap: wrap-reverse;
 }
+
+@media (max-width: 500px) {
+    .contact__header {
+        justify-content: center;
+    }
+  }
 
 .contact__item {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
     background-color: #f5f5f5;
-    width: 150px;
+    width: 140px;
     height: 40px;
     border-top-right-radius: 5px;
     border-top-left-radius: 5px;

@@ -90,17 +90,9 @@ class ComplainList extends Component {
                     data = {this.loadData()}
                 />
                 <Pagination className="justify-content-center">
-                    <PageItem disabled >
-                        <PageLink className="page-link" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                        </PageLink>
-                    </PageItem>
+
                         {this.createPages()}
-                    <PageItem>
-                        <PageLink className="page-link">
-                        &raquo;
-                        </PageLink>
-                    </PageItem>
+                        
                 </Pagination>
             </div>
         );

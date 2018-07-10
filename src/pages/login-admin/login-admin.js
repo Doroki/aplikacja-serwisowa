@@ -9,7 +9,8 @@ class LoginAdmin extends React.Component {
 
         this.state = {
             login: "",
-            password: ""
+            password: "",
+            falseLogin: false
         }
     }
 
@@ -17,10 +18,20 @@ class LoginAdmin extends React.Component {
         e.preventDefault();
         this.setState({login: login, password: password})
 
+        fetch("http://localhost:8080/login", {
+            method: "POST",
+            body: JSON.stringify({login: login, password: password}),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
         if(login === "test" && password === "test") {
             this.props.onLoginSubmit({userAuth: false, adminAuth: true});
             
             this.props.history.push('/admin-panel')
+        }  else {
+            this.setState({falseLogin: true})
         }
 
     }
@@ -32,8 +43,10 @@ class LoginAdmin extends React.Component {
                     system = {"Admin"}
                     header = {"SERWIS"}
                     subheader = {"Admin Panel"} 
-                    onSubmitBtn = {this.authorizeEntry.bind(this)} />
+                    onSubmitBtn = {this.authorizeEntry.bind(this)} 
+                    error={this.state.falseLogin} />
                 <Link className="btn btn-mdb-color" to="/">Panel Klienta</Link>
+                <span>NA CZAS TESTÓW: <br/> id: test <br/> hasło: test</span>
             </div>
         );
     }

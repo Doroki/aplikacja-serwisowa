@@ -9,7 +9,8 @@ class LoginClient extends Component {
 
         this.state = {
             login: "",
-            password: ""
+            password: "",
+            falseLogin: false
         }
     }
 
@@ -17,10 +18,20 @@ class LoginClient extends Component {
         e.preventDefault();
         this.setState({login: login, password: password})
 
+        fetch("http://localhost:8080/login", {
+            method: "POST",
+            body: JSON.stringify({login: login, password: password}),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        
         if(login === "test" && password === "test") {
             this.props.onLoginSubmit({userAuth: true, adminAuth: false});
 
             this.props.history.push('/client-panel')
+        } else {
+            this.setState({falseLogin: true})
         }
     }
 
@@ -30,8 +41,10 @@ class LoginClient extends Component {
                 <LoginForm
                     system = {"Client"}
                     header = {"SERWIS"}
-                    onSubmitBtn = {this.authorizeEntry.bind(this)} />
+                    onSubmitBtn = {this.authorizeEntry.bind(this)} 
+                    error={this.state.falseLogin} />
                 <Link className="btn btn-mdb-color" to="/admin">Panel Admina</Link>
+                <span>NA CZAS TESTÓW: <br/> id: test <br/> hasło: test</span>
             </div>
         )
     }

@@ -15,7 +15,21 @@ class ClientPage extends Component {
             userName: "{Nazwa firmy / Imię i Nazwisko}",
             activeTab: "1",
             dropdownOpen: false,
-        };
+        },
+
+        this.issue = {
+            id: 0,
+            program: "",
+            category: "",
+            text: ""
+        },
+
+        this.complain = {
+            id: 0,
+            issueNubmer: 0,
+            problem: "",
+            text: ""
+        }
     }
 
     toggle() {
@@ -33,6 +47,21 @@ class ClientPage extends Component {
     logout() {
         this.props.onLogout({userAuth: false});
         this.props.history.push('/')
+    }
+
+    setFormData(obj, value) {
+        let objToSave = obj[0];
+        let propertyToSave = objToSave[obj[1]];
+        propertyToSave = value;
+        console.log(this.issue)
+    }
+
+    sendIssue() {
+
+    }
+
+    sendComplain() {
+
     }
 
     render() {
@@ -64,25 +93,21 @@ class ClientPage extends Component {
                         <Tab active={this.state.activeTab} targetTab="2">Reklamacja</Tab>
                     </TabList>
 
+                    {/* ---- Issue ---- */}
                     <TabBody>
                         <TabPanel active={this.state.activeTab} id="1">
                             <Form>
                                 <Row>
-                                    <Input id="1" label="Podaj osobę do kontaktu:"/>
                                     <Input id="3" label="ID kienta:" disabled />
                                 </Row>
                                 <Row>
-                                    <Input id="4" label="Podaj nr telefonu"/>
-                                    <Input id="5" label="Podaj e-mail:"/>
-                                </Row>
-                                <Row>
-                                    <Select id="2" label="Wybierz oprogramowanie:">
+                                    <Select id="2" label="Wybierz oprogramowanie:" onChangeField={this.setFormData.bind(this)} target={[this.issue, "program"]}>
                                         <option value="normalny">Jakie oprogramowanie...</option>
                                         <option value="pilny">Pierwsze</option>
                                         <option value="pilny">Drugie</option>
                                         <option value="pilny">Trzecie</option>
                                     </Select>
-                                    <Select id="2" label="Wybierz katagorie problemu:">
+                                    <Select id="2" label="Wybierz katagorie problemu:" onClick={console.log("działa")}>
                                         <option value="">Wybierz katagorie problemu...</option>
                                         <option value=""></option>
                                         <option value=""></option>
@@ -103,10 +128,7 @@ class ClientPage extends Component {
                         <TabPanel active={this.state.activeTab} id="2">
                             <Form>
                                 <Row>
-                                    <Select id="2" label="Wybierz numer zgłoszenia:">
-                                        <option value="normalny">11111</option>
-                                        <option value="pilny">22222</option>
-                                    </Select>
+                                    <Input id="1" label="Podaj numer zgłoszenia:" />
                                     <Input id="3" label="ID kienta:" disabled />
                                 </Row>
                                 <Row>
