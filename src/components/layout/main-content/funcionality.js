@@ -4,7 +4,7 @@ import Table from "../../tabel/tabel"
 import SearchForm from "../../forms/search-form/search-form";
 import {Pagination, PageItem, PageLink} from "mdbreact"
 
-class ComplainList extends Component {
+class FuncionalityList extends Component {
     constructor(props) {
         super(props);
 
@@ -62,7 +62,7 @@ class ComplainList extends Component {
     };
 
     fetchData(extraValue) {
-        fetch(`http://localhost:8080/api/complains${(extraValue) ? `${extraValue}` : ""}`)
+        fetch(`http://localhost:8080/api/functionality${(extraValue) ? `${extraValue}` : ""}`)
         .then(response => response.json())
         .then(resp => {
             if (resp.data.length > 0) {
@@ -138,18 +138,17 @@ class ComplainList extends Component {
             </React.Fragment>
         );
     };
-    
-
     render() {
         return (
             <div>
-                <h2 className="header">Zgłoszone reklamacje</h2>
+                <h2 className="header"> Zapotrzebowanie na nowe funkcjonalności </h2>
                 <SearchForm 
-                    elements = {["Nr Reklamacji", "Nr złoszenia", "Nr klienta", "Firma", "Status"]}
+                    elements = {["Nr zgloszenia", "Nr Klienta", "Firma", "Oprogramowanie", "Stan"]}
                     onSubmitSearch = {this.findData.bind(this)}
-                    dataKeys={this.state.dataKeys}/>
+                    dataKeys={this.state.dataKeys}               
+                />
                 <Table 
-                    headings = {["Nr Reklamacji", "Nr złoszenia", "Nr klienta", "Firma", "Status", "Data"]} 
+                    headings = {["Nr zgloszenia", "Nr Klienta", "Firma", "Oprogramowanie", "Stan", "Data"]} 
                     onHeadingClick={this.sortData.bind(this)} 
                     sortBy = {this.state.dataSortBy}
                     sortMethod = {this.state.dataSortMethod} 
@@ -157,9 +156,9 @@ class ComplainList extends Component {
                     data = {this.loadData()}
                 />
                 <Pagination className="justify-content-center">
+                    
+                    {this.createPages()}
 
-                        {this.createPages()}
-                        
                 </Pagination>
             </div>
         );
@@ -167,4 +166,4 @@ class ComplainList extends Component {
 
 }
 
-export default ComplainList;
+export default FuncionalityList;

@@ -14,28 +14,23 @@ class DefaultContent extends Component {
         return (
             <div>
             <div className="cards-wrapper">
+                {/* <h2>Lista programów:</h2> */}
                 <Card>
-                    <CardImage className="img-fluid" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20%282%29.jpg" />
                     <CardBody>
                         <CardTitle>System księgowy - Drukarz</CardTitle>
-                        <CardText>Jakiś przykładowy teks. krótki opis oprogramowania</CardText>
-                        <Button className='btn-sm' href="#">Opis oprogramowania</Button>
+                        <CardText>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Autem nostrum eum ipsum id dolore quasi laudantium, nisi assumenda quis sapiente.</CardText>
                     </CardBody>
                 </Card>
                 <Card>
-                    <CardImage className="img-fluid" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20%282%29.jpg" />
                     <CardBody>
                         <CardTitle>Rezerwacje hotelowe - Mortes</CardTitle>
-                        <CardText>Jakiś przykładowy teks. krótki opis oprogramowania</CardText>
-                        <Button className='btn-sm' href="#">Opis oprogramowania</Button>
+                        <CardText>Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere perferendis tempora aliquam cum atque earum! Earum aperiam consectetur veniam beatae.</CardText>
                     </CardBody>
                 </Card>
                 <Card>
-                    <CardImage className="img-fluid" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20%282%29.jpg" />
                     <CardBody>
-                        <CardTitle>Nazwa oprogramowania</CardTitle>
-                        <CardText>Jakiś przykładowy teks. krótki opis oprogramowania</CardText>
-                        <Button className='btn-sm' href="#">Opis oprogramowania</Button>
+                        <CardTitle>Monitoring danych - Inspector</CardTitle>
+                        <CardText>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum doloribus modi soluta quasi atque? Natus iusto obcaecati ullam corporis velit.</CardText>
                     </CardBody>
                 </Card>
             </div>
