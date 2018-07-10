@@ -85,3 +85,15 @@
     display: -ms-flexbox;
     display: flex;
 }
+
+.contact .custom-table th::after {
+    content: none;
+}
+
+.contact .custom-table th::before {
+    content: none;
+}
+
+.contact .custom-table {
+    min-height: 200px;
+}

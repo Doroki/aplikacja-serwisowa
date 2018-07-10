@@ -3,18 +3,19 @@ import {Navbar, Dropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'mdbr
 import './client-page.css';
 import {Tab, TabBody, TabContainer, TabList, TabPanel} from '../../components/tab-container/tab-container';
 import {Form, Row, Input, Select, Textarea, Submit} from '../../components/forms/form-components/form-components';
-
+import PopUp from '../../components/pop-up-info/pop-up';
+import Table from "../../components/tabel/tabel";
 
 class ClientPage extends Component {
     constructor(props) {
         super(props);
 
-        this.toggle = this.toggle.bind(this);
-
+        
         this.state = {
-            userName: "{Nazwa firmy / Imię i Nazwisko}",
+            userName: this.props.userName,
             activeTab: "1",
             dropdownOpen: false,
+<<<<<<< HEAD
         },
 
         this.issue = {
@@ -30,6 +31,22 @@ class ClientPage extends Component {
             problem: "",
             text: ""
         }
+=======
+            dataSend: null,
+            PopMessage: "",
+            data: "",
+            
+            //Data to send
+            id: this.props.userID,
+            issueNubmer: "",
+            program: "",
+            category: "",
+            text: ""
+        }
+        
+        this.toggle = this.toggle.bind(this);
+        this.getDirectData = this.getDirectData.bind(this);
+>>>>>>> f5d6c547b310f36983167fc96200859d0b94f4cd
     }
 
     toggle() {
@@ -37,6 +54,38 @@ class ClientPage extends Component {
             dropdownOpen: !this.state.dropdownOpen
         });
     };
+
+    getDirectData(data) {
+        if(typeof data !== "object") return {};
+        let id;
+        let stan;
+        let dataZgłoszenia;
+
+        switch(data.type) {
+            case 'Awaria':
+                id = data.id_zgloszenia;
+                stan = data.stan_zgloszenia;
+                dataZgłoszenia = data.data_zgloszenia;
+                break;
+            case 'Reklamacja':
+                id = data.id_reklamancja;
+                stan = data.stan_reklamancja;
+                dataZgłoszenia = data.data_reklamancja;
+                break;
+            case 'Funkcjonalność':
+                id = data.id_funkcjonalnosc;
+                stan = data.stan_funkcjonalnosc;
+                dataZgłoszenia = data.data_funkcjonalnosc;
+                break;
+        }
+        return [
+            {title: "Typ zgłoszenia:", content: data.type},
+            {title: "ID zgłoszenia:", content: id},
+            {title: "Stan zgłoszenia:", content: stan},
+            {title: "Data zgłoszenia:", content: dataZgłoszenia},
+            {title: "Treść zgłoszenia:", content: data.tresc}
+        ]
+    }
 
     selectTab(e) {
         e.preventDefault();
@@ -49,6 +98,7 @@ class ClientPage extends Component {
         this.props.history.push('/')
     }
 
+<<<<<<< HEAD
     setFormData(obj, value) {
         let objToSave = obj[0];
         let propertyToSave = objToSave[obj[1]];
@@ -62,6 +112,110 @@ class ClientPage extends Component {
 
     sendComplain() {
 
+=======
+    setFormData(property, value) {
+        this.setState({[property]: value});
+    }
+
+    clearForm(){
+        this.setState({
+            issueNubmer: "",
+            program: "",
+            category: "",
+            text: ""
+        });
+    }
+
+
+    sendNotification(type) {
+        let dataToSend = {};
+        let linkToSend = "";
+
+        if(type === "zgloszenie") {
+            linkToSend = "issue";
+            dataToSend = {
+                id: this.state.id, 
+                category: this.state.category, 
+                program: this.state.program, 
+                text: this.state.text
+            }
+        } else if(type === "reklamacje") {
+            linkToSend = "complain";
+            dataToSend = {
+                id: this.state.id, 
+                issueNubmer: this.state.issueNubmer, 
+                text: this.state.text
+            }
+        } else if(type === "funkcjonalnosc") {
+            linkToSend = "functionality";
+            dataToSend = {
+                id: this.state.id, 
+                program: this.state.program,
+                text: this.state.text
+            }
+        }
+
+        if (dataToSend.hasOwnProperty("id")) {
+            for (const key in dataToSend) {
+                if (dataToSend.hasOwnProperty(key)) {
+                    const element = dataToSend[key];
+                    if(element === "") {
+                        this.setState({PopMessage: "Coś poszło nie tak! Nire udało się wysłać zgłoszenia", dataSend: false})
+                        return;
+                    } 
+                } 
+            } 
+        } else {
+            this.setState({PopMessage: "Coś poszło nie tak! Nire udało się wysłać zgłoszenia", dataSend: false})
+            return;
+        } 
+
+        this.sendData(`http://localhost:8080/api/new-${linkToSend}`, dataToSend)
+    }
+
+    sendData(url, data) {
+        fetch(url, {
+            method: "PUT",
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(res => res.json())
+          .then(res => {    
+            if(res.done) {
+                this.clearForm();
+                this.setState({PopMessage: "Dobra robota! Zgłoszenie zostało pomyślnie wysłane", dataSend: true})
+            } else {
+                this.setState({PopMessage: "Coś poszło nie tak! Nire udało się wysłać zgłoszenia", dataSend: false})
+            }
+        })
+    }
+
+    getNotifications() {
+        fetch(`http://localhost:8080/api/get-all-notifications/${this.state.id}`)
+            .then(res => res.json())
+            .then(res => {    
+                if(res) {
+                    let dataToDisplay = [];
+                    dataToDisplay = [...res.data.complains, ...res.data.issues, res.data.functionalities];
+                    this.setState({data: dataToDisplay});
+                } 
+            })
+    }
+
+    componentDidMount() {
+        this.getNotifications();
+    }
+
+    showPopUp() {
+        if(this.state.dataSend === true) {
+            setTimeout(()=>{ this.setState({dataSend: null})}, 4500);
+            return <PopUp content={this.state.PopMessage} type="success"/>;
+        } else if(this.state.dataSend === false) {
+            setTimeout(()=>{ this.setState({dataSend: null})}, 4500);
+            return <PopUp content={this.state.PopMessage} type="fail"/>;
+        } 
+>>>>>>> f5d6c547b310f36983167fc96200859d0b94f4cd
     }
 
     render() {
@@ -86,11 +240,15 @@ class ClientPage extends Component {
                     </div>
                 </section>
 
+                {this.showPopUp()}
+
                 {/* ---- Main content - Forms ---- */}
                 <TabContainer>
                     <TabList onClickTab={e => this.selectTab(e)}>
                         <Tab active={this.state.activeTab} targetTab="1">Awaria</Tab>
                         <Tab active={this.state.activeTab} targetTab="2">Reklamacja</Tab>
+                        <Tab active={this.state.activeTab} targetTab="3">Funkcjonalność</Tab>
+                        <Tab active={this.state.activeTab} targetTab="4">Status zgłoszen</Tab>
                     </TabList>
 
                     {/* ---- Issue ---- */}
@@ -98,6 +256,7 @@ class ClientPage extends Component {
                         <TabPanel active={this.state.activeTab} id="1">
                             <Form>
                                 <Row>
+<<<<<<< HEAD
                                     <Input id="3" label="ID kienta:" disabled />
                                 </Row>
                                 <Row>
@@ -108,19 +267,40 @@ class ClientPage extends Component {
                                         <option value="pilny">Trzecie</option>
                                     </Select>
                                     <Select id="2" label="Wybierz katagorie problemu:" onClick={console.log("działa")}>
+=======
+                                    <Input id="3" label="ID kienta:" value={this.state.id} disabled />
+                                </Row>
+                                <Row>
+                                    <Select id="2" label="Wybierz oprogramowanie:"
+                                        onChangeField={this.setFormData.bind(this)} 
+                                        target="program" 
+                                        value={this.state.program}                            
+                                        >
+                                        <option value="">Jakie oprogramowanie...</option>
+                                        <option value="1">Drukarz</option>
+                                        <option value="2">Mortes</option>
+                                        <option value="3">Inspector</option>
+                                    </Select>
+                                    <Select id="2" label="Wybierz katagorie problemu:" 
+                                        onChangeField={this.setFormData.bind(this)} 
+                                        target="category" 
+                                        value={this.state.category}                                    
+                                        >                                    
+>>>>>>> f5d6c547b310f36983167fc96200859d0b94f4cd
                                         <option value="">Wybierz katagorie problemu...</option>
-                                        <option value=""></option>
-                                        <option value=""></option>
-                                        <option value=""></option>
-                                        <option value=""></option>
-                                        <option value=""></option>
+                                        <option value="1">Interfejs aplikacji</option>
+                                        <option value="2">Wyświetlanie danych</option>
+                                        <option value="3">Przetwarzanie danych</option>
+                                        <option value="4">Tworzenie dokumentów</option>
+                                        <option value="5">Przekazywanie informacji</option>
+                                        <option value="6">Inna...</option>
                                     </Select>
                                 </Row>
                                 <Row>
-                                    <Textarea label="Opisz problem:" col="30" row="12" />
+                                    <Textarea label="Opisz problem:" col="30" row="12" onChangeField={this.setFormData.bind(this)} target="text" value={this.state.text}/>
                                 </Row>
                                 <Row>
-                                    <Submit value="Wyślij" disabled/>
+                                    <Submit value="Wyślij" onAccept={this.sendNotification.bind(this)} type="zgloszenie" />
                                 </Row>           
                             </Form>   
                         </TabPanel>
@@ -128,28 +308,96 @@ class ClientPage extends Component {
                         <TabPanel active={this.state.activeTab} id="2">
                             <Form>
                                 <Row>
+<<<<<<< HEAD
                                     <Input id="1" label="Podaj numer zgłoszenia:" />
                                     <Input id="3" label="ID kienta:" disabled />
+=======
+                                    <Input id="1" type="number" label="Podaj numer zgłoszenia:" 
+                                        onChangeField={this.setFormData.bind(this)} 
+                                        target="issueNubmer" 
+                                        value={this.state.issueNubmer} 
+                                        />
+                                    <Input id="3" label="ID kienta:" value={this.state.id} disabled />
+>>>>>>> f5d6c547b310f36983167fc96200859d0b94f4cd
                                 </Row>
                                 <Row>
-                                    <Select id="2" label="Wybierz przyczynę reklamacji:">
-                                        <option value="">Wybierz przyczynę reklamacji...</option>
-                                        <option value=""></option>
-                                        <option value=""></option>
-                                        <option value=""></option>
-                                        <option value=""></option>
-                                        <option value=""></option>
+                                    <Select id="2" label="Wybierz przyczynę reklamacji:" 
+                                        onChangeField={this.setFormData.bind(this)} 
+                                        target="category" 
+                                        value={this.state.category}                                    
+                                        >
+                                        <option value="">Wybierz katagorie problemu...</option>
+                                        <option value="1">Interfejs aplikacji</option>
+                                        <option value="2">Wyświetlanie danych</option>
+                                        <option value="3">Przetwarzanie danych</option>
+                                        <option value="4">Tworzenie dokumentów</option>
+                                        <option value="5">Przekazywanie informacji</option>
+                                        <option value="6">Inna...</option>
                                     </Select>
                                 </Row>
                                 <Row>
-                                    <Textarea label="Opisz problem:" col="30" row="12" />
+                                    <Textarea label="Opisz problem:" col="30" row="12" onChangeField={this.setFormData.bind(this)} target="text" value={this.state.text}/>
                                 </Row>     
                                 <Row>
-                                    <Submit value="Wyślij" disabled/>
+                                    <Submit value="Wyślij" onAccept={this.sendNotification.bind(this)} type="funkcjonalnosc"/>
                                 </Row>      
                             </Form>   
                         </TabPanel>
 
+                        
+                        <TabPanel active={this.state.activeTab} id="3">
+                            <Form>
+                                <Row>
+                                    <Input id="3" label="ID kienta:" value={this.state.id} disabled />
+                                    <Select id="2" label="Wybierz oprogramowanie:"
+                                        onChangeField={this.setFormData.bind(this)} 
+                                        target="program" 
+                                        value={this.state.program}                            
+                                        >
+                                        <option value="">Jakie oprogramowanie...</option>
+                                        <option value="1">Drukarz</option>
+                                        <option value="2">Mortes</option>
+                                        <option value="3">Inspector</option>
+                                    </Select>
+                                </Row>
+                                <Row>
+                                    <Select id="2" label="Wybierz katagorie rozszerzenia:" 
+                                        onChangeField={this.setFormData.bind(this)} 
+                                        target="category" 
+                                        value={this.state.category}                                    
+                                        >                                    
+                                        <option value="">Wybierz katagorie problemu...</option>
+                                        <option value="1">Interfejs aplikacji</option>
+                                        <option value="2">Wyświetlanie danych</option>
+                                        <option value="3">Przetwarzanie danych</option>
+                                        <option value="4">Tworzenie dokumentów</option>
+                                        <option value="5">Przekazywanie informacji</option>
+                                        <option value="6">Inna...</option>
+                                    </Select>
+                                </Row>
+                                <Row>
+                                    <Textarea label="Opisz problem:" col="30" row="12" onChangeField={this.setFormData.bind(this)} target="text" value={this.state.text}/>
+                                </Row>
+                                <Row>
+                                    <Submit value="Wyślij" onAccept={this.sendNotification.bind(this)} type="funkcjonalnosc" />
+                                </Row>           
+                            </Form>   
+                        </TabPanel>
+
+                        <TabPanel active={this.state.activeTab} id="4">
+                            <Form>
+                                <Row className="row w-75 m-auto">
+                                    <Input id="3" label="ID kienta:" value={this.state.id} disabled />
+                                </Row>
+                                <Row>
+                                <Table
+                                    fetchData = {this.getDirectData} 
+                                    headings = {["Typ złoszenia", "Nr zgłoszniea", "Stan", "Data"]} 
+                                    data = {this.state.data} 
+                                />
+                                </Row>      
+                            </Form>   
+                        </TabPanel>
                     </TabBody>
                 </TabContainer>
 
@@ -176,6 +424,7 @@ class ClientPage extends Component {
                         perspiciatis vel ut aliquam! Magnam sequi delectus doloribus dicta, quidem accusamus laboriosam. Animi.
                     </p>
                 </footer>
+
             </div>
         );
     }

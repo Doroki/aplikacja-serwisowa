@@ -4,7 +4,7 @@ import Table from "../../tabel/tabel"
 import SearchForm from "../../forms/search-form/search-form";
 import {Pagination, PageItem, PageLink} from "mdbreact"
 
-class ComplainList extends Component {
+class ClientList extends Component {
     constructor(props) {
         super(props);
 
@@ -18,7 +18,6 @@ class ComplainList extends Component {
         };
     }
 
-    
     findData(dataObj) {
         let queryString = "?";
 
@@ -62,7 +61,7 @@ class ComplainList extends Component {
     };
 
     fetchData(extraValue) {
-        fetch(`http://localhost:8080/api/complains${(extraValue) ? `${extraValue}` : ""}`)
+        fetch(`http://localhost:8080/api/client-list${(extraValue) ? `${extraValue}` : ""}`)
         .then(response => response.json())
         .then(resp => {
             if (resp.data.length > 0) {
@@ -88,7 +87,6 @@ class ComplainList extends Component {
     componentDidMount() {
         this.fetchData();
     }
-
 
     splitDataToPages(data) { // Split saved data to pages for condition - there is more data objects than 10
         if(!data || data < 11) return;
@@ -138,18 +136,18 @@ class ComplainList extends Component {
             </React.Fragment>
         );
     };
-    
 
     render() {
         return (
             <div>
-                <h2 className="header">Zgłoszone reklamacje</h2>
+                <h2 className="header"> Zapotrzebowanie na nowe funkcjonalności </h2>
                 <SearchForm 
-                    elements = {["Nr Reklamacji", "Nr złoszenia", "Nr klienta", "Firma", "Status"]}
+                    elements = {["Nr klienta", "Firma", "NIP", "Nr tel.", "Program"]}
                     onSubmitSearch = {this.findData.bind(this)}
-                    dataKeys={this.state.dataKeys}/>
-                <Table 
-                    headings = {["Nr Reklamacji", "Nr złoszenia", "Nr klienta", "Firma", "Status", "Data"]} 
+                    dataKeys={this.state.dataKeys}
+                    />
+                <Table
+                    headings = {["Nr klienta", "Firma", "NIP", "Nr tel.", "Program", "E-mail"]}
                     onHeadingClick={this.sortData.bind(this)} 
                     sortBy = {this.state.dataSortBy}
                     sortMethod = {this.state.dataSortMethod} 
@@ -157,9 +155,9 @@ class ComplainList extends Component {
                     data = {this.loadData()}
                 />
                 <Pagination className="justify-content-center">
+                    
+                    {this.createPages()}
 
-                        {this.createPages()}
-                        
                 </Pagination>
             </div>
         );
@@ -167,4 +165,4 @@ class ComplainList extends Component {
 
 }
 
-export default ComplainList;
+export default ClientList;

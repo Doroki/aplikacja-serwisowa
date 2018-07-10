@@ -10,23 +10,83 @@ class ErrorList extends Component {
 
         this.state = {
             data: [],
+            dataKeys: [],
             pages: [],
-            actualPageNumber: 1
+            actualPageNumber: 1,
+            dataSortMethod: "",
+            dataSortBy: ""
         };
     }
 
-    componentDidMount() {
-        fetch('../data/issues-data.json')
-            .then(response => response.json())
-            .then(resp => {
-                let data = resp;
+    
+    findData(dataObj) {
+        let queryString = "?";
+
+        for (const key in dataObj) {
+            if (dataObj.hasOwnProperty(key)) {
+                const element = dataObj[key];
+                if(queryString === "?"){
+                    queryString += key + "=" + element;
+                } else {
+                    queryString += "&" + key + "=" + element;
+                }
+            }
+        }
+
+        this.fetchData(queryString)
+    }
+
+    sortData(key = 0) {
+        let sortBy = this.state.dataKeys[key]
+        let sortMethod = (this.state.dataSortBy === sortBy && this.state.dataSortMethod === "asc") ? "dsc" : "asc"; 
+        let data = this.state.data;
+
+        data.sort((a, b) => {
+            if(a[sortBy] < b[sortBy]) {
+                return (sortMethod==="asc") ? -1 : 1;
+            } else if(a[sortBy] > b[sortBy]) {
+                return (sortMethod==="asc") ? 1 : -1;
+            } else {
+                return 0;
+            }
+        });
+
+        const paginationData = this.splitDataToPages(data);
+        
+        this.setState({
+            data: data,
+            pages: paginationData,
+            dataSortMethod: sortMethod,
+            dataSortBy: sortBy
+        })
+    };
+
+    fetchData(extraValue) {
+        fetch(`http://localhost:8080/api/issues${(extraValue) ? `${extraValue}` : ""}`)
+        .then(response => response.json())
+        .then(resp => {
+            if (resp.data.length > 0) {
+                let data = resp.data;
+                let dataKeys = Object.getOwnPropertyNames(resp.data[0]);
                 let pagesArr = this.splitDataToPages(data);
 
                 this.setState({
-                    data: resp,
+                    data: resp.data,
+                    dataKeys: dataKeys,
                     pages: pagesArr
                 })
-            });
+            } else {
+                this.setState({
+                    data: [],
+                    pages: []
+                })
+            }
+            
+        });
+    }
+
+    componentDidMount() {
+        this.fetchData();
     }
 
     splitDataToPages(data) { // Split saved data to pages for condition - there is more data objects than 10
@@ -81,9 +141,17 @@ class ErrorList extends Component {
         return (
             <div>
                 <h2 className="header">Zgłoszone błędy</h2>
-                <SearchForm elements={["Imię", "Nazwisko", "Firma", "Nr tel.", "E-mail", "Nr sprawy"]}/>
+                <SearchForm 
+                    elements = {["Nr zgloszenia", "Nr Klienta", "Firma", "Kategoria", "Oprogramowanie", "Stan"]}
+                    onSubmitSearch = {this.findData.bind(this)}
+                    dataKeys={this.state.dataKeys}               
+                />
                 <Table 
-                    headings = {["Nr zgloszenia", "Nr Klienta", "Firma", "Kategoria", "Oprogramowanie", "Data", "Stan"]} 
+                    headings = {["Nr zgloszenia", "Nr Klienta", "Firma", "Kategoria", "Oprogramowanie", "Stan", "Data"]} 
+                    onHeadingClick={this.sortData.bind(this)} 
+                    sortBy = {this.state.dataSortBy}
+                    sortMethod = {this.state.dataSortMethod} 
+                    dataKeys = {this.state.dataKeys}
                     data = {this.loadData()}
                 />
                 <Pagination className="justify-content-center">

@@ -15,7 +15,41 @@ class TaskButton extends Component {
 
         this.toggle = this.toggle.bind(this);
     }
-  
+
+    componentDidMount() {
+        fetch('http://localhost:8080/api/tasks')
+            .then(response => response.json())
+            .then(resp => {
+                if(resp && resp.length > 0) {
+                    resp.forEach(task => {
+                        this.onAddTask(task);
+                    });
+                }
+            });
+    }
+
+    sentToDatabase(term) {
+        fetch("http://localhost:8080/api/tasks", {
+            mode: "cors",
+            method: "PUT",
+            body: JSON.stringify({content: term}),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+    }
+
+    removeFromDatabase(term) {
+        fetch("http://localhost:8080/api/tasks", {
+            mode: "cors",
+            method: "DELETE",
+            body: JSON.stringify({content: term}),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+    }
+
     toggle() {
       this.setState({
         modal: !this.state.modal
@@ -26,24 +60,30 @@ class TaskButton extends Component {
         this.setState({term})
     }
 
-    onAddTask(){
-        if(this.state.term === "") return;
+    onAddTask(newValue){
+        if(!newValue && this.state.term === "") return;
         let keyRandomValue = Math.random()*1000
         let task = <Task 
                         key={keyRandomValue} 
                         keyValue={keyRandomValue}
-                        value={this.state.term} 
+                        value={newValue || this.state.term} 
                         onClickTask={(element) => this.refreshTaskList(element)} />;
 
         this.setState(tasks => ({
             tasks: [...this.state.tasks, task],
             term: ''
         }));
+
+        if(!newValue) this.sentToDatabase(this.state.term);
     }
 
     refreshTaskList(keyValue) {
         const keyOfElement = keyValue.toString();
         let taskList = this.state.tasks;
+
+        let taskValueToRemove = taskList.filter(element => element.key === keyOfElement)[0].props.value;
+        this.removeFromDatabase(taskValueToRemove);
+
         let index = taskList.indexOf(taskList.filter(element => element.key === keyOfElement)[0]);
         if (index > -1) {
             taskList.splice(index, 1);
