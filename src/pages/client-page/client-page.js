@@ -5,6 +5,8 @@ import {Tab, TabBody, TabContainer, TabList, TabPanel} from '../../components/ta
 import {Form, Row, Input, Select, Textarea, Submit} from '../../components/forms/form-components/form-components';
 import PopUp from '../../components/pop-up-info/pop-up';
 import Table from "../../components/tabel/tabel";
+import {Pagination, PageItem, PageLink} from "mdbreact"
+import SearchForm from "../../components/forms/search-form/search-form";
 
 class ClientPage extends Component {
     constructor(props) {
@@ -15,44 +17,128 @@ class ClientPage extends Component {
             userName: this.props.userName,
             activeTab: "1",
             dropdownOpen: false,
-<<<<<<< HEAD
-        },
-
-        this.issue = {
-            id: 0,
-            program: "",
-            category: "",
-            text: ""
-        },
-
-        this.complain = {
-            id: 0,
-            issueNubmer: 0,
-            problem: "",
-            text: ""
-        }
-=======
             dataSend: null,
             PopMessage: "",
-            data: "",
+            clientData: "",
             
             //Data to send
             id: this.props.userID,
             issueNubmer: "",
             program: "",
             category: "",
-            text: ""
+            text: "",
+
+            data: [],
+            dataKeys: [],
+            pages: [],
+            actualPageNumber: 1,
+            dataSortMethod: "",
+            dataSortBy: ""
+
         }
         
         this.toggle = this.toggle.bind(this);
         this.getDirectData = this.getDirectData.bind(this);
->>>>>>> f5d6c547b310f36983167fc96200859d0b94f4cd
     }
 
     toggle() {
         this.setState({
             dropdownOpen: !this.state.dropdownOpen
         });
+    };
+
+    findData(dataObj) {
+        let queryString = "?";
+
+        for (const key in dataObj) {
+            if (dataObj.hasOwnProperty(key)) {
+                const element = dataObj[key];
+                if(queryString === "?"){
+                    queryString += key + "=" + element;
+                } else {
+                    queryString += "&" + key + "=" + element;
+                }
+            }
+        }
+
+        this.fetchData(queryString)
+    }
+
+    fetchData(extraValue) {
+        console.log("działa")
+        fetch(`http://localhost:8080/api/client-issues${(extraValue) ? `${extraValue}` : ""}`)
+        .then(response => response.json())
+        .then(resp => {
+            if (resp.data.length > 0) {
+                let data = resp.data;
+                let pagesArr = this.splitDataToPages(data);
+
+                this.setState({
+                    data: resp.data,
+                    pages: pagesArr
+                })
+            } else {
+                this.setState({
+                    data: [],
+                    pages: []
+                })
+            }
+            
+        });
+    }
+
+    componentDidMount() {
+        this.getNotifications();
+        this.fetchData();
+    }
+
+    splitDataToPages(data) { // Split saved data to pages for condition - there is more data objects than 10
+        if(!data || data < 11) return;
+        let mappingIterator = -1; // iterator created to help designate index of new page (Array)
+        let pageArray = [];
+
+        data.map(dataItem => {
+            if(data.indexOf(dataItem) % 10 === 0) { // With every 5th element create new Page/Array and push it to main Array with index of iterator
+                mappingIterator++; 
+                const newPage = [];
+                pageArray.push(newPage);
+                pageArray[mappingIterator].push(dataItem);
+            } else {
+                pageArray[mappingIterator].push(dataItem);
+            }
+        });
+
+        return pageArray;
+    };
+
+    loadData() {
+        let index = this.state.actualPageNumber - 1;
+        return this.state.pages[index];
+    }
+
+    updatePage(indexValue) {
+        this.setState({actualPageNumber: indexValue});
+    }
+
+
+    createPages() {
+        return (
+            <React.Fragment>
+                {this.state.pages.map((page, index) => {
+                    return (
+                        <PageItem 
+                            key={`pageItem-${index}`}
+                            className={(this.state.actualPageNumber === index+1) ? "active" : ""}
+                            onClick={this.updatePage.bind(this, index+1)}
+                            >
+                            <PageLink key={`pageLink-${index}`} className="page-link">
+                                {index + 1}
+                            </PageLink>
+                        </PageItem>
+                        )
+                })}
+            </React.Fragment>
+        );
     };
 
     getDirectData(data) {
@@ -78,11 +164,14 @@ class ClientPage extends Component {
                 dataZgłoszenia = data.data_funkcjonalnosc;
                 break;
         }
-        return [
+        return (id) ? [
             {title: "Typ zgłoszenia:", content: data.type},
             {title: "ID zgłoszenia:", content: id},
             {title: "Stan zgłoszenia:", content: stan},
             {title: "Data zgłoszenia:", content: dataZgłoszenia},
+            {title: "Treść zgłoszenia:", content: data.tresc}
+        ] :
+        [
             {title: "Treść zgłoszenia:", content: data.tresc}
         ]
     }
@@ -98,21 +187,6 @@ class ClientPage extends Component {
         this.props.history.push('/')
     }
 
-<<<<<<< HEAD
-    setFormData(obj, value) {
-        let objToSave = obj[0];
-        let propertyToSave = objToSave[obj[1]];
-        propertyToSave = value;
-        console.log(this.issue)
-    }
-
-    sendIssue() {
-
-    }
-
-    sendComplain() {
-
-=======
     setFormData(property, value) {
         this.setState({[property]: value});
     }
@@ -198,14 +272,11 @@ class ClientPage extends Component {
                 if(res) {
                     let dataToDisplay = [];
                     dataToDisplay = [...res.data.complains, ...res.data.issues, res.data.functionalities];
-                    this.setState({data: dataToDisplay});
+                    this.setState({clientData: dataToDisplay});
                 } 
             })
     }
 
-    componentDidMount() {
-        this.getNotifications();
-    }
 
     showPopUp() {
         if(this.state.dataSend === true) {
@@ -215,10 +286,10 @@ class ClientPage extends Component {
             setTimeout(()=>{ this.setState({dataSend: null})}, 4500);
             return <PopUp content={this.state.PopMessage} type="fail"/>;
         } 
->>>>>>> f5d6c547b310f36983167fc96200859d0b94f4cd
     }
 
     render() {
+        console.log(this.state.dataKeys)
         return (
             <div className="w-100">
                 {/* ---- Navbar ---- */}
@@ -249,6 +320,7 @@ class ClientPage extends Component {
                         <Tab active={this.state.activeTab} targetTab="2">Reklamacja</Tab>
                         <Tab active={this.state.activeTab} targetTab="3">Funkcjonalność</Tab>
                         <Tab active={this.state.activeTab} targetTab="4">Status zgłoszen</Tab>
+                        <Tab active={this.state.activeTab} targetTab="5">Znane awarie</Tab>
                     </TabList>
 
                     {/* ---- Issue ---- */}
@@ -256,18 +328,6 @@ class ClientPage extends Component {
                         <TabPanel active={this.state.activeTab} id="1">
                             <Form>
                                 <Row>
-<<<<<<< HEAD
-                                    <Input id="3" label="ID kienta:" disabled />
-                                </Row>
-                                <Row>
-                                    <Select id="2" label="Wybierz oprogramowanie:" onChangeField={this.setFormData.bind(this)} target={[this.issue, "program"]}>
-                                        <option value="normalny">Jakie oprogramowanie...</option>
-                                        <option value="pilny">Pierwsze</option>
-                                        <option value="pilny">Drugie</option>
-                                        <option value="pilny">Trzecie</option>
-                                    </Select>
-                                    <Select id="2" label="Wybierz katagorie problemu:" onClick={console.log("działa")}>
-=======
                                     <Input id="3" label="ID kienta:" value={this.state.id} disabled />
                                 </Row>
                                 <Row>
@@ -286,7 +346,6 @@ class ClientPage extends Component {
                                         target="category" 
                                         value={this.state.category}                                    
                                         >                                    
->>>>>>> f5d6c547b310f36983167fc96200859d0b94f4cd
                                         <option value="">Wybierz katagorie problemu...</option>
                                         <option value="1">Interfejs aplikacji</option>
                                         <option value="2">Wyświetlanie danych</option>
@@ -308,17 +367,12 @@ class ClientPage extends Component {
                         <TabPanel active={this.state.activeTab} id="2">
                             <Form>
                                 <Row>
-<<<<<<< HEAD
-                                    <Input id="1" label="Podaj numer zgłoszenia:" />
-                                    <Input id="3" label="ID kienta:" disabled />
-=======
                                     <Input id="1" type="number" label="Podaj numer zgłoszenia:" 
                                         onChangeField={this.setFormData.bind(this)} 
                                         target="issueNubmer" 
                                         value={this.state.issueNubmer} 
                                         />
                                     <Input id="3" label="ID kienta:" value={this.state.id} disabled />
->>>>>>> f5d6c547b310f36983167fc96200859d0b94f4cd
                                 </Row>
                                 <Row>
                                     <Select id="2" label="Wybierz przyczynę reklamacji:" 
@@ -390,12 +444,33 @@ class ClientPage extends Component {
                                     <Input id="3" label="ID kienta:" value={this.state.id} disabled />
                                 </Row>
                                 <Row>
-                                <Table
-                                    fetchData = {this.getDirectData} 
-                                    headings = {["Typ złoszenia", "Nr zgłoszniea", "Stan", "Data"]} 
-                                    data = {this.state.data} 
-                                />
+                                    <Table
+                                        fetchData = {this.getDirectData} 
+                                        headings = {["Typ złoszenia", "Nr zgłoszniea", "Stan", "Data"]} 
+                                        data = {this.state.clientData} 
+                                    />
                                 </Row>      
+                            </Form>   
+                        </TabPanel>
+                        <TabPanel active={this.state.activeTab} id="5">
+                            <SearchForm 
+                                elements = {["Nr zgloszenia", "Kategoria", "Oprogramowanie"]}
+                                onSubmitSearch = {this.findData.bind(this)}
+                                dataKeys={["id_zgloszenia", "kategoria", "program"]}               
+                            />
+                            <Form>
+                                <Row>
+                                    <Table
+                                        fetchData = {this.getDirectData} 
+                                        headings = {["Typ złoszenia", "Nr zgłoszniea", "Stan", "Data"]} 
+                                        data = {this.loadData()} 
+                                    />
+                                </Row>
+                                <Row>
+                                    <Pagination className="d-flex w-100 justify-content-center">
+                                        {this.createPages()}    
+                                    </Pagination>      
+                                </Row>   
                             </Form>   
                         </TabPanel>
                     </TabBody>

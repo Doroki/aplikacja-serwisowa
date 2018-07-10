@@ -16,13 +16,9 @@ class App extends Component {
 
     this.state = {
       userAuth: true,
-<<<<<<< HEAD
-      adminAuth: true
-=======
       adminAuth: true,
       id: 0,
       name: "Imię i nazwisko"
->>>>>>> f5d6c547b310f36983167fc96200859d0b94f4cd
     };
 
     this.history = createHashHistory();

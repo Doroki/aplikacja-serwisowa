@@ -10,11 +10,7 @@ class LoginClient extends Component {
         this.state = {
             login: "",
             password: "",
-<<<<<<< HEAD
-            falseLogin: false
-=======
             falseLogin: ""
->>>>>>> f5d6c547b310f36983167fc96200859d0b94f4cd
         }
     }
 
@@ -41,26 +37,8 @@ class LoginClient extends Component {
         });
     }
 
-<<<<<<< HEAD
-        fetch("http://localhost:8080/login", {
-            method: "POST",
-            body: JSON.stringify({login: login, password: password}),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-        
-        if(login === "test" && password === "test") {
-            this.props.onLoginSubmit({userAuth: true, adminAuth: false});
-
-            this.props.history.push('/client-panel')
-        } else {
-            this.setState({falseLogin: true})
-        }
-=======
     hideWarning() {
         this.setState({falseLogin: ""});
->>>>>>> f5d6c547b310f36983167fc96200859d0b94f4cd
     }
 
     render() {
@@ -74,11 +52,7 @@ class LoginClient extends Component {
                     onSubmitBtn = {this.authorizeEntry.bind(this)} 
                     error={this.state.falseLogin} />
                 <Link className="btn btn-mdb-color" to="/admin">Panel Admina</Link>
-<<<<<<< HEAD
-                <span>NA CZAS TESTÓW: <br/> id: test <br/> hasło: test</span>
-=======
                 <span>NA CZAS TESTÓW (dane jednego z użytkowników): <br/> id: 10041 <br/> hasło: bella80</span>   
->>>>>>> f5d6c547b310f36983167fc96200859d0b94f4cd
             </div>
         )
     }

@@ -42,27 +42,18 @@ const Input = (props) => {
 const Select = (props) => {
     
     const saveData = (value) => {
-<<<<<<< HEAD
-        let objToChange = props.target;
-        props.onChangeField(objToChange, value);
-=======
         props.onChangeField(props.target, value);
->>>>>>> f5d6c547b310f36983167fc96200859d0b94f4cd
     };
     
     return (
         <div className="form__field col">
             <label htmlFor={`field${props.id}`} className="form__label">{props.label}</label>
-<<<<<<< HEAD
-            <select id={`field${props.id}`} className="form__input" disabled={(props.disabled) ? true : false} onChange={(e) => saveData(e.target.value)}>
-=======
             <select id={`field${props.id}`} 
                 className="form__input" 
                 disabled={(props.disabled) ? true : false} 
                 onChange={(e) => saveData(e.target.value)}
                 value={props.value}
             >
->>>>>>> f5d6c547b310f36983167fc96200859d0b94f4cd
                 {props.children}
             </select>
         </div>    

@@ -26,6 +26,9 @@
     transform: translateY(-3px)
 }
 
+.align {
+    justify-content: center;
+}
 
 .user-data {
     margin-right: 20px;

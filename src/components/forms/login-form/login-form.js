@@ -34,23 +34,7 @@ class LoginFrom extends React.Component {
             </form>
         );
 
-<<<<<<< HEAD
-                <label htmlFor="login" className="grey-text">Twoje id</label>
-                <input type="text" id="login" className="form-control mb-4" required onChange={e => login = e.target.value} required/>
-
-                <label htmlFor="defaultFormLoginPasswordEx" className="grey-text">Twoje Hasło</label>
-                <input type="password" id="defaultFormLoginPasswordEx" className="form-control" onChange={e => password = e.target.value} required/>
-
-                <div className="text-center mt-4">
-                    <button className="btn btn-indigo" type="submit" onClick={(e) => props.onSubmitBtn(e, login, password)}>Login</button>
-                </div>
-                <p style={{visibility: (props.error === true) ? "visible" : "hidden"}} className="m-0 alert alert-danger">Podałeś nieprawidłowy id lub hasło</p>
-            </div>
-        </form>
-    );
-=======
     }
->>>>>>> f5d6c547b310f36983167fc96200859d0b94f4cd
 }
 
 export default LoginFrom;
