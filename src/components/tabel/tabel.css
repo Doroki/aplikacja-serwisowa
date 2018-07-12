@@ -7,6 +7,10 @@
     width: 90%;
 }
 
+.custom-table td {
+    white-space: nowrap;
+}
+
 .custom-table th {
     position: relative;
     padding-left: 20px;
@@ -15,6 +19,7 @@
     cursor: pointer;
     user-select: none;
     width: 15%;
+    white-space: nowrap;
 }
 
 .custom-table th::after {
@@ -60,6 +65,12 @@ th.dsc::before {
     font-size: 1.2em;
 }
 
+.modal-title {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
 .modal__title {
     font-weight: bold;
     background-color: #CCC;
@@ -80,4 +91,48 @@ th.dsc::before {
     height: 150px;
     resize: none;
     overflow-y: scroll;
+}
+
+.updated {
+    background-color: #2e7d32;
+    padding: 3px 8px;
+    font-size: 13px;
+    color: #FFF;
+    font-family: 'Roboto', sans-serif;
+    border-radius: 4px;
+}
+
+.updated::before {
+    content: "\f058";
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    margin-right: 5px;
+}
+
+.not-updated {
+    background-color: #c62828;
+    padding: 3px 8px;
+    font-size: 13px;
+    color: #FFF;
+    font-family: 'Roboto', sans-serif;
+    border-radius: 4px;
+}
+
+.not-updated ::before {
+    content: "\f057";
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    margin-right: 5px;
+}
+
+.table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
 }

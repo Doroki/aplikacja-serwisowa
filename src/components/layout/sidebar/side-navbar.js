@@ -5,14 +5,14 @@ const SideNavbar = (props) => {
 
     const links = props.children.map((element, index) => {
         return (
-            <li key={index}>
+            <li key={index} onClick={(props.menuOpen) ? props.menuToggle : null}>
                 {element}
             </li>
         );
     });
 
     return (
-        <nav className="side-navbar">
+        <nav className={(props.smallScreenHidden) ? "side-navbar hidden" : "side-navbar"}>
             <div>
                 <ul>
                     {links}

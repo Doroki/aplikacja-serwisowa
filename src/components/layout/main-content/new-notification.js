@@ -95,7 +95,6 @@ class NewNotification extends Component {
         }
         
         showPopUp() {
-            console.log(this.state.dataSend)
         if(this.state.dataSend === true) {
             setTimeout(()=>{ this.setState({dataSend: null})}, 4500);
             return <PopUp content={this.state.PopMessage} type="success"/>;

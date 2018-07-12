@@ -173,6 +173,12 @@ class Table extends Component {
                     <Modal isOpen={this.state.modal} toggle={this.toggle}>
                     <ModalHeader toggle={this.toggle}>
                         <span className="modal__header">Zgłoszenie</span>
+                        {(this.props.updated !== null && this.props.updated !== undefined) 
+                            ? 
+                            <span className={(this.props.updated) ? "updated" : "not-updated"}>
+                                {(this.props.updated) ? "Zapisano" : "Niezapisano"}
+                            </span> 
+                            : ""}
                     </ModalHeader>
                         <ModalBody>
                             {this.createModalContent()}

@@ -14,3 +14,15 @@
     right: 0;
     left: auto;
 }
+
+.menu-icon {
+    display: none;
+    font-size: 2em;
+    color: #FFF;
+}
+
+@media (max-width: 1300px) {
+    .menu-icon {
+        display: block;
+    }
+}

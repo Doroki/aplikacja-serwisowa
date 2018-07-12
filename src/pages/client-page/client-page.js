@@ -289,7 +289,6 @@ class ClientPage extends Component {
     }
 
     render() {
-        console.log(this.state.dataKeys)
         return (
             <div className="w-100">
                 {/* ---- Navbar ---- */}

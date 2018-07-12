@@ -132,10 +132,56 @@ class ClientList extends Component {
 
 
     createPages() {
+        const numberOfPages = this.state.pages.length;
+        const longPagination = numberOfPages > 10;
+        const pageNumber = this.state.actualPageNumber;
         return (
             <React.Fragment>
                 {this.state.pages.map((page, index) => {
-                    return (
+                    if (longPagination) {
+                        if (pageNumber > 3 && index === 0) {
+                            return (
+                            <PageItem 
+                                key={`pageItem-${index}`}
+                                className={(this.state.actualPageNumber === index+1) ? "active" : ""}
+                                onClick={this.updatePage.bind(this, index+1)}
+                                >
+                                <PageLink key={`pageLink-${index}`} className="page-link">
+                                    {index + 1}
+                                </PageLink>
+                            </PageItem>
+                            )
+                        }
+                        else if (index + 1 === pageNumber + 3 || index + 1 === pageNumber - 3) return <span>  ...  </span>
+                        else if (!index === numberOfPages - 1 && index + 1 > pageNumber + 3 || index + 1 < pageNumber - 3) return null;
+                        else if (pageNumber < numberOfPages - 3  && index === numberOfPages - 1) {
+                            return (
+                                <PageItem 
+                                    key={`pageItem-${index}`}
+                                    className={(this.state.actualPageNumber === index+1) ? "active" : ""}
+                                    onClick={this.updatePage.bind(this, index+1)}
+                                    >
+                                    <PageLink key={`pageLink-${index}`} className="page-link">
+                                        {index + 1}
+                                    </PageLink>
+                                </PageItem>
+                                )
+                        }
+                        else {
+                            return (
+                            <PageItem 
+                                key={`pageItem-${index}`}
+                                className={(this.state.actualPageNumber === index+1) ? "active" : ""}
+                                onClick={this.updatePage.bind(this, index+1)}
+                                >
+                                <PageLink key={`pageLink-${index}`} className="page-link">
+                                    {index + 1}
+                                </PageLink>
+                            </PageItem>
+                            )
+                        }
+                    } else {
+                        return (
                         <PageItem 
                             key={`pageItem-${index}`}
                             className={(this.state.actualPageNumber === index+1) ? "active" : ""}
@@ -146,6 +192,7 @@ class ClientList extends Component {
                             </PageLink>
                         </PageItem>
                         )
+                    }
                 })}
             </React.Fragment>
         );

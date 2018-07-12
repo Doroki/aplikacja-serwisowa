@@ -16,6 +16,7 @@ class ComplainList extends Component {
             dataSortMethod: "",
             dataSortBy: "",
 
+            showUpdated: null
         };
     }
 
@@ -32,11 +33,10 @@ class ComplainList extends Component {
         }).then(res => res.json())
           .then(res => {    
               if(res.update) {
-                  console.log(this)
                   this.fetchData();
-                //   this.setState({PopMessage: "Dobra robota! Zgłoszenie zostało pomyślnie wysłane", dataSend: true})
+                  this.setState({showUpdated: true});
                 } else {
-                    // this.setState({PopMessage: "Coś poszło nie tak! Nire udało się wysłać zgłoszenia", dataSend: false})
+                    this.setState({showUpdated: false});
                 }
             })
     }
@@ -56,11 +56,13 @@ class ComplainList extends Component {
             }
         }
 
-        this.fetchData(queryString)
+        this.fetchData(queryString);
     }
 
     getDirectData(data) {
         if(typeof data !== "object") return {};
+
+        this.setState({showUpdated: null});
 
         return [
             {title: "Nr reklamacji:", content: data.id_reklamacja},
@@ -111,12 +113,14 @@ class ComplainList extends Component {
                 this.setState({
                     data: resp.data,
                     dataKeys: dataKeys,
-                    pages: pagesArr
+                    pages: pagesArr,
+                    actualPageNumber: 1
                 })
             } else {
                 this.setState({
                     data: [],
-                    pages: []
+                    pages: [],
+                    actualPageNumber: 1
                 })
             }
             
@@ -185,7 +189,8 @@ class ComplainList extends Component {
                 <SearchForm 
                     elements = {["Nr Reklamacji", "Nr złoszenia", "Nr klienta", "Firma", "Status"]}
                     onSubmitSearch = {this.findData.bind(this)}
-                    dataKeys={this.state.dataKeys}/>
+                    dataKeys={this.state.dataKeys}
+                    />
                 <Table 
                     headings = {["Nr Reklamacji", "Nr złoszenia", "Nr klienta", "Firma", "Status", "Data"]} 
                     onHeadingClick={this.sortData.bind(this)} 
@@ -193,8 +198,9 @@ class ComplainList extends Component {
                     sortMethod = {this.state.dataSortMethod} 
                     dataKeys = {this.state.dataKeys}
                     data = {this.loadData()}
-                    fetchData = {this.getDirectData} 
+                    fetchData = {this.getDirectData.bind(this)} 
                     editable={true}
+                    updated={this.state.showUpdated}
                     onSaveData={this.saveModalData.bind(this)}
                 />
                 <Pagination className="justify-content-center">

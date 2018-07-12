@@ -76,3 +76,16 @@
 .side-navbar .collapsed {
     widows: 200px;
 }
+
+@media (max-width: 1300px) {
+    .side-navbar {
+        position: absolute;
+        z-index: 2000;
+        margin-left: -100%;
+        transition: margin-left .3s linear;
+    }
+
+    .hidden {
+        margin-left: 0;
+    }
+}

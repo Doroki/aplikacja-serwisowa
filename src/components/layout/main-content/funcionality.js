@@ -19,12 +19,31 @@ class FuncionalityList extends Component {
     }
 
     saveModalData(obj) {
-        console.log(obj)
+        const objToSend = obj;
+        objToSend.tabel = "funkcjonalnosc";
+
+        fetch('http://localhost:8080/api/update-notification', {
+            method: "POST",
+            body: JSON.stringify(obj),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(res => res.json())
+          .then(res => {    
+              if(res.update) {
+                  this.fetchData();
+                  this.setState({showUpdated: true});
+                } else {
+                    this.setState({showUpdated: false});
+                }
+            })
     }
 
     getDirectData(data) {
         if(typeof data !== "object") return {};
 
+        this.setState({showUpdated: null});
+        
         return [
             {title: "Nr zgłoszenia funkcjonalności:", content: data.id_funkcjonalnosc},
             {title: "Nr klienta:", content: data.id_klienta},
@@ -51,7 +70,7 @@ class FuncionalityList extends Component {
             }
         }
 
-        this.fetchData(queryString)
+        this.fetchData(queryString);
     }
 
     sortData(key = 0) {
@@ -91,12 +110,14 @@ class FuncionalityList extends Component {
                 this.setState({
                     data: resp.data,
                     dataKeys: dataKeys,
-                    pages: pagesArr
+                    pages: pagesArr,
+                    actualPageNumber: 1
                 })
             } else {
                 this.setState({
                     data: [],
-                    pages: []
+                    pages: [],
+                    actualPageNumber: 1
                 })
             }
             
@@ -172,9 +193,10 @@ class FuncionalityList extends Component {
                     sortMethod = {this.state.dataSortMethod} 
                     dataKeys = {this.state.dataKeys}
                     data = {this.loadData()}
-                    fetchData = {this.getDirectData} 
+                    fetchData = {this.getDirectData.bind(this)} 
                     editable={true}
-                    onSaveData={this.saveModalData}
+                    updated={this.state.showUpdated}
+                    onSaveData={this.saveModalData.bind(this)}
                 />
                 <Pagination className="justify-content-center">
                     

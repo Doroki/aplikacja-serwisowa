@@ -29,9 +29,14 @@ class Admin extends Component {
 
     this.state = {
       tasks: [],
-      actualSubsite: 0
+      actualSubsite: 0,
+      menuOpen: false
     }
     
+  }
+
+  menuToggle() {
+    this.setState({menuOpen: !this.state.menuOpen});
   }
 
   logout() {
@@ -42,7 +47,7 @@ class Admin extends Component {
   render() {
     return (
         <div className="App d-flex h-100 w-100">
-          <SideNavbar>
+          <SideNavbar smallScreenHidden={this.state.menuOpen} menuToggle={this.menuToggle.bind(this)} menuOpen={this.state.menuOpen}>
             <h1 className='container-logo'><img className='logo' src='../img/Logo.png' alt='' /><span>SERVICE</span></h1>
             <Link to="/admin-panel/">Strona główna</Link>
             <Link to="/admin-panel/nowe-zgloszenie">Nowe zgłoszenie</Link>
@@ -51,8 +56,9 @@ class Admin extends Component {
             <Link to="/admin-panel/lista-funkcjonalności">Lista Funkcjonalności</Link>
             <Link to="/admin-panel/client-list">Lista Klientów</Link>
           </SideNavbar>
-          <section className="container-fluid p-0">
-            <Navbar>
+          <section className={(this.state.menuOpen) ? "container-fluid p-0 wrapper fade-wrapper": "container-fluid p-0 wrapper"} 
+                   onClick={(this.state.menuOpen) ? this.menuToggle.bind(this) : null}>
+            <Navbar menuToggle={this.menuToggle.bind(this)}>
               <TaskButton tasks={this.state.tasks} />
               <DropDownButton>
                 <DropdownItem onClick={this.logout.bind(this)} > Wyloguj </DropdownItem>
