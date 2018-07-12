@@ -8,7 +8,12 @@ class Table extends Component {
 
         this.state = {
             modal: false,
-            modalContent: []
+            modalContent: [],
+
+            notification: 0,
+            selectValue: "",
+            userTextArea: "",
+            adminInfo: ""
         }
 
         this.toggle = this.toggle.bind(this);
@@ -18,6 +23,10 @@ class Table extends Component {
     toggle(data) {
         this.setState({
           modal: !this.state.modal,
+          notification: 0,
+          selectValue: null,
+          userTextArea: null,
+          adminInfo: null
         });
 
         if(typeof data === "object") {
@@ -76,7 +85,7 @@ class Table extends Component {
         let filledRow = [];
         
         for (const key in data) {
-            if(key === "tresc") continue;
+            if(key === "tresc" || key === "adres" || key === "e_mail") continue;
             if (data.hasOwnProperty(key)) {
                 let element = data[key];
                 if(/^data*/g.test(key)) element = data[key].split("T")[0];
@@ -95,7 +104,7 @@ class Table extends Component {
         if(this.state.modalContent.length <= 0) return; 
 
         const modalContent = this.state.modalContent;
-        
+
 
         return (
             <React.Fragment>
@@ -103,17 +112,48 @@ class Table extends Component {
                     (
                         (this.props.editable && modalContent[index].title === "Stan zgłoszenia:")
                         ?
-                            <select value={modalContent[index].content}>
-                                <option value="Przyjęto">Przyjęto</option>
-                                <option value="W realizacji">W realizacji</option>
-                                <option value="Zrealizowano">Zrealizowano</option>
-                            </select>
+                            (<div key={index} className="modal__info">
+                                <label className="modal__title">{modalContent[index].title}</label>
+                                <select 
+                                    value={this.state.selectValue || modalContent[index].content} 
+                                    className="modal__context"
+                                    onChange={(e) => this.setState({selectValue: e.target.value})}
+                                >
+                                    <option value="Przyjęto">Przyjęto</option>
+                                    <option value="W realizacji">W realizacji</option>
+                                    <option value="Zrealizowano">Zrealizowano</option>
+                                </select>
+                            </div>)
                         :
                         (modalContent[index].title === "Treść zgłoszenia:" || modalContent[index].title === "Uwagi serwisowe:")
                         ?
                             (<div key={index} className="modal__info">
                                 <label className="modal__title">{modalContent[index].title}</label>
-                                <textarea className="modal__context modal__textarea" value={modalContent[index].content} disabled={(this.props.editable) ? false : true}/>
+                                <textarea 
+                                    className="modal__context modal__textarea" 
+                                    value={this.state.userTextArea || modalContent[index].content} 
+                                    disabled={(this.props.editable) ? false : true}
+                                    onChange={(e) => 
+                                        (modalContent[index].title === "Treść zgłoszenia:")
+                                        ?
+                                        this.setState({userTextArea: e.target.value})
+                                        :
+                                        this.setState({selectValue: e.target.value})}
+                                />
+
+                                {(this.props.editable && index >= modalContent.length-1) ? 
+                                <button
+                                    className=""
+                                    onClick={() => this.props.onSaveData({
+                                        notification: modalContent[0].content,
+                                        status: this.state.selectValue,
+                                        text: this.state.userTextArea,
+                                        info: this.state.adminInfo
+                                    })}
+                                >
+                                    Zapisz
+                                </button> 
+                                : ""}
                             </div>)
                         :
                             (<div key={index} className="modal__info">
@@ -131,7 +171,9 @@ class Table extends Component {
             <div className="card custom-table">
                 <Container>
                     <Modal isOpen={this.state.modal} toggle={this.toggle}>
-                    <ModalHeader toggle={this.toggle}><span className="modal__header">Zgłoszenie</span></ModalHeader>
+                    <ModalHeader toggle={this.toggle}>
+                        <span className="modal__header">Zgłoszenie</span>
+                    </ModalHeader>
                         <ModalBody>
                             {this.createModalContent()}
                         </ModalBody>

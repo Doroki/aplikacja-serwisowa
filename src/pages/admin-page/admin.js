@@ -28,7 +28,8 @@ class Admin extends Component {
     super(props);
 
     this.state = {
-      tasks: []
+      tasks: [],
+      actualSubsite: 0
     }
     
   }

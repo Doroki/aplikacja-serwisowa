@@ -14,8 +14,31 @@ class ComplainList extends Component {
             pages: [],
             actualPageNumber: 1,
             dataSortMethod: "",
-            dataSortBy: ""
+            dataSortBy: "",
+
         };
+    }
+
+    saveModalData(obj) {
+        const objToSend = obj;
+        objToSend.tabel = "reklamacje";
+
+        fetch('http://localhost:8080/api/update-notification', {
+            method: "POST",
+            body: JSON.stringify(obj),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(res => res.json())
+          .then(res => {    
+              if(res.update) {
+                  console.log(this)
+                  this.fetchData();
+                //   this.setState({PopMessage: "Dobra robota! Zgłoszenie zostało pomyślnie wysłane", dataSend: true})
+                } else {
+                    // this.setState({PopMessage: "Coś poszło nie tak! Nire udało się wysłać zgłoszenia", dataSend: false})
+                }
+            })
     }
 
     
@@ -34,6 +57,21 @@ class ComplainList extends Component {
         }
 
         this.fetchData(queryString)
+    }
+
+    getDirectData(data) {
+        if(typeof data !== "object") return {};
+
+        return [
+            {title: "Nr reklamacji:", content: data.id_reklamacja},
+            {title: "Nr klienta:", content: data.id_klienta},
+            {title: "Firma:", content: data.firma},
+            {title: "Reklamacja do sprawy nr:", content: data.zgloszenie},
+            {title: "Stan zgłoszenia:", content: data.stan_reklamacji},
+            {title: "Data Reklamacji:", content: data.data_reklamacji},
+            {title: "Treść zgłoszenia:", content: data.tresc}
+            // {title: "Adres:", content: data.adres}
+        ]
     }
 
     sortData(key = 0) {
@@ -155,6 +193,9 @@ class ComplainList extends Component {
                     sortMethod = {this.state.dataSortMethod} 
                     dataKeys = {this.state.dataKeys}
                     data = {this.loadData()}
+                    fetchData = {this.getDirectData} 
+                    editable={true}
+                    onSaveData={this.saveModalData.bind(this)}
                 />
                 <Pagination className="justify-content-center">
 

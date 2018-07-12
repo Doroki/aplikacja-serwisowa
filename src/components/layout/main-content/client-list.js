@@ -84,6 +84,20 @@ class ClientList extends Component {
         });
     }
 
+    getDirectData(data) {
+        if(typeof data !== "object") return {};
+
+        return [
+            {title: "Nr Klienta:", content: data.id_klienta},
+            {title: "Firma:", content: data.firma},
+            {title: "NIP:", content: data.nip},
+            {title: "Nr tel.:", content: data.nr_tel},
+            {title: "Kupiony program:", content: data.program},
+            {title: "E-mail:", content: data.e_mail},
+            {title: "Adres:", content: data.adres}
+        ]
+    }
+
     componentDidMount() {
         this.fetchData();
     }
@@ -147,12 +161,13 @@ class ClientList extends Component {
                     dataKeys={this.state.dataKeys}
                     />
                 <Table
-                    headings = {["Nr klienta", "Firma", "NIP", "Nr tel.", "Program", "E-mail"]}
+                    headings = {["Nr klienta", "Firma", "NIP", "Nr tel.", "Program"]}
                     onHeadingClick={this.sortData.bind(this)} 
                     sortBy = {this.state.dataSortBy}
                     sortMethod = {this.state.dataSortMethod} 
                     dataKeys = {this.state.dataKeys}
                     data = {this.loadData()}
+                    fetchData = {this.getDirectData} 
                 />
                 <Pagination className="justify-content-center">
                     

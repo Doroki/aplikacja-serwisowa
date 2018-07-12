@@ -18,6 +18,24 @@ class FuncionalityList extends Component {
         };
     }
 
+    saveModalData(obj) {
+        console.log(obj)
+    }
+
+    getDirectData(data) {
+        if(typeof data !== "object") return {};
+
+        return [
+            {title: "Nr zgłoszenia funkcjonalności:", content: data.id_funkcjonalnosc},
+            {title: "Nr klienta:", content: data.id_klienta},
+            {title: "Firma:", content: data.firma},
+            {title: "Oprogramowanie:", content: data.program},
+            {title: "Stan zgłoszenia:", content: data.stan_funkcjonalnosc},
+            {title: "Data Zagłoszenia:", content: data.data_funkcjonalnosc},
+            {title: "Treść zgłoszenia:", content: data.tresc}
+            // {title: "Adres:", content: data.adres}
+        ]
+    }
     
     findData(dataObj) {
         let queryString = "?";
@@ -154,6 +172,9 @@ class FuncionalityList extends Component {
                     sortMethod = {this.state.dataSortMethod} 
                     dataKeys = {this.state.dataKeys}
                     data = {this.loadData()}
+                    fetchData = {this.getDirectData} 
+                    editable={true}
+                    onSaveData={this.saveModalData}
                 />
                 <Pagination className="justify-content-center">
                     

@@ -71,6 +71,7 @@ th.dsc::before {
 .modal__context {
     font-weight: 300;
     font-size: 1.1em;
+    display: block;
 }
 
 .modal__textarea {
