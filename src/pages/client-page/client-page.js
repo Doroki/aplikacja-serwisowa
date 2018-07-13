@@ -425,6 +425,7 @@ class ClientPage extends Component {
                                 </Row>
                                 <Row>
                                     <Table
+                                        scrollableY={true}
                                         fetchData = {this.getDirectData} 
                                         headings = {["Typ złoszenia", "Nr zgłoszniea", "Stan", "Data"]} 
                                         data = {this.state.clientData} 

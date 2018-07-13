@@ -134,6 +134,11 @@ th.dsc::before {
 }
 
 
+@media (max-width: 767.98px) {
+    .custom-table {
+        width: unset;
+    }
+}
 
 @media (max-width: 500px) {
     .custom-table {

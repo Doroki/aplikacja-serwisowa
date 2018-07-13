@@ -136,7 +136,7 @@ class ClientList extends Component {
     render() {
         return (
             <div>
-                <h2 className="header"> Zapotrzebowanie na nowe funkcjonalności </h2>
+                <h2 className="header"> Lista Klientów </h2>
                 <SearchForm 
                     elements = {["Nr klienta", "Firma", "NIP", "Nr tel.", "Program"]}
                     onSubmitSearch = {this.findData.bind(this)}

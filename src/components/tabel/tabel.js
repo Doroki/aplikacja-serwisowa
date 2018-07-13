@@ -200,7 +200,7 @@ class Table extends Component {
                             {this.createModalContent()}
                         </ModalBody>
                     </Modal>
-                <div className="card-body">    
+                <div className={(this.props.scrollableY) ? "card-body table-scroll-y" : "card-body"}>
                     <table className="table table-hover table-responsive-md">
                         {/* {Table header} */}
                         <thead>
