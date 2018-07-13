@@ -81,16 +81,18 @@ class DefaultContent extends Component {
                         }
                     ]}
                 />
-                <Card>
-                    <CardBody>
-                        <CardTitle>Podsumowanie tegorocznych zgłoszen:</CardTitle>
-                        <CardText>
-                            <p>Liczba zgłoszen reklamacji: {this.sumData(this.state.chartData.complains)}</p>
-                            <p>Liczba zgłoszen awarii: {this.sumData(this.state.chartData.issues)}</p>
-                            <p>Liczba zgłoszen funkcjonalności: {this.sumData(this.state.chartData.functionalities)}</p>
-                        </CardText>
-                    </CardBody>
-                </Card>
+                <div className="cards-wrapper statistics">
+                    <Card>
+                        <CardBody>
+                            <CardTitle>Podsumowanie tegorocznych zgłoszen:</CardTitle>
+                            <CardText>
+                                <p>Liczba zgłoszen reklamacji: {this.sumData(this.state.chartData.complains)}</p>
+                                <p>Liczba zgłoszen awarii: {this.sumData(this.state.chartData.issues)}</p>
+                                <p>Liczba zgłoszen funkcjonalności: {this.sumData(this.state.chartData.functionalities)}</p>
+                            </CardText>
+                        </CardBody>
+                    </Card>
+                </div>
            </div>
         );
     }

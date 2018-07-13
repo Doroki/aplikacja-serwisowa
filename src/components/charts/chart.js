@@ -16,29 +16,7 @@ class Chart extends React.Component {
 
     this.state = {
       labels: ['Styczen', 'Luty', 'Marzec', 'Kwiecien', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpien', 'Wrzesien', 'Październik', 'Listopad', 'Grudzien'],
-      datasets: [
-        {
-          label: 'Wykres',
-          fill: false,
-          lineTension: 0.1,
-          backgroundColor: '#848484',
-          borderColor: '#848484',
-          borderCapStyle: 'butt',
-          borderDash: [],
-          borderDashOffset: 0.0,
-          borderJoinStyle: 'miter',
-          pointBorderColor: '#848484',
-          pointBackgroundColor: '#fff',
-          pointBorderWidth: 1,
-          pointHoverRadius: 5,
-          pointHoverBackgroundColor: '#848484',
-          pointHoverBorderColor: 'rgba(220,220,220,1)',
-          pointHoverBorderWidth: 2,
-          pointRadius: 1,
-          pointHitRadius: 10,
-          data: [65, 59, 80, 81, 56, 55, 40]
-        }
-      ]
+      datasets: []
     };
   }
 
@@ -51,7 +29,6 @@ class Chart extends React.Component {
     if(!this.props.data) return;
 
     let dataForChart = this.props.data.map((data, index) => {
-      console.log(data.body)
       return {
         label: data.label,
         fill: false,

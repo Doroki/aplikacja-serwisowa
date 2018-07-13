@@ -51,8 +51,8 @@ class FuncionalityList extends Component {
             {title: "Oprogramowanie:", content: data.program},
             {title: "Stan zgłoszenia:", content: data.stan_funkcjonalnosc},
             {title: "Data Zagłoszenia:", content: data.data_funkcjonalnosc},
-            {title: "Treść zgłoszenia:", content: data.tresc}
-            // {title: "Adres:", content: data.adres}
+            {title: "Treść zgłoszenia:", content: data.tresc},
+            {title: "Uwagi serwisowe:", content: data.uwagi}
         ]
     }
     

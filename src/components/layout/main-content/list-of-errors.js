@@ -51,8 +51,8 @@ class ErrorList extends Component {
             {title: "Oprogramowanie:", content: data.program},
             {title: "Stan zgłoszenia:", content: data.stan_zgloszenia},
             {title: "Data zgłoszenia:", content: data.data_zgloszenia},
-            {title: "Treść zgłoszenia:", content: data.tresc}
-            // {title: "Adres:", content: data.adres}
+            {title: "Treść zgłoszenia:", content: data.tresc},
+            {title: "Uwagi serwisowe:", content: data.uwagi}
         ]
     }
 

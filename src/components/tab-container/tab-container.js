@@ -38,7 +38,7 @@ const TabList = (props) => {
 
 const TabBody = (props) => {
     return (
-        <div class="contact__content content z-depth-2 w-100">
+        <div class="contact__content content z-depth-2">
             <div class="content__form" id="form-list">
                 {props.children}
             </div>

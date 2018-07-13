@@ -85,7 +85,7 @@ class Table extends Component {
         let filledRow = [];
         
         for (const key in data) {
-            if(key === "tresc" || key === "adres" || key === "e_mail") continue;
+            if(key === "tresc" || key === "uwagi" || key === "adres" || key === "e_mail") continue;
             if (data.hasOwnProperty(key)) {
                 let element = data[key];
                 if(/^data*/g.test(key)) element = data[key].split("T")[0];
@@ -125,9 +125,9 @@ class Table extends Component {
                                 </select>
                             </div>)
                         :
-                        (modalContent[index].title === "Treść zgłoszenia:" || modalContent[index].title === "Uwagi serwisowe:")
+                        (modalContent[index].title === "Treść zgłoszenia:")
                         ?
-                            (<div key={index} className="modal__info">
+                            (<div key={index} className="modal__info d-flex flex-column">
                                 <label className="modal__title">{modalContent[index].title}</label>
                                 <textarea 
                                     className="modal__context modal__textarea" 
@@ -140,10 +140,27 @@ class Table extends Component {
                                         :
                                         this.setState({selectValue: e.target.value})}
                                 />
+                            </div>)
+                        :    
+                        (modalContent[index].title === "Uwagi serwisowe:")
+                        ?
+                        (<div key={index} className="modal__info d-flex flex-column">
+                            <label className="modal__title">{modalContent[index].title}</label>
+                            <textarea 
+                                className="modal__context modal__textarea" 
+                                value={this.state.adminInfo || modalContent[index].content} 
+                                disabled={(this.props.editable) ? false : true}
+                                onChange={(e) => 
+                                    (modalContent[index].title === "Uwagi serwisowe:")
+                                    ?
+                                    this.setState({adminInfo: e.target.value})
+                                    :
+                                    this.setState({selectValue: e.target.value})}
+                            />
 
                                 {(this.props.editable && index >= modalContent.length-1) ? 
                                 <button
-                                    className=""
+                                    className="btn btn-primary btn-sm"
                                     onClick={() => this.props.onSaveData({
                                         notification: modalContent[0].content,
                                         status: this.state.selectValue,

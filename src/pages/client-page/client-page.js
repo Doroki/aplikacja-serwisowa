@@ -5,7 +5,7 @@ import {Tab, TabBody, TabContainer, TabList, TabPanel} from '../../components/ta
 import {Form, Row, Input, Select, Textarea, Submit} from '../../components/forms/form-components/form-components';
 import PopUp from '../../components/pop-up-info/pop-up';
 import Table from "../../components/tabel/tabel";
-import {Pagination, PageItem, PageLink} from "mdbreact"
+import CustomPagination from "../../components/pagination/pagination";
 import SearchForm from "../../components/forms/search-form/search-form";
 
 class ClientPage extends Component {
@@ -65,7 +65,6 @@ class ClientPage extends Component {
     }
 
     fetchData(extraValue) {
-        console.log("działa")
         fetch(`http://localhost:8080/api/client-issues${(extraValue) ? `${extraValue}` : ""}`)
         .then(response => response.json())
         .then(resp => {
@@ -120,43 +119,21 @@ class ClientPage extends Component {
         this.setState({actualPageNumber: indexValue});
     }
 
-
-    createPages() {
-        return (
-            <React.Fragment>
-                {this.state.pages.map((page, index) => {
-                    return (
-                        <PageItem 
-                            key={`pageItem-${index}`}
-                            className={(this.state.actualPageNumber === index+1) ? "active" : ""}
-                            onClick={this.updatePage.bind(this, index+1)}
-                            >
-                            <PageLink key={`pageLink-${index}`} className="page-link">
-                                {index + 1}
-                            </PageLink>
-                        </PageItem>
-                        )
-                })}
-            </React.Fragment>
-        );
-    };
-
     getDirectData(data) {
         if(typeof data !== "object") return {};
         let id;
         let stan;
         let dataZgłoszenia;
-
         switch(data.type) {
             case 'Awaria':
                 id = data.id_zgloszenia;
                 stan = data.stan_zgloszenia;
                 dataZgłoszenia = data.data_zgloszenia;
-                break;
+            break;
             case 'Reklamacja':
-                id = data.id_reklamancja;
-                stan = data.stan_reklamancja;
-                dataZgłoszenia = data.data_reklamancja;
+                id = data.id_reklamacja;
+                stan = data.stan_reklamacji;
+                dataZgłoszenia = data.data_reklamacji;
                 break;
             case 'Funkcjonalność':
                 id = data.id_funkcjonalnosc;
@@ -169,16 +146,20 @@ class ClientPage extends Component {
             {title: "ID zgłoszenia:", content: id},
             {title: "Stan zgłoszenia:", content: stan},
             {title: "Data zgłoszenia:", content: dataZgłoszenia},
-            {title: "Treść zgłoszenia:", content: data.tresc}
+            {title: "Treść zgłoszenia:", content: data.tresc},
+            {title: "Uwagi serwisowe:", content: data.uwagi}
         ] :
         [
-            {title: "Treść zgłoszenia:", content: data.tresc}
+            {title: "Treść zgłoszenia:", content: data.tresc},
+            {title: "Uwagi serwisowe:", content: data.uwagi}
         ]
     }
 
     selectTab(e) {
         e.preventDefault();
         if(e.target.localName !== "a") return;
+        if(e.target.dataset.targetTab === "5") this.fetchData();
+        if(e.target.dataset.targetTab === "4") this.getNotifications();
         this.setState({activeTab: e.target.dataset.targetTab});
     }
 
@@ -260,7 +241,7 @@ class ClientPage extends Component {
                 this.clearForm();
                 this.setState({PopMessage: "Dobra robota! Zgłoszenie zostało pomyślnie wysłane", dataSend: true})
             } else {
-                this.setState({PopMessage: "Coś poszło nie tak! Nire udało się wysłać zgłoszenia", dataSend: false})
+                this.setState({PopMessage: "Coś poszło nie tak! Nire udało się wysłać zgłoszenia, Być może podałeś ZŁY NUMER ZGŁOSZENIA", dataSend: false})
             }
         })
     }
@@ -271,7 +252,7 @@ class ClientPage extends Component {
             .then(res => {    
                 if(res) {
                     let dataToDisplay = [];
-                    dataToDisplay = [...res.data.complains, ...res.data.issues, res.data.functionalities];
+                    dataToDisplay = [...res.data.complains, ...res.data.issues, ...res.data.functionalities];
                     this.setState({clientData: dataToDisplay});
                 } 
             })
@@ -392,7 +373,7 @@ class ClientPage extends Component {
                                     <Textarea label="Opisz problem:" col="30" row="12" onChangeField={this.setFormData.bind(this)} target="text" value={this.state.text}/>
                                 </Row>     
                                 <Row>
-                                    <Submit value="Wyślij" onAccept={this.sendNotification.bind(this)} type="funkcjonalnosc"/>
+                                    <Submit value="Wyślij" onAccept={this.sendNotification.bind(this)} type="reklamacja"/>
                                 </Row>      
                             </Form>   
                         </TabPanel>
@@ -465,10 +446,12 @@ class ClientPage extends Component {
                                         data = {this.loadData()} 
                                     />
                                 </Row>
-                                <Row>
-                                    <Pagination className="d-flex w-100 justify-content-center">
-                                        {this.createPages()}    
-                                    </Pagination>      
+                                <Row className="row d-flex justify-content-center">
+                                    <CustomPagination
+                                        actualPageNumber={this.state.actualPageNumber}
+                                        updatePage={this.updatePage.bind(this)}
+                                        pages={this.state.pages}
+                                    />    
                                 </Row>   
                             </Form>   
                         </TabPanel>
