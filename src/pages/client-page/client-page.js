@@ -5,6 +5,8 @@ import {Tab, TabBody, TabContainer, TabList, TabPanel} from '../../components/ta
 import {Form, Row, Input, Select, Textarea, Submit} from '../../components/forms/form-components/form-components';
 import PopUp from '../../components/pop-up-info/pop-up';
 import Table from "../../components/tabel/tabel";
+import CustomPagination from "../../components/pagination/pagination";
+import SearchForm from "../../components/forms/search-form/search-form";
 
 class ClientPage extends Component {
     constructor(props) {
@@ -17,14 +19,22 @@ class ClientPage extends Component {
             dropdownOpen: false,
             dataSend: null,
             PopMessage: "",
-            data: "",
+            clientData: "",
             
             //Data to send
             id: this.props.userID,
             issueNubmer: "",
             program: "",
             category: "",
-            text: ""
+            text: "",
+
+            data: [],
+            dataKeys: [],
+            pages: [],
+            actualPageNumber: 1,
+            dataSortMethod: "",
+            dataSortBy: ""
+
         }
         
         this.toggle = this.toggle.bind(this);
@@ -37,22 +47,93 @@ class ClientPage extends Component {
         });
     };
 
+    findData(dataObj) {
+        let queryString = "?";
+
+        for (const key in dataObj) {
+            if (dataObj.hasOwnProperty(key)) {
+                const element = dataObj[key];
+                if(queryString === "?"){
+                    queryString += key + "=" + element;
+                } else {
+                    queryString += "&" + key + "=" + element;
+                }
+            }
+        }
+
+        this.fetchData(queryString)
+    }
+
+    fetchData(extraValue) {
+        fetch(`http://localhost:8080/api/client-issues${(extraValue) ? `${extraValue}` : ""}`)
+        .then(response => response.json())
+        .then(resp => {
+            if (resp.data.length > 0) {
+                let data = resp.data;
+                let pagesArr = this.splitDataToPages(data);
+
+                this.setState({
+                    data: resp.data,
+                    pages: pagesArr
+                })
+            } else {
+                this.setState({
+                    data: [],
+                    pages: []
+                })
+            }
+            
+        });
+    }
+
+    componentDidMount() {
+        this.getNotifications();
+        this.fetchData();
+    }
+
+    splitDataToPages(data) { // Split saved data to pages for condition - there is more data objects than 10
+        if(!data || data < 11) return;
+        let mappingIterator = -1; // iterator created to help designate index of new page (Array)
+        let pageArray = [];
+
+        data.map(dataItem => {
+            if(data.indexOf(dataItem) % 10 === 0) { // With every 5th element create new Page/Array and push it to main Array with index of iterator
+                mappingIterator++; 
+                const newPage = [];
+                pageArray.push(newPage);
+                pageArray[mappingIterator].push(dataItem);
+            } else {
+                pageArray[mappingIterator].push(dataItem);
+            }
+        });
+
+        return pageArray;
+    };
+
+    loadData() {
+        let index = this.state.actualPageNumber - 1;
+        return this.state.pages[index];
+    }
+
+    updatePage(indexValue) {
+        this.setState({actualPageNumber: indexValue});
+    }
+
     getDirectData(data) {
         if(typeof data !== "object") return {};
         let id;
         let stan;
         let dataZgłoszenia;
-
         switch(data.type) {
             case 'Awaria':
                 id = data.id_zgloszenia;
                 stan = data.stan_zgloszenia;
                 dataZgłoszenia = data.data_zgloszenia;
-                break;
+            break;
             case 'Reklamacja':
-                id = data.id_reklamancja;
-                stan = data.stan_reklamancja;
-                dataZgłoszenia = data.data_reklamancja;
+                id = data.id_reklamacja;
+                stan = data.stan_reklamacji;
+                dataZgłoszenia = data.data_reklamacji;
                 break;
             case 'Funkcjonalność':
                 id = data.id_funkcjonalnosc;
@@ -60,18 +141,24 @@ class ClientPage extends Component {
                 dataZgłoszenia = data.data_funkcjonalnosc;
                 break;
         }
-        return [
+        return (id) ? [
             {title: "Typ zgłoszenia:", content: data.type},
             {title: "ID zgłoszenia:", content: id},
             {title: "Stan zgłoszenia:", content: stan},
             {title: "Data zgłoszenia:", content: dataZgłoszenia},
-            {title: "Treść zgłoszenia:", content: data.tresc}
+            {title: "Treść zgłoszenia:", content: data.tresc},
+        ] :
+        [
+            {title: "Treść zgłoszenia:", content: data.tresc},
+            {title: "Uwagi serwisowe:", content: data.uwagi}
         ]
     }
 
     selectTab(e) {
         e.preventDefault();
         if(e.target.localName !== "a") return;
+        if(e.target.dataset.targetTab === "5") this.fetchData();
+        if(e.target.dataset.targetTab === "4") this.getNotifications();
         this.setState({activeTab: e.target.dataset.targetTab});
     }
 
@@ -153,7 +240,7 @@ class ClientPage extends Component {
                 this.clearForm();
                 this.setState({PopMessage: "Dobra robota! Zgłoszenie zostało pomyślnie wysłane", dataSend: true})
             } else {
-                this.setState({PopMessage: "Coś poszło nie tak! Nire udało się wysłać zgłoszenia", dataSend: false})
+                this.setState({PopMessage: "Coś poszło nie tak! Nire udało się wysłać zgłoszenia, Być może podałeś ZŁY NUMER ZGŁOSZENIA", dataSend: false})
             }
         })
     }
@@ -164,15 +251,12 @@ class ClientPage extends Component {
             .then(res => {    
                 if(res) {
                     let dataToDisplay = [];
-                    dataToDisplay = [...res.data.complains, ...res.data.issues, res.data.functionalities];
-                    this.setState({data: dataToDisplay});
+                    dataToDisplay = [...res.data.complains, ...res.data.issues, ...res.data.functionalities];
+                    this.setState({clientData: dataToDisplay});
                 } 
             })
     }
 
-    componentDidMount() {
-        this.getNotifications();
-    }
 
     showPopUp() {
         if(this.state.dataSend === true) {
@@ -287,7 +371,7 @@ class ClientPage extends Component {
                                     <Textarea label="Opisz problem:" col="30" row="12" onChangeField={this.setFormData.bind(this)} target="text" value={this.state.text}/>
                                 </Row>     
                                 <Row>
-                                    <Submit value="Wyślij" onAccept={this.sendNotification.bind(this)} type="funkcjonalnosc"/>
+                                    <Submit value="Wyślij" onAccept={this.sendNotification.bind(this)} type="reklamacje"/>
                                 </Row>      
                             </Form>   
                         </TabPanel>
@@ -338,12 +422,12 @@ class ClientPage extends Component {
                                     <Input id="3" label="ID kienta:" value={this.state.id} disabled />
                                 </Row>
                                 <Row>
-                                <Table
-                                    modal={true}
-                                    fetchData = {this.getDirectData} 
-                                    headings = {["Typ złoszenia", "Nr zgłoszniea", "Stan", "Data"]} 
-                                    data = {this.state.data} 
-                                />
+                                    <Table
+                                        modal={true}
+                                        fetchData = {this.getDirectData} 
+                                        headings = {["Typ złoszenia", "Nr zgłoszniea", "Stan", "Data"]} 
+                                        data = {this.state.clientData} 
+                                    />
                                 </Row>      
                             </Form>   
                         </TabPanel>
