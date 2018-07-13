@@ -1,7 +1,8 @@
-import React, {Comment} from "react";
+import React, {Component} from "react";
 import {Pagination, PageItem, PageLink} from "mdbreact"
+import "../pagination/pagination.css";
 
-class CustomPagination extends Comment {
+class CustomPagination extends Component {
     constructor(props) {
         super(props)
 
@@ -16,9 +17,12 @@ class CustomPagination extends Comment {
     }
 
     createLongPagination() {
+        const numberOfPages = this.props.pages.length;
+        const pageNumber = this.state.actualPageNumber;
+
         return (
             <React.Fragment>
-                {this.state.pages.map((page, index) => {
+                {this.props.pages.map((page, index) => {
                         if (pageNumber > 3 && index === 0) {
                             return (
                             <PageItem 
@@ -32,9 +36,10 @@ class CustomPagination extends Comment {
                             </PageItem>
                             )
                         }
-                        else if (index + 1 === pageNumber + 3 || index + 1 === pageNumber - 3) return <span>  ...  </span>
-                        else if (!index === numberOfPages - 1 && index + 1 > pageNumber + 3 || index + 1 < pageNumber - 3) return null;
-                        else if (pageNumber < numberOfPages - 3  && index === numberOfPages - 1) {
+                        else if (!(index === numberOfPages - 1) && index + 1 === pageNumber + 3 || index + 1 === pageNumber - 3) return <span className="dotted-pagination">  ...  </span>
+                        else if (!(index === numberOfPages - 1) && index + 1 > pageNumber + 3 || index + 1 < pageNumber - 3) return null;
+                        else if (pageNumber > numberOfPages - 5  && index === numberOfPages - 1) {
+                            console.log(index)
                             return (
                                 <PageItem 
                                     key={`pageItem-${index}`}
@@ -69,7 +74,7 @@ class CustomPagination extends Comment {
     createShortPagination() {
         return (
             <React.Fragment>
-                {this.state.pages.map((page, index) => {
+                {this.props.pages.map((page, index) => {
                     return (
                         <PageItem 
                             key={`pageItem-${index}`}
@@ -88,9 +93,9 @@ class CustomPagination extends Comment {
 
     render() {
         return (
-            <Pagination className="justify-content-center">
+            <Pagination className="justify-content-center mb-2">
                     
-                {(this.props.numberOfPages > 10) ? this.createLongPagination() : this.createShortPagination()}
+                {(this.props.pages.length > 10) ? this.createLongPagination() : this.createShortPagination()}
 
             </Pagination>
         );

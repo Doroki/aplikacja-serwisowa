@@ -11,7 +11,7 @@ const Form = (props) => {
 
 const Row = (props) => {  
     return (
-        <div className={(props.className) ? props.className : "" + "row m-1" }>
+        <div className={(props.className) ? props.className : "" + "row m-1 d-flex align-items-end" }>
             {props.children}
         </div>
     )

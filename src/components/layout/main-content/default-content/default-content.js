@@ -81,13 +81,17 @@ class DefaultContent extends Component {
                         }
                     ]}
                 />
-                <div>
-                    <h2 className="heading">Podsumowanie tegorocznych zgłoszen</h2>
-                    <p>Liczba zgłoszen reklamacji: {this.sumData(this.state.chartData.complains)}</p>
-                    <p>Liczba zgłoszen awarii: {this.sumData(this.state.chartData.issues)}</p>
-                    <p>Liczba zgłoszen funkcjonalności: {this.sumData(this.state.chartData.functionalities)}</p>
-                </div>
-            </div>
+                <Card>
+                    <CardBody>
+                        <CardTitle>Podsumowanie tegorocznych zgłoszen:</CardTitle>
+                        <CardText>
+                            <p>Liczba zgłoszen reklamacji: {this.sumData(this.state.chartData.complains)}</p>
+                            <p>Liczba zgłoszen awarii: {this.sumData(this.state.chartData.issues)}</p>
+                            <p>Liczba zgłoszen funkcjonalności: {this.sumData(this.state.chartData.functionalities)}</p>
+                        </CardText>
+                    </CardBody>
+                </Card>
+           </div>
         );
     }
 

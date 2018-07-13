@@ -169,7 +169,6 @@ class Table extends Component {
     render() {
         return (
             <div className="card custom-table">
-                <Container>
                     <Modal isOpen={this.state.modal} toggle={this.toggle}>
                     <ModalHeader toggle={this.toggle}>
                         <span className="modal__header">Zgłoszenie</span>
@@ -184,7 +183,6 @@ class Table extends Component {
                             {this.createModalContent()}
                         </ModalBody>
                     </Modal>
-                </Container>
                 <div className="card-body">    
                     <table className="table table-hover table-responsive-md">
                         {/* {Table header} */}

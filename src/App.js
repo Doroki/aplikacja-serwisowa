@@ -27,7 +27,7 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <div className="d-flex h-100 w-100">
+        <div className="d-flex mh-100 w-100">
           <Route exact path="/" render={() => <LoginClient header={"SERWIS"} onLoginSubmit={this.setState.bind(this)} history={this.history}/>} />
           <Route exact path="/admin" render={() => <LoginAdmin header={"SERWIS"} subheading={"Admin Panel"} onLoginSubmit={this.setState.bind(this)} history={this.history}/>} />
 

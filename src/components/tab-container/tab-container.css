@@ -15,9 +15,21 @@
     flex-wrap: wrap-reverse;
 }
 
-@media (max-width: 500px) {
+@media (max-width: 760px) {
     .contact__header {
         justify-content: center;
+    }
+
+    .contact__item {
+        width: 128px;
+        border-radius: 5px;
+        margin: 2px;
+    }
+}
+
+@media (max-width: 500px) {
+    .contact {
+      padding: 0;
     }
   }
 

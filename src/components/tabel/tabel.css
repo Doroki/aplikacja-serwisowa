@@ -3,8 +3,10 @@
     margin: auto;
     min-height: 584px;
     margin-bottom: 15px;
-    table-layout: fixed;
-    width: 90%;
+}
+
+.card-body {
+    overflow-x: auto;
 }
 
 .custom-table td {
@@ -18,7 +20,7 @@
     border: solid 1px #dee2e6;
     cursor: pointer;
     user-select: none;
-    width: 15%;
+    /* width: 15%; */
     white-space: nowrap;
 }
 
@@ -131,8 +133,18 @@ th.dsc::before {
     margin-right: 5px;
 }
 
-.table {
-    display: block;
-    width: 100%;
-    overflow-x: auto;
-}
+
+
+@media (max-width: 500px) {
+    .custom-table {
+        width: 100%;
+    }
+
+    .custom-table td {
+        font-size: 0.8em;
+    }
+    
+    .custom-table th {
+        font-size: 0.8em;
+    }
+  }

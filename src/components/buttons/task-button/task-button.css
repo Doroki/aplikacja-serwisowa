@@ -11,3 +11,12 @@
     align-items: center;
     top: 15px;
 }
+
+
+@media (max-width: 500px) {
+    .modal-body-wrapper {
+        padding: 5px;
+    }
+
+    
+}

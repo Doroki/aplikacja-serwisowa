@@ -37,7 +37,7 @@ class SearchForm extends Component {
                         </div>
                     )
                 })}
-                <button type="button" className="btn btn-sm btn-primary" onClick={this.findData.bind(this)}>Wyszukaj</button>
+                <button type="button" className="btn btn-sm btn-primary custom-btn" onClick={this.findData.bind(this)}>Wyszukaj</button>
             </form>
         )
     }

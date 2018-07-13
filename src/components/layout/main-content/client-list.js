@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import "./form.css";
 import Table from "../../tabel/tabel"
 import SearchForm from "../../forms/search-form/search-form";
-import {Pagination, PageItem, PageLink} from "mdbreact"
+import CustomPagination from "../../pagination/pagination";
 
 class ClientList extends Component {
     constructor(props) {
@@ -72,12 +72,14 @@ class ClientList extends Component {
                 this.setState({
                     data: resp.data,
                     dataKeys: dataKeys,
-                    pages: pagesArr
+                    pages: pagesArr,
+                    actualPageNumber: 1
                 })
             } else {
                 this.setState({
                     data: [],
-                    pages: []
+                    pages: [],
+                    actualPageNumber: 1
                 })
             }
             
@@ -131,73 +133,6 @@ class ClientList extends Component {
     }
 
 
-    createPages() {
-        const numberOfPages = this.state.pages.length;
-        const longPagination = numberOfPages > 10;
-        const pageNumber = this.state.actualPageNumber;
-        return (
-            <React.Fragment>
-                {this.state.pages.map((page, index) => {
-                    if (longPagination) {
-                        if (pageNumber > 3 && index === 0) {
-                            return (
-                            <PageItem 
-                                key={`pageItem-${index}`}
-                                className={(this.state.actualPageNumber === index+1) ? "active" : ""}
-                                onClick={this.updatePage.bind(this, index+1)}
-                                >
-                                <PageLink key={`pageLink-${index}`} className="page-link">
-                                    {index + 1}
-                                </PageLink>
-                            </PageItem>
-                            )
-                        }
-                        else if (index + 1 === pageNumber + 3 || index + 1 === pageNumber - 3) return <span>  ...  </span>
-                        else if (!index === numberOfPages - 1 && index + 1 > pageNumber + 3 || index + 1 < pageNumber - 3) return null;
-                        else if (pageNumber < numberOfPages - 3  && index === numberOfPages - 1) {
-                            return (
-                                <PageItem 
-                                    key={`pageItem-${index}`}
-                                    className={(this.state.actualPageNumber === index+1) ? "active" : ""}
-                                    onClick={this.updatePage.bind(this, index+1)}
-                                    >
-                                    <PageLink key={`pageLink-${index}`} className="page-link">
-                                        {index + 1}
-                                    </PageLink>
-                                </PageItem>
-                                )
-                        }
-                        else {
-                            return (
-                            <PageItem 
-                                key={`pageItem-${index}`}
-                                className={(this.state.actualPageNumber === index+1) ? "active" : ""}
-                                onClick={this.updatePage.bind(this, index+1)}
-                                >
-                                <PageLink key={`pageLink-${index}`} className="page-link">
-                                    {index + 1}
-                                </PageLink>
-                            </PageItem>
-                            )
-                        }
-                    } else {
-                        return (
-                        <PageItem 
-                            key={`pageItem-${index}`}
-                            className={(this.state.actualPageNumber === index+1) ? "active" : ""}
-                            onClick={this.updatePage.bind(this, index+1)}
-                            >
-                            <PageLink key={`pageLink-${index}`} className="page-link">
-                                {index + 1}
-                            </PageLink>
-                        </PageItem>
-                        )
-                    }
-                })}
-            </React.Fragment>
-        );
-    };
-
     render() {
         return (
             <div>
@@ -216,11 +151,12 @@ class ClientList extends Component {
                     data = {this.loadData()}
                     fetchData = {this.getDirectData} 
                 />
-                <Pagination className="justify-content-center">
-                    
-                    {this.createPages()}
+                <CustomPagination
+                    actualPageNumber={this.state.actualPageNumber}
+                    updatePage={this.updatePage.bind(this)}
+                    pages={this.state.pages}
+                />
 
-                </Pagination>
             </div>
         );
     }

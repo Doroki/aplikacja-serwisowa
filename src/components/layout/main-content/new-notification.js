@@ -112,7 +112,7 @@ class NewNotification extends Component {
                     <h2 className="header">Formularz zgłoszeniowy</h2>
                     <Row>
                         <Input id="1" type="number" label="Podaj nr klienta:" onChangeField={this.setFormData.bind(this)} target="clientID" value={this.state.clientID}/>
-                        <Select id="2" label="Wybierz kategorie zgloszenia:" onChangeField={this.setFormData.bind(this)} target="type" value={this.state.type}>
+                        <Select id="2" label="Wybierz rodzaj zgloszenia:" onChangeField={this.setFormData.bind(this)} target="type" value={this.state.type}>
                             <option value="">Wybierz rodzaj zgłosznia...</option>
                             <option value="zgloszenie">Zgłoszenie</option>
                             <option value="funkcjonalnosc">Nowa funkcjonalność</option>

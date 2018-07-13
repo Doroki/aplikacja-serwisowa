@@ -60,6 +60,12 @@ class TaskButton extends Component {
         this.setState({term})
     }
 
+    
+    componentDidCatch(error, info) {
+        this.setState({ hasError: true });
+        // console.log(error, info);
+      }
+
     onAddTask(newValue){
         if(!newValue && this.state.term === "") return;
         let keyRandomValue = Math.random()*1000
@@ -108,20 +114,20 @@ class TaskButton extends Component {
             <Modal isOpen={this.state.modal} toggle={this.toggle}>
               <ModalHeader toggle={this.toggle}>Zadania</ModalHeader>
             {/* Dodawanie zadania */}
-                <div className="container">
-                    <div className="row">
-                        <div className="col-9">
+                <div className="container-fluid">
+                    <div className="row d-flex flex-wrap">
+                        <div className="col-sm-9">
                             <div className="md-form mt-0">
                                 <input value={this.state.term} onChange={event => this.onInputChange(event.target.value)} type="text" className="form-control" placeholder="Treść zadania" />
                             </div>
                         </div>
 
-                        <div className="col-3">
+                        <div className="col-sm-3">
                             <button  onClick={() => this.onAddTask()} type="button" className="btn light-green btn-sm">Dodaj</button>
                         </div>
                     </div>
                 </div>
-                <ModalBody>
+                <ModalBody className="modal-body-wrapper">
                     {this.state.tasks}
                 </ModalBody>
             </Modal>

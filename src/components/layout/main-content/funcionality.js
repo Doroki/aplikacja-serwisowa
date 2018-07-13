@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import "./form.css";
 import Table from "../../tabel/tabel"
 import SearchForm from "../../forms/search-form/search-form";
-import {Pagination, PageItem, PageLink} from "mdbreact"
+import CustomPagination from "../../pagination/pagination";
 
 class FuncionalityList extends Component {
     constructor(props) {
@@ -158,25 +158,6 @@ class FuncionalityList extends Component {
     }
 
 
-    createPages() {
-        return (
-            <React.Fragment>
-                {this.state.pages.map((page, index) => {
-                    return (
-                        <PageItem 
-                            key={`pageItem-${index}`}
-                            className={(this.state.actualPageNumber === index+1) ? "active" : ""}
-                            onClick={this.updatePage.bind(this, index+1)}
-                            >
-                            <PageLink key={`pageLink-${index}`} className="page-link">
-                                {index + 1}
-                            </PageLink>
-                        </PageItem>
-                        )
-                })}
-            </React.Fragment>
-        );
-    };
     render() {
         return (
             <div>
@@ -198,11 +179,11 @@ class FuncionalityList extends Component {
                     updated={this.state.showUpdated}
                     onSaveData={this.saveModalData.bind(this)}
                 />
-                <Pagination className="justify-content-center">
-                    
-                    {this.createPages()}
-
-                </Pagination>
+                <CustomPagination
+                    actualPageNumber={this.state.actualPageNumber}
+                    updatePage={this.updatePage.bind(this)}
+                    pages={this.state.pages}
+                />
             </div>
         );
     }

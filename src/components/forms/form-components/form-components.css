@@ -5,9 +5,15 @@
     padding: 3em;
 }
 
-@media (max-width: 500px) {
+@media (max-width: 760px) {
     .form {
       padding: 20px 10px;
+    }
+  }
+
+  @media (max-width: 460px) {
+    .form {
+      padding: 10px 0;
     }
   }
 
