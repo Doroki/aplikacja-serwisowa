@@ -17,7 +17,7 @@ class TaskButton extends Component {
     }
 
     componentDidMount() {
-        fetch('http://wsb-aplikacja.herokuapp.com/api/tasks')
+        fetch('http://aplikacja-wsb.herokuapp.com/api/tasks')
             .then(response => response.json())
             .then(resp => {
                 if(resp && resp.length > 0) {
@@ -29,7 +29,7 @@ class TaskButton extends Component {
     }
 
     sentToDatabase(term) {
-        fetch("http://wsb-aplikacja.herokuapp.com/api/tasks", {
+        fetch("http://aplikacja-wsb.herokuapp.com/api/tasks", {
             mode: "cors",
             method: "PUT",
             body: JSON.stringify({content: term}),
@@ -40,7 +40,7 @@ class TaskButton extends Component {
     }
 
     removeFromDatabase(term) {
-        fetch("http://wsb-aplikacja.herokuapp.com/api/tasks", {
+        fetch("http://aplikacja-wsb.herokuapp.com/api/tasks", {
             mode: "cors",
             method: "DELETE",
             body: JSON.stringify({content: term}),

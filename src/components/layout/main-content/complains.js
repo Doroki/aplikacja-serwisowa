@@ -25,7 +25,7 @@ class ComplainList extends Component {
         const objToSend = obj;
         objToSend.tabel = "reklamacje";
 
-        fetch('http://wsb-aplikacja.herokuapp.com/api/update-notification', {
+        fetch('http://aplikacja-wsb.herokuapp.com/api/update-notification', {
             method: "POST",
             body: JSON.stringify(obj),
             headers: {
@@ -103,7 +103,7 @@ class ComplainList extends Component {
     };
 
     fetchData(extraValue) {
-        fetch(`http://wsb-aplikacja.herokuapp.com/api/complains${(extraValue) ? `${extraValue}` : ""}`)
+        fetch(`http://aplikacja-wsb.herokuapp.com/api/complains${(extraValue) ? `${extraValue}` : ""}`)
         .then(response => response.json())
         .then(resp => {
             if (resp.data.length > 0) {

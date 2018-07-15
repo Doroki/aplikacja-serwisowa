@@ -22,7 +22,7 @@ class ErrorList extends Component {
         const objToSend = obj;
         objToSend.tabel = "zgloszenia";
 
-        fetch('http://wsb-aplikacja.herokuapp.com/api/update-notification', {
+        fetch('http://aplikacja-wsb.herokuapp.com/api/update-notification', {
             method: "POST",
             body: JSON.stringify(obj),
             headers: {
@@ -99,7 +99,7 @@ class ErrorList extends Component {
     };
 
     fetchData(extraValue) {
-        fetch(`http://wsb-aplikacja.herokuapp.com/api/issues${(extraValue) ? `${extraValue}` : ""}`)
+        fetch(`http://aplikacja-wsb.herokuapp.com/api/issues${(extraValue) ? `${extraValue}` : ""}`)
         .then(response => response.json())
         .then(resp => {
             if (resp.data.length > 0) {

@@ -61,7 +61,7 @@ class ClientList extends Component {
     };
 
     fetchData(extraValue) {
-        fetch(`http://wsb-aplikacja.herokuapp.com/api/client-list${(extraValue) ? `${extraValue}` : ""}`)
+        fetch(`http://aplikacja-wsb.herokuapp.com/api/client-list${(extraValue) ? `${extraValue}` : ""}`)
         .then(response => response.json())
         .then(resp => {
             if (resp.data.length > 0) {

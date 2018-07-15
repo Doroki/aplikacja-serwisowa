@@ -65,7 +65,7 @@ class ClientPage extends Component {
     }
 
     fetchData(extraValue) {
-        fetch(`http://wsb-aplikacja.herokuapp.com/api/client-issues${(extraValue) ? `${extraValue}` : ""}`)
+        fetch(`http://aplikacja-wsb.herokuapp.com/api/client-issues${(extraValue) ? `${extraValue}` : ""}`)
         .then(response => response.json())
         .then(resp => {
             if (resp.data.length > 0) {
@@ -229,7 +229,7 @@ class ClientPage extends Component {
             return;
         } 
 
-        this.sendData(`http://wsb-aplikacja.herokuapp.com/api/new-${linkToSend}`, dataToSend)
+        this.sendData(`http://aplikacja-wsb.herokuapp.com/api/new-${linkToSend}`, dataToSend)
     }
 
     sendData(url, data) {
@@ -251,7 +251,7 @@ class ClientPage extends Component {
     }
 
     getNotifications() {
-        fetch(`http://wsb-aplikacja.herokuapp.com/api/get-all-notifications/${this.state.id}`)
+        fetch(`http://aplikacja-wsb.herokuapp.com/api/get-all-notifications/${this.state.id}`)
             .then(res => res.json())
             .then(res => {    
                 if(res) {
