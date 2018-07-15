@@ -1,6 +1,6 @@
 import React from 'react';
 import './profile-button.css';
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'mdbreact';
+import { Dropdown, DropdownToggle, DropdownMenu } from 'mdbreact';
 
   class DropDownButton extends React.Component {
   constructor(props) {

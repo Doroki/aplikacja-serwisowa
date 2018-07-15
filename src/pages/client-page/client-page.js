@@ -65,7 +65,7 @@ class ClientPage extends Component {
     }
 
     fetchData(extraValue) {
-        fetch(`http://localhost:8080/api/client-issues${(extraValue) ? `${extraValue}` : ""}`)
+        fetch(`http://wsb-aplikacja.herokuapp.com/api/client-issues${(extraValue) ? `${extraValue}` : ""}`)
         .then(response => response.json())
         .then(resp => {
             if (resp.data.length > 0) {
@@ -105,6 +105,8 @@ class ClientPage extends Component {
             } else {
                 pageArray[mappingIterator].push(dataItem);
             }
+
+            return null;
         });
 
         return pageArray;
@@ -139,6 +141,8 @@ class ClientPage extends Component {
                 id = data.id_funkcjonalnosc;
                 stan = data.stan_funkcjonalnosc;
                 dataZgłoszenia = data.data_funkcjonalnosc;
+                break;
+            default :
                 break;
         }
         return (id) ? [
@@ -225,7 +229,7 @@ class ClientPage extends Component {
             return;
         } 
 
-        this.sendData(`http://localhost:8080/api/new-${linkToSend}`, dataToSend)
+        this.sendData(`http://wsb-aplikacja.herokuapp.com/api/new-${linkToSend}`, dataToSend)
     }
 
     sendData(url, data) {
@@ -247,7 +251,7 @@ class ClientPage extends Component {
     }
 
     getNotifications() {
-        fetch(`http://localhost:8080/api/get-all-notifications/${this.state.id}`)
+        fetch(`http://wsb-aplikacja.herokuapp.com/api/get-all-notifications/${this.state.id}`)
             .then(res => res.json())
             .then(res => {    
                 if(res) {

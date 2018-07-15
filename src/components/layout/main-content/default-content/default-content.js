@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import { Button, Card, CardBody, CardImage, CardTitle, CardText } from 'mdbreact';
+import { Card, CardBody, CardTitle, CardText } from 'mdbreact';
 import Chart from '../../../charts/chart';
 import "./default-content.css"
 
@@ -17,12 +17,11 @@ class DefaultContent extends Component {
     }
     
     fetchData() {
-        fetch(`http://localhost:8080/api/count-notifications`)
+        fetch(`http://wsb-aplikacja.herokuapp.com/api/count-notifications`)
         .then(response => response.json())
         .then(resp => {
             if(resp) {
                 this.setState({chartData: resp})
-                console.log(this.state)
                 this.forceUpdate()
             }
         })
@@ -86,9 +85,9 @@ class DefaultContent extends Component {
                         <CardBody>
                             <CardTitle>Podsumowanie tegorocznych zgłoszen:</CardTitle>
                             <CardText>
-                                <p>Liczba zgłoszen reklamacji: {this.sumData(this.state.chartData.complains)}</p>
-                                <p>Liczba zgłoszen awarii: {this.sumData(this.state.chartData.issues)}</p>
-                                <p>Liczba zgłoszen funkcjonalności: {this.sumData(this.state.chartData.functionalities)}</p>
+                                Liczba zgłoszen reklamacji: {this.sumData(this.state.chartData.complains)} <br />
+                                Liczba zgłoszen awarii: {this.sumData(this.state.chartData.issues)} <br />
+                                Liczba zgłoszen funkcjonalności: {this.sumData(this.state.chartData.functionalities)}
                             </CardText>
                         </CardBody>
                     </Card>

@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import './tabel.css';
-import { Container, Button, Modal, ModalBody, ModalHeader } from 'mdbreact';
+import { Modal, ModalBody, ModalHeader } from 'mdbreact';
 
 class Table extends Component {
     constructor(props) {
@@ -175,7 +175,7 @@ class Table extends Component {
                         :
                             (<div key={index} className="modal__info">
                                 <h3 className="modal__title">{modalContent[index].title}</h3>
-                                <p className="modal__context">{(/^\d{4}\-\d{2}\-\d{2}.*/g.test(modalContent[index].content)) ? modalContent[index].content.split("T")[0] : modalContent[index].content}</p>
+                                <p className="modal__context">{(/^\d{4}-\d{2}-\d{2}.*/g.test(modalContent[index].content)) ? modalContent[index].content.split("T")[0] : modalContent[index].content}</p>
                             </div>)
                     )
                 )}

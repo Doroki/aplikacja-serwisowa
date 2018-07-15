@@ -36,7 +36,7 @@ class CustomPagination extends Component {
                             </PageItem>
                             )
                         }
-                        else if (!(index === numberOfPages - 1) && index + 1 === pageNumber + 3 || index + 1 === pageNumber - 3) return <span className="dotted-pagination">  ...  </span>
+                        else if (!(index === numberOfPages - 1) && index + 1 === pageNumber + 3 || index + 1 === pageNumber - 3) return <span key={`span-${index}`} className="dotted-pagination">  ...  </span>
                         else if (!(index === numberOfPages - 1) && index + 1 > pageNumber + 3 || index + 1 < pageNumber - 3) return null;
                         else if (pageNumber > numberOfPages - 5  && index === numberOfPages - 1) {
                             console.log(index)

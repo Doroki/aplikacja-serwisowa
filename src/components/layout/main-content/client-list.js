@@ -61,7 +61,7 @@ class ClientList extends Component {
     };
 
     fetchData(extraValue) {
-        fetch(`http://localhost:8080/api/client-list${(extraValue) ? `${extraValue}` : ""}`)
+        fetch(`http://wsb-aplikacja.herokuapp.com/api/client-list${(extraValue) ? `${extraValue}` : ""}`)
         .then(response => response.json())
         .then(resp => {
             if (resp.data.length > 0) {
@@ -118,6 +118,7 @@ class ClientList extends Component {
             } else {
                 pageArray[mappingIterator].push(dataItem);
             }
+            return null;
         });
 
         return pageArray;

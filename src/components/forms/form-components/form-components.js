@@ -3,7 +3,7 @@ import './form-components.css';
 
 const Form = (props) => {  
     return (
-        <form className={(props.className) ? props.className : "" + "w-100"}>
+        <form className={(props.className) ? props.className : "w-100"}>
             {props.children}
         </form>
     )
@@ -11,7 +11,7 @@ const Form = (props) => {
 
 const Row = (props) => {  
     return (
-        <div className={(props.className) ? props.className : "" + "row m-1 d-flex align-items-end" }>
+        <div className={(props.className) ? props.className : "row m-1 d-flex align-items-end" }>
             {props.children}
         </div>
     )

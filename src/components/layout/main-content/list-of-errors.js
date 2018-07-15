@@ -22,7 +22,7 @@ class ErrorList extends Component {
         const objToSend = obj;
         objToSend.tabel = "zgloszenia";
 
-        fetch('http://localhost:8080/api/update-notification', {
+        fetch('http://wsb-aplikacja.herokuapp.com/api/update-notification', {
             method: "POST",
             body: JSON.stringify(obj),
             headers: {
@@ -99,7 +99,7 @@ class ErrorList extends Component {
     };
 
     fetchData(extraValue) {
-        fetch(`http://localhost:8080/api/issues${(extraValue) ? `${extraValue}` : ""}`)
+        fetch(`http://wsb-aplikacja.herokuapp.com/api/issues${(extraValue) ? `${extraValue}` : ""}`)
         .then(response => response.json())
         .then(resp => {
             if (resp.data.length > 0) {
@@ -142,6 +142,8 @@ class ErrorList extends Component {
             } else {
                 pageArray[mappingIterator].push(dataItem);
             }
+
+            return null;
         });
 
         return pageArray;
