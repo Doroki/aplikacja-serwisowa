@@ -48,7 +48,7 @@ class Admin extends Component {
     return (
         <div className="App d-flex h-100 w-100">
           <SideNavbar smallScreenHidden={this.state.menuOpen} menuToggle={this.menuToggle.bind(this)} menuOpen={this.state.menuOpen}>
-            <h1 className='container-logo'><img className='logo' src='../img/Logo.png' alt='' /><span>SERVICE</span></h1>
+            <h1 className='container-logo'><img className='logo' src='./img/Logo.png' alt='' /><span>SERVICE</span></h1>
             <Link to="/admin-panel/">Strona główna</Link>
             <Link to="/admin-panel/nowe-zgloszenie">Nowe zgłoszenie</Link>
             <Link to="/admin-panel/lista-bledow">Zgłoszone błędy</Link>

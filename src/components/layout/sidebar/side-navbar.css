@@ -11,7 +11,11 @@
 .side-navbar > div {
     min-width: 230px;
     max-width: 230px;
+    top: 0;
+    bottom: 0;
     position: fixed;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .side-navbar li {

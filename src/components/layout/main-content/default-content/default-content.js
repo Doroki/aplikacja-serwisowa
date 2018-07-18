@@ -17,7 +17,7 @@ class DefaultContent extends Component {
     }
     
     fetchData() {
-        fetch(`http://aplikacja-wsb.herokuapp.com/api/count-notifications`)
+        fetch(`https://aplikacja-wsb.herokuapp.com/api/count-notifications`)
         .then(response => response.json())
         .then(resp => {
             if(resp) {

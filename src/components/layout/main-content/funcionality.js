@@ -22,7 +22,7 @@ class FuncionalityList extends Component {
         const objToSend = obj;
         objToSend.tabel = "funkcjonalnosc";
 
-        fetch('http://aplikacja-wsb.herokuapp.com/api/update-notification', {
+        fetch('https://aplikacja-wsb.herokuapp.com/api/update-notification', {
             method: "POST",
             body: JSON.stringify(obj),
             headers: {
@@ -99,7 +99,7 @@ class FuncionalityList extends Component {
     };
 
     fetchData(extraValue) {
-        fetch(`http://aplikacja-wsb.herokuapp.com/api/functionality${(extraValue) ? `${extraValue}` : ""}`)
+        fetch(`https://aplikacja-wsb.herokuapp.com/api/functionality${(extraValue) ? `${extraValue}` : ""}`)
         .then(response => response.json())
         .then(resp => {
             if (resp.data.length > 0) {
