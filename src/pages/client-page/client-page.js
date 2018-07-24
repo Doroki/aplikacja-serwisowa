@@ -74,12 +74,14 @@ class ClientPage extends Component {
 
                 this.setState({
                     data: resp.data,
-                    pages: pagesArr
+                    pages: pagesArr,
+                    actualPageNumber: 1
                 })
             } else {
                 this.setState({
                     data: [],
-                    pages: []
+                    pages: [],
+                    actualPageNumber: 1
                 })
             }
             

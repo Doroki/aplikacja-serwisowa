@@ -15,8 +15,8 @@ class App extends Component {
     super(props);
 
     this.state = {
-      userAuth: true,
-      adminAuth: true,
+      userAuth: false,
+      adminAuth: false,
       id: 0,
       name: "Imię i nazwisko"
     };

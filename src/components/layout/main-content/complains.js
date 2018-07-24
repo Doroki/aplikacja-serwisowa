@@ -21,7 +21,6 @@ class ComplainList extends Component {
     }
 
     saveModalData(obj) {
-        console.log(obj)
         const objToSend = obj;
         objToSend.tabel = "reklamacje";
 
