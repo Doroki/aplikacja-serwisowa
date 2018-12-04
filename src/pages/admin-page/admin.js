@@ -8,8 +8,8 @@ import {
 import {DropdownItem} from 'mdbreact';
 
 // navbars
-import Navbar from '../../components/layout/navbar/navbar';
-import SideNavbar from '../../components/layout/sidebar/side-navbar';
+import Navbar from '../../components/navbar/navbar';
+import SideNavbar from '../../components/sidebar/side-navbar';
 
 //header-nav-buttons
 import TaskButton from '../../components/buttons/task-button/task-button'
