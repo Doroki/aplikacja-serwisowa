@@ -19,7 +19,7 @@ import { Dropdown, DropdownToggle, DropdownMenu } from 'mdbreact';
 
   render() {
     return (
-        <Dropdown isOpen = { this.state.dropdownOpen } toggle = { this.toggle }>
+        <Dropdown isopen = { `${this.state.dropdownOpen}` } toggle = { this.toggle }>
           <DropdownToggle size="sm" className="nav-btn" caret>
             <i className="fa fa-user"></i>
             Profil

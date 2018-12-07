@@ -108,7 +108,7 @@ class NewNotification extends Component {
         return (
             <div className={this.props.darkTheme ? 'heading darkTheme-title' : 'heading'} >
                 {this.showPopUp()}
-                <Form className="text-left">
+                <Form className={`text-left + ${this.props.darkTheme ? "darkTheme-form" : ""}`}>
                     <h2 className="header">Formularz zgłoszeniowy</h2>
                     <Row>
                         <Input id="1" type="number" label="Podaj nr klienta:" onChangeField={this.setFormData.bind(this)} target="clientID" value={this.state.clientID}/>

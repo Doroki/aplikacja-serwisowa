@@ -63,12 +63,14 @@ class ErrorList extends NotificationListPrototype {
             <div>
                 <h2 className={this.props.darkTheme ? 'heading darkTheme-title' : 'heading'} >Zgłoszone błędy</h2>
                 <SearchForm 
+                    className={this.props.darkTheme ? 'darkTheme-card' : ''} 
                     elements = {["Nr zgloszenia", "Nr Klienta", "Firma", "Kategoria", "Oprogramowanie", "Stan"]}
                     onSubmitSearch = {this.findData.bind(this)}
                     dataKeys={this.state.dataKeys}               
                 />
                 <Table 
                     headings = {["Nr zgloszenia", "Nr Klienta", "Firma", "Kategoria", "Oprogramowanie", "Stan", "Data"]} 
+                    className={this.props.darkTheme ? 'darkTheme-table' : ''} 
                     onHeadingClick={this.sortData.bind(this)} 
                     sortBy = {this.state.dataSortBy}
                     sortMethod = {this.state.dataSortMethod} 
@@ -80,6 +82,7 @@ class ErrorList extends NotificationListPrototype {
                     onSaveData={this.saveModalData.bind(this)}
                 />
                 <CustomPagination
+                    className={this.props.darkTheme ? 'darkTheme-pagination' : ''} 
                     actualPageNumber={this.state.actualPageNumber}
                     updatePage={this.updatePage.bind(this)}
                     pages={this.state.pages}

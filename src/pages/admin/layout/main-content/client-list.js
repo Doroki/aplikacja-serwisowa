@@ -45,7 +45,8 @@ class ClientList extends NotificationListPrototype {
                     dataKeys={this.state.dataKeys}
                     />
                 <Table
-                    headings = {["Nr klienta", "Firma", "NIP", "Nr tel.", "Program"]}
+                    headings = {["Nr klienta", "Firma", "NIP", "Nr tel.", "Program", "email"]}
+                    className={this.props.darkTheme ? 'darkTheme-table' : ''} 
                     onHeadingClick={this.sortData.bind(this)} 
                     sortBy = {this.state.dataSortBy}
                     sortMethod = {this.state.dataSortMethod} 
@@ -54,6 +55,7 @@ class ClientList extends NotificationListPrototype {
                     fetchData = {this.getDirectData} 
                 />
                 <CustomPagination
+                    className={this.props.darkTheme ? 'darkTheme-pagination' : ''} 
                     actualPageNumber={this.state.actualPageNumber}
                     updatePage={this.updatePage.bind(this)}
                     pages={this.state.pages}

@@ -25,6 +25,24 @@
   }
 }
 
+
+.card {
+  background-color: transparent;
+}
+
+.darkTheme-indicator {
+  transform: scale(0.7);
+  font-size: 1.3em;
+  border-top: 1px solid #CCC;
+  margin-top: 15px;
+  padding-top: 10px;
+  line-height: 1.2em;
+}
+
+.navbar .dropdown-menu {
+  text-align: center;
+}
+
 .darkTheme {
   background-color: #252525;
 }
@@ -32,8 +50,63 @@
 .darkTheme-card {
   background-color: #3a3a3a;
   color: #CCC;
+  border-radius: .25rem;
+}
+
+.darkTheme-card  input {
+  color: #FFF !important;
 }
 
 .darkTheme-title {
   color: #FFF;
+}
+
+.darkTheme-pagination ~ .dotted-pagination {
+  color: #FFF !important;
+}
+
+.darkTheme-pagination > a {
+  color: #FFF !important;
+}
+
+.darkTheme-pagination > a:hover {
+  color: #000 !important;
+}
+
+.darkTheme-table {
+  background-color: #3a3a3a; 
+  border-radius: .25rem;
+  color: #FFF;
+}
+
+.darkTheme-table td {
+  border-color: #525252;
+}
+
+.darkTheme-table th {
+  border-color: #525252 !important;
+}
+
+.darkTheme-modal > *{
+  background-color: #8b8b8b !important;
+}
+
+.darkTheme-form .form__input {
+  background-color: #6c6c6c;
+  border-color: #6c6c6c;
+}
+
+.darkTheme-form .form__input:focus {
+  background-color: #c0c0c0;
+}
+
+.darkTheme-form label {
+  color: #DDD;
+  font-weight: 300;
+}
+
+.darkTheme-chart canvas {
+  background-color: #373737;
+  border-radius: 0.25em;
+  box-shadow: 0px 0px 10px 5px #373737;
 }

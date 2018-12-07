@@ -27,7 +27,10 @@ class CustomPagination extends Component {
                             return (
                             <PageItem 
                                 key={`pageItem-${index}`}
-                                className={(this.state.actualPageNumber === index+1) ? "active" : ""}
+                                className={
+                                    (this.state.actualPageNumber === index+1) ? "active" 
+                                    : (this.props.className) ? this.props.className : ""
+                                }
                                 onClick={this.updatePage.bind(this, index+1)}
                                 >
                                 <PageLink key={`pageLink-${index}`} className="page-link">
@@ -43,7 +46,10 @@ class CustomPagination extends Component {
                             return (
                                 <PageItem 
                                     key={`pageItem-${index}`}
-                                    className={(this.state.actualPageNumber === index+1) ? "active" : ""}
+                                    className={
+                                        (this.state.actualPageNumber === index+1) ? "active" 
+                                        : (this.props.className) ? this.props.className : ""
+                                    }
                                     onClick={this.updatePage.bind(this, index+1)}
                                     >
                                     <PageLink key={`pageLink-${index}`} className="page-link">
@@ -56,10 +62,15 @@ class CustomPagination extends Component {
                             return (
                             <PageItem 
                                 key={`pageItem-${index}`}
-                                className={(this.state.actualPageNumber === index+1) ? "active" : ""}
+                                className={
+                                    (this.state.actualPageNumber === index+1) ? "active" 
+                                    : (this.props.className) ? this.props.className : ""
+                                }
                                 onClick={this.updatePage.bind(this, index+1)}
                                 >
-                                <PageLink key={`pageLink-${index}`} className="page-link">
+                                <PageLink
+                                    key={`pageLink-${index}`} className="page-link"
+                                >
                                     {index + 1}
                                 </PageLink>
                             </PageItem>
@@ -78,7 +89,10 @@ class CustomPagination extends Component {
                     return (
                         <PageItem 
                             key={`pageItem-${index}`}
-                            className={(this.state.actualPageNumber === index+1) ? "active" : ""}
+                            className={
+                                (this.state.actualPageNumber === index+1) ? "active" 
+                                : (this.props.className) ? this.props.className : ""
+                            }
                             onClick={this.updatePage.bind(this, index+1)}
                             >
                             <PageLink key={`pageLink-${index}`} className="page-link">

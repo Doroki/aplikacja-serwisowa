@@ -4,7 +4,7 @@ class NotificationListPrototype extends Component {
     constructor(props) {
         super(props);
 
-        this.dataUrl
+        this.dataUrl = ''
         this.state = {
             data: [],
             dataKeys: [],

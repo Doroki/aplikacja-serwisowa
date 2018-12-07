@@ -57,7 +57,7 @@ class Chart extends React.Component {
 
   render() {
     return (
-    <Container>
+    <Container className={this.props.darkTheme ? "darkTheme-chart" : ""}>
         <Line height={120} data={this.state} />
     </Container>
     );

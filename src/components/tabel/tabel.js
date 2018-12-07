@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import './tabel.css';
-import { Modal, ModalBody, ModalHeader } from 'mdbreact';
+import { Modal, ModalBody, ModalHeader, MDBIcon } from 'mdbreact';
+import { Redirect } from 'react-router'
 
 class Table extends Component {
     constructor(props) {
@@ -9,6 +10,7 @@ class Table extends Component {
         this.state = {
             modal: false,
             modalContent: [],
+            redirect: false,
 
             notification: 0,
             selectValue: "",
@@ -19,6 +21,23 @@ class Table extends Component {
         this.toggle = this.toggle.bind(this);
     }
 
+    setRedirect(email) {
+        this.setState({
+          redirect: true,
+          emailToFind: email
+        })
+      }
+      renderRedirect(email) {
+        if (this.state.redirect) {
+            return <Redirect 
+                to={{ 
+                    pathname: `/admin-panel/wyslij-email`,
+                    search: email,
+                    state: {test: email}
+                }}
+            />
+        }
+      }
 
     toggle(data) {
         this.setState({
@@ -58,8 +77,7 @@ class Table extends Component {
 
     componentDidCatch(error, info) {
         this.setState({ hasError: true });
-        // console.log(error, info);
-      }
+    }
 
     createTableRows() {
         if(!this.props.data || this.props.data.length < 1) return;
@@ -83,7 +101,7 @@ class Table extends Component {
     
     fillRowWithData(data, index) {
         let filledRow = [];
-        
+
         for (const key in data) {
             if(key === "tresc" || key === "uwagi" || key === "adres" || key === "e_mail") continue;
             if (data.hasOwnProperty(key)) {
@@ -91,6 +109,17 @@ class Table extends Component {
                 if(/^data*/g.test(key)) element = data[key].split("T")[0];
                 filledRow.push(<td key={`${index}${Math.random()*5}`}>{element}</td>);
             }
+        }
+
+        if (data.e_mail) {
+            filledRow.push(<td key={`${index}${Math.random()*5}`}>
+                {this.renderRedirect(this.state.emailToFind)}
+                <MDBIcon icon="envelope" size="lg" 
+                    onClick={() => {
+                        this.setRedirect(data.e_mail)
+                    }}
+                />
+            </td>);
         }
 
         return (
@@ -186,7 +215,7 @@ class Table extends Component {
     render() {
         return (
             <div className="card custom-table">
-                    <Modal isOpen={this.state.modal} toggle={this.toggle}>
+                    <Modal className={this.props.className ? 'darkTheme-modal' : ""} isOpen={this.state.modal} toggle={this.toggle}>
                     <ModalHeader toggle={this.toggle}>
                         <span className="modal__header">Zgłoszenie</span>
                         {(this.props.updated !== null && this.props.updated !== undefined) 
@@ -200,7 +229,7 @@ class Table extends Component {
                             {this.createModalContent()}
                         </ModalBody>
                     </Modal>
-                <div className={(this.props.scrollableY) ? "card-body table-scroll-y" : "card-body"}>
+                <div className={(this.props.scrollableY) ? "card-body table-scroll-y " + this.props.className : "card-body " + this.props.className}>
                     <table className="table table-hover table-responsive-md">
                         {/* {Table header} */}
                         <thead>

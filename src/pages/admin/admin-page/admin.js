@@ -5,7 +5,7 @@ import {
   Route,
   Link
 } from 'react-router-dom';
-import { DropdownItem } from 'mdbreact';
+import { DropdownItem, Container } from 'mdbreact';
 
 // navbars
 import Navbar from '../../../components/navbar/navbar';
@@ -27,7 +27,7 @@ import SendEmail from '../layout/main-content/send-email';
 class Admin extends Component {
   constructor(props) {
     super(props);
-
+    
     this.state = {
       tasks: [],
       actualSubsite: 0,
@@ -37,7 +37,6 @@ class Admin extends Component {
   }
 
   changeTheme() {
-    console.log(this.state.darkTheme)
     this.setState({darkTheme: !this.state.darkTheme})
   }
 
@@ -66,16 +65,22 @@ class Admin extends Component {
           <section className={(this.state.menuOpen) ? "container-fluid p-0 wrapper fade-wrapper": "container-fluid p-0 wrapper"} 
                    onClick={(this.state.menuOpen) ? this.menuToggle.bind(this) : null}>
             <Navbar menuToggle={this.menuToggle.bind(this)}>
-              <button onClick={this.changeTheme.bind(this)} >tests</button>
               <TaskButton tasks={this.state.tasks} />
               <DropDownButton>
                 <DropdownItem onClick={this.logout.bind(this)} > Wyloguj </DropdownItem>
+                <div className={'darkTheme-indicator'}>ciemny motyw 
+                  <label className="bs-switch">
+                    <input onChange={this.changeTheme.bind(this)} type="checkbox" checked={this.state.darkTheme}/>
+                    <span className="slider round"/>
+                  </label>
+                </div>
               </DropDownButton>
             </Navbar>
             <div className="main-content"> 
               <Route exact path="/admin-panel" component={() => <DefaultContent darkTheme={this.state.darkTheme}/>} />
               <Route path="/admin-panel/nowe-zgloszenie" component={() => <NewNotification darkTheme={this.state.darkTheme}/>} />
               <Route path="/admin-panel/wyslij-email" component={() => <SendEmail darkTheme={this.state.darkTheme}/>} />
+              {/* <Route path="/admin-panel/wyslij-email" component={() => <SendEmail darkTheme={this.state.darkTheme}/>} /> */}
               <Route path="/admin-panel/lista-bledow" component={() => <ErrorList darkTheme={this.state.darkTheme}/>} />
               <Route path="/admin-panel/lista-reklamacji" component={() => <ComplainList darkTheme={this.state.darkTheme}/>} />
               <Route path="/admin-panel/lista-funkcjonalności" component={() => <FuncionalityList darkTheme={this.state.darkTheme}/>} />

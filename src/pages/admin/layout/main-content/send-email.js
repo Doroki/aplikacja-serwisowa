@@ -9,13 +9,17 @@ class SendEmail extends Component {
         this.state = {
             dataSend: null,
             PopMessage: null,
-            type: "",
-            clientID: "",
-            issueNubmer: "",
-            program: "",
-            category: "",
-            text: ""
+            emailTo: this.getEmail() || "",
+            topic: "",
+            content: ""
         };
+    }
+
+    getEmail() {
+        const url = window.location.href
+        const email = url.split('?')[1]
+
+        return email || ""
     }
 
     setFormData(property, value) {
@@ -29,71 +33,63 @@ class SendEmail extends Component {
         }
     }
 
-    sendNotification() {
-        let dataToSend = {};
-        let linkToSend = "";
+    validateData() {
+        let validFlag = true
 
-        if(this.state.type === "zgloszenie") {
-            linkToSend = "issue";
-            dataToSend = {
-                id: this.state.clientID, 
-                category: this.state.category, 
-                program: this.state.program, 
-                text: this.state.text
-            }
-        } else if(this.state.type === "reklamacje") {
-            linkToSend = "complain";
-            dataToSend = {
-                id: this.state.clientID, 
-                issueNubmer: this.state.issueNubmer, 
-                text: this.state.text
-            }
-        } else if(this.state.type === "funkcjonalnosc") {
-            linkToSend = "functionality";
-            dataToSend = {
-                id: this.state.clientID, 
-                program: this.state.program, 
-                text: this.state.text
-            }
+        const emptyFieldRegEx = /(\S)+.*/
+        const emailRegEx = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+
+        if (!emailRegEx.test(this.state.emailTo)) {
+            validFlag = false
+        } 
+        
+        if (!emptyFieldRegEx.test(this.state.topic)) {
+            validFlag = false
+        } 
+        
+        if (!emptyFieldRegEx.test(this.state.content)) {
+            validFlag = false
         }
 
-        if (dataToSend.hasOwnProperty("id")) {
-            for (const key in dataToSend) {
-                if (dataToSend.hasOwnProperty(key)) {
-                    const element = dataToSend[key];
-                    if(element === "") {
-                        this.setState({PopMessage: "Coś poszło nie tak! Nire udało się wysłać zgłoszenia", dataSend: false})
-                        return;
-                    } 
-                } 
-            } 
-        } else {
-            this.setState({PopMessage: "Coś poszło nie tak! Nire udało się wysłać zgłoszenia", dataSend: false})
-            return;
-        } 
+        return validFlag
+    }
 
-        this.sendData(`https://aplikacja-wsb.herokuapp.com/api/new-${linkToSend}`, dataToSend)
+    sendEmail() {
+        if (this.validateData()) {
+            this.sendData(`https://aplikacja-wsb.herokuapp.com/api/send-email`, {
+                to: this.state.emailTo,
+                subject: this.state.topic,
+                text: this.state.content
+            }).then(() => this.showPopUp())
+        } else {
+            this.setState({PopMessage: "Uzupełnij wszystkie pola", dataSend: false})
+            this.showPopUp()
+        }
     }
 
     sendData(url, data) {
-        fetch(url, {
-            method: "PUT",
+        return fetch(url, {
+            method: "POST",
             body: JSON.stringify(data),
             headers: {
                 'Content-Type': 'application/json'
             }
         }).then(res => res.json())
           .then(res => {    
-              if(res.done) {
+              if(res.mailSend) {
                   this.clearForm();
-                  this.setState({PopMessage: "Dobra robota! Zgłoszenie zostało pomyślnie wysłane", dataSend: true})
+                  this.setState({PopMessage: "Wysłano pomyślnie wiadomość", dataSend: true})
                 } else {
-                    this.setState({PopMessage: "Coś poszło nie tak! Nire udało się wysłać zgłoszenia", dataSend: false})
+                    this.setState({PopMessage: "Nie udało się wysłać wiadomości !", dataSend: false})
                 }
+            })
+            .catch(err => {
+                this.setState({PopMessage: "Przepraszamy, problemy z serwerem", dataSend: false})
+                this.showPopUp()
             })
         }
         
-        showPopUp() {
+    showPopUp() {
         if(this.state.dataSend === true) {
             setTimeout(()=>{ this.setState({dataSend: null})}, 4500);
             return <PopUp content={this.state.PopMessage} type="success"/>;
@@ -107,19 +103,19 @@ class SendEmail extends Component {
         return (
             <div className={this.props.darkTheme ? 'heading darkTheme-title' : 'heading'} >
                 {this.showPopUp()}
-                <Form className="text-left">
-                    <h2 className="header">Formularz zgłoszeniowy</h2>
+                <Form className={`text-left + ${this.props.darkTheme ? "darkTheme-form" : ""}`}>
+                    <h2 className="header">Wiadomość E-mail</h2>
                     <Row>
-                        <Input id="1" type="number" label="Do: (adres e-mail)" />
+                        <Input id="1" type="text" label="Do: (adres e-mail)" onChangeField={this.setFormData.bind(this)} target="emailTo" value={this.state.emailTo}/>
                     </Row>
                     <Row>
-                        <Input id="1" type="number" label="Temat wiadomości:" />
+                        <Input id="1" type="text" label="Temat wiadomości:" onChangeField={this.setFormData.bind(this)} target="topic" value={this.state.topic}/>
                     </Row>
                     <Row>
-                        <Textarea label="Treść wiadomości:" col="30" row="12" onChangeField={this.setFormData.bind(this)} target="text" value={this.state.text}/>
+                        <Textarea label="Treść wiadomości:" col="30" row="12" onChangeField={this.setFormData.bind(this)} target="content" value={this.state.content}/>
                     </Row>
                     <Row className="text-center">
-                        <Submit value="Wyślij" className="btn btn-primary btn-md" onAccept={this.sendNotification.bind(this)}/>
+                        <Submit value="Wyślij" className="btn btn-primary btn-md" onAccept={this.sendEmail.bind(this)}/>
                     </Row>
                 </Form>
             </div>

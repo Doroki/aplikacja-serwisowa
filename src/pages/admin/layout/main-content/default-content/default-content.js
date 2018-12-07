@@ -69,6 +69,7 @@ class DefaultContent extends Component {
                     Statystyki zgłoszen
                 </h2>
                 <Chart 
+                    darkTheme={this.props.darkTheme}
                     data = {[
                         {
                             label: "Reklamacje",

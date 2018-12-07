@@ -65,12 +65,14 @@ class ComplainList extends NotificationListPrototype {
             <div>
                 <h2 className={this.props.darkTheme ? 'heading darkTheme-title' : 'heading'} >Zgłoszone reklamacje</h2>
                 <SearchForm 
+                    className={this.props.darkTheme ? 'darkTheme-card' : ''} 
                     elements = {["Nr Reklamacji", "Nr złoszenia", "Nr klienta", "Firma", "Status"]}
                     onSubmitSearch = {this.findData.bind(this)}
                     dataKeys={this.state.dataKeys}
                     />
                 <Table 
                     headings = {["Nr Reklamacji", "Nr złoszenia", "Nr klienta", "Firma", "Status", "Data"]} 
+                    className={this.props.darkTheme ? 'darkTheme-table' : ''} 
                     onHeadingClick={this.sortData.bind(this)} 
                     sortBy = {this.state.dataSortBy}
                     sortMethod = {this.state.dataSortMethod} 
@@ -82,6 +84,7 @@ class ComplainList extends NotificationListPrototype {
                     onSaveData={this.saveModalData.bind(this)}
                 />
                 <CustomPagination
+                    className={this.props.darkTheme ? 'darkTheme-pagination' : ''} 
                     actualPageNumber={this.state.actualPageNumber}
                     updatePage={this.updatePage.bind(this)}
                     pages={this.state.pages}

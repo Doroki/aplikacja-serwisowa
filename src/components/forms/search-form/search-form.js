@@ -28,7 +28,7 @@ class SearchForm extends Component {
 
     render() {
         return (
-            <form className="search-form z-depth-1">
+            <form className={this.props.className ? `search-form z-depth-1 ${this.props.className}` : "search-form z-depth-1"}>
                 {this.props.elements.map((element, index) => {
                     return(
                         <div key={element} className="md-form form-sm">
