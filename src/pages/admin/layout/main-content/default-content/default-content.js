@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import { Card, CardBody, CardTitle, CardText } from 'mdbreact';
-import Chart from '../../../charts/chart';
+import Chart from '../../../../../components/charts/chart';
 import "./default-content.css"
 
 class DefaultContent extends Component {
@@ -42,28 +42,32 @@ class DefaultContent extends Component {
     render() {
         return (
             <div>
-                <h2 className="heading"> Lista Programów: </h2>
+                <h2 className={this.props.darkTheme ? 'heading darkTheme-title' : 'heading'} >
+                    Lista Programów: 
+                </h2>
                 <div className="cards-wrapper">
                     <Card>
-                        <CardBody>
+                        <CardBody className={this.props.darkTheme ? 'darkTheme-card' : ''}>
                             <CardTitle>System księgowy - Drukarz</CardTitle>
                             <CardText>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Autem nostrum eum ipsum id dolore quasi laudantium, nisi assumenda quis sapiente.</CardText>
                         </CardBody>
                     </Card>
-                    <Card>
+                    <Card className={this.props.darkTheme ? 'darkTheme-card' : ''}>
                         <CardBody>
                             <CardTitle>Rezerwacje hotelowe - Mortes</CardTitle>
                             <CardText>Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere perferendis tempora aliquam cum atque earum! Earum aperiam consectetur veniam beatae.</CardText>
                         </CardBody>
                     </Card>
-                    <Card>
+                    <Card className={this.props.darkTheme ? 'darkTheme-card' : ''}>
                         <CardBody>
                             <CardTitle>Monitoring danych - Inspector</CardTitle>
                             <CardText>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum doloribus modi soluta quasi atque? Natus iusto obcaecati ullam corporis velit.</CardText>
                         </CardBody>
                     </Card>
                 </div>
-                <h2 className="heading">Statystyki zgłoszen</h2>
+                <h2 className={this.props.darkTheme ? 'heading darkTheme-title' : 'heading'} >
+                    Statystyki zgłoszen
+                </h2>
                 <Chart 
                     data = {[
                         {
@@ -82,8 +86,8 @@ class DefaultContent extends Component {
                 />
                 <div className="cards-wrapper statistics">
                     <Card>
-                        <CardBody>
-                            <CardTitle>Podsumowanie tegorocznych zgłoszen:</CardTitle>
+                        <CardBody className={this.props.darkTheme ? 'darkTheme-card' : ''}>
+                            <CardTitle> Podsumowanie tegorocznych zgłoszen:</CardTitle>
                             <CardText>
                                 Liczba zgłoszen reklamacji: {this.sumData(this.state.chartData.complains)} <br />
                                 Liczba zgłoszen awarii: {this.sumData(this.state.chartData.issues)} <br />

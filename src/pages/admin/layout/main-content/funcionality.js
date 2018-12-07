@@ -1,15 +1,15 @@
 import React from "react";
 import "./form.css";
-import Table from "../../tabel/tabel"
-import SearchForm from "../../forms/search-form/search-form";
-import CustomPagination from "../../pagination/pagination";
-import NotificationListPrototype from "../../notification-list-prototype/notificationListPrototype";
+import Table from "../../../../components/tabel/tabel"
+import SearchForm from "../../../../components/forms/search-form/search-form";
+import CustomPagination from "../../../../components/pagination/pagination";
+import NotificationListPrototype from "../../../../components/notification-list-prototype/notificationListPrototype";
 
-class ErrorList extends NotificationListPrototype {
+class FuncionalityList extends NotificationListPrototype {
     constructor(props) {
         super(props);
 
-        this.dataUrl = 'http://aplikacja-wsb.herokuapp.com/api/issues'
+        this.dataUrl = 'http://aplikacja-wsb.herokuapp.com/api/functionality'
         this.state = {
             data: [],
             dataKeys: [],
@@ -22,7 +22,7 @@ class ErrorList extends NotificationListPrototype {
 
     saveModalData(obj) {
         const objToSend = obj;
-        objToSend.tabel = "zgloszenia";
+        objToSend.tabel = "funkcjonalnosc";
 
         fetch('https://aplikacja-wsb.herokuapp.com/api/update-notification', {
             method: "POST",
@@ -47,12 +47,12 @@ class ErrorList extends NotificationListPrototype {
         this.setState({showUpdated: null});
         
         return [
-            {title: "Nr reklamacji:", content: data.id_zgloszenia},
+            {title: "Nr zgłoszenia funkcjonalności:", content: data.id_funkcjonalnosc},
             {title: "Nr klienta:", content: data.id_klienta},
             {title: "Firma:", content: data.firma},
             {title: "Oprogramowanie:", content: data.program},
-            {title: "Stan zgłoszenia:", content: data.stan_zgloszenia},
-            {title: "Data zgłoszenia:", content: data.data_zgloszenia},
+            {title: "Stan zgłoszenia:", content: data.stan_funkcjonalnosc},
+            {title: "Data Zagłoszenia:", content: data.data_funkcjonalnosc},
             {title: "Treść zgłoszenia:", content: data.tresc},
             {title: "Uwagi serwisowe:", content: data.uwagi}
         ]
@@ -61,14 +61,14 @@ class ErrorList extends NotificationListPrototype {
     render() {
         return (
             <div>
-                <h2 className="header">Zgłoszone błędy</h2>
+                <h2 className={this.props.darkTheme ? 'heading darkTheme-title' : 'heading'} > Zapotrzebowanie na nowe funkcjonalności </h2>
                 <SearchForm 
-                    elements = {["Nr zgloszenia", "Nr Klienta", "Firma", "Kategoria", "Oprogramowanie", "Stan"]}
+                    elements = {["Nr zgloszenia", "Nr Klienta", "Firma", "Oprogramowanie", "Stan"]}
                     onSubmitSearch = {this.findData.bind(this)}
                     dataKeys={this.state.dataKeys}               
                 />
                 <Table 
-                    headings = {["Nr zgloszenia", "Nr Klienta", "Firma", "Kategoria", "Oprogramowanie", "Stan", "Data"]} 
+                    headings = {["Nr zgloszenia", "Nr Klienta", "Firma", "Oprogramowanie", "Stan", "Data"]} 
                     onHeadingClick={this.sortData.bind(this)} 
                     sortBy = {this.state.dataSortBy}
                     sortMethod = {this.state.dataSortMethod} 
@@ -90,4 +90,4 @@ class ErrorList extends NotificationListPrototype {
 
 }
 
-export default ErrorList;
+export default FuncionalityList;

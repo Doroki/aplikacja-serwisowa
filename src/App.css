@@ -1,7 +1,7 @@
 .App {
   text-align: center;
   font-family: 'Roboto', sans-serif;
-  background-color: white !important;
+  background-color: white;
 }
 
 @media (max-width: 1300px) {
@@ -23,4 +23,17 @@
     z-index: 1200;
     opacity: 0.5;
   }
+}
+
+.darkTheme {
+  background-color: #252525;
+}
+
+.darkTheme-card {
+  background-color: #3a3a3a;
+  color: #CCC;
+}
+
+.darkTheme-title {
+  color: #FFF;
 }

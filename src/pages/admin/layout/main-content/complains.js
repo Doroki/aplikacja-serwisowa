@@ -1,9 +1,9 @@
 import React from "react";
 import "./form.css";
-import Table from "../../tabel/tabel"
-import SearchForm from "../../forms/search-form/search-form";
-import CustomPagination from "../../pagination/pagination";
-import NotificationListPrototype from "../../notification-list-prototype/notificationListPrototype";
+import Table from "../../../../components/tabel/tabel"
+import SearchForm from "../../../../components/forms/search-form/search-form";
+import CustomPagination from "../../../../components/pagination/pagination";
+import NotificationListPrototype from "../../../../components/notification-list-prototype/notificationListPrototype";
 
 class ComplainList extends NotificationListPrototype {
     constructor(props) {
@@ -63,7 +63,7 @@ class ComplainList extends NotificationListPrototype {
     render() {
         return (
             <div>
-                <h2 className="header">Zgłoszone reklamacje</h2>
+                <h2 className={this.props.darkTheme ? 'heading darkTheme-title' : 'heading'} >Zgłoszone reklamacje</h2>
                 <SearchForm 
                     elements = {["Nr Reklamacji", "Nr złoszenia", "Nr klienta", "Firma", "Status"]}
                     onSubmitSearch = {this.findData.bind(this)}

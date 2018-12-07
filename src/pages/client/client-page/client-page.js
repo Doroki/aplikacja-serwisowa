@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import {Navbar, Dropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'mdbreact';
 import './client-page.css';
-import {Tab, TabBody, TabContainer, TabList, TabPanel} from '../../components/tab-container/tab-container';
-import {Form, Row, Input, Select, Textarea, Submit} from '../../components/forms/form-components/form-components';
-import PopUp from '../../components/pop-up-info/pop-up';
-import Table from "../../components/tabel/tabel";
-import CustomPagination from "../../components/pagination/pagination";
-import SearchForm from "../../components/forms/search-form/search-form";
+import {Tab, TabBody, TabContainer, TabList, TabPanel} from '../../../components/tab-container/tab-container';
+import {Form, Row, Input, Select, Textarea, Submit} from '../../../components/forms/form-components/form-components';
+import PopUp from '../../../components/pop-up-info/pop-up';
+import Table from "../../../components/tabel/tabel";
+import CustomPagination from "../../../components/pagination/pagination";
+import SearchForm from "../../../components/forms/search-form/search-form";
 
 class ClientPage extends Component {
     constructor(props) {

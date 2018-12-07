@@ -1,9 +1,8 @@
 import React, {Component} from "react";
-import {Form, Row, Input, Select, Textarea, Submit} from '../../forms/form-components/form-components';
-import PopUp from '../../pop-up-info/pop-up';
-// import "./form.css"
+import {Form, Row, Input, Textarea, Submit} from '../../../../components/forms/form-components/form-components';
+import PopUp from '../../../../components/pop-up-info/pop-up';
 
-class NewNotification extends Component {
+class SendEmail extends Component {
     constructor(props) {
         super(props);
 
@@ -106,60 +105,21 @@ class NewNotification extends Component {
 
     render() {
         return (
-            <div className="w-100 container">
+            <div className={this.props.darkTheme ? 'heading darkTheme-title' : 'heading'} >
                 {this.showPopUp()}
                 <Form className="text-left">
                     <h2 className="header">Formularz zgłoszeniowy</h2>
                     <Row>
-                        <Input id="1" type="number" label="Podaj nr klienta:" onChangeField={this.setFormData.bind(this)} target="clientID" value={this.state.clientID}/>
-                        <Select id="2" label="Wybierz rodzaj zgloszenia:" onChangeField={this.setFormData.bind(this)} target="type" value={this.state.type}>
-                            <option value="">Wybierz rodzaj zgłosznia...</option>
-                            <option value="zgloszenie">Zgłoszenie</option>
-                            <option value="funkcjonalnosc">Nowa funkcjonalność</option>
-                            <option value="reklamacje">Reklamacje</option>
-                        </Select>
+                        <Input id="1" type="number" label="Do: (adres e-mail)" />
                     </Row>
                     <Row>
-                        <Input id="1" type="number" label="Podaj numer zgłoszenia:" 
-                            onChangeField={this.setFormData.bind(this)} 
-                            target="issueNubmer" 
-                            value={this.state.issueNubmer} 
-                            disabled={(this.state.type !== "reklamacje") ? true : false}
-                        />
-                        <Select id="2" label="Wybierz oprogramowanie:" 
-                            onChangeField={this.setFormData.bind(this)} 
-                            target="program" 
-                            value={this.state.program}
-                            disabled={(this.state.type === "" || this.state.type === "reklamacje" ) ? true : false}
-                            >
-                            <option value="">Jakie oprogramowanie...</option>
-                            <option value="1">Drukarz</option>
-                            <option value="2">Mortes</option>
-                            <option value="3">Inspector</option>
-                        </Select>
+                        <Input id="1" type="number" label="Temat wiadomości:" />
                     </Row>
                     <Row>
-                        <Select id="2" label="Wybierz katagorie problemu:" 
-                        onChangeField={this.setFormData.bind(this)} 
-                        target="category" 
-                        value={this.state.category}
-                        disabled={(this.state.type !== "zgloszenie" ) ? true : false}
-                        >
-                            <option value="">Wybierz katagorie problemu...</option>
-                            <option value="1">Interfejs aplikacji</option>
-                            <option value="2">Wyświetlanie danych</option>
-                            <option value="3">Przetwarzanie danych</option>
-                            <option value="4">Tworzenie dokumentów</option>
-                            <option value="5">Przekazywanie informacji</option>
-                            <option value="6">Inna...</option>
-                        </Select>
-                    </Row>
-                    <Row>
-                        <Textarea label="Opisz problem:" col="30" row="12" onChangeField={this.setFormData.bind(this)} target="text" value={this.state.text}/>
+                        <Textarea label="Treść wiadomości:" col="30" row="12" onChangeField={this.setFormData.bind(this)} target="text" value={this.state.text}/>
                     </Row>
                     <Row className="text-center">
-                        <Submit value="Zatwierdź" className="btn btn-primary btn-md" onAccept={this.sendNotification.bind(this)}/>
-                        <Submit value="Wyczyść" className="btn btn-warning btn-md" onAccept={this.clearForm.bind(this)}/>
+                        <Submit value="Wyślij" className="btn btn-primary btn-md" onAccept={this.sendNotification.bind(this)}/>
                     </Row>
                 </Form>
             </div>
@@ -168,4 +128,4 @@ class NewNotification extends Component {
 
 }
 
-export default NewNotification;
+export default SendEmail;

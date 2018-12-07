@@ -5,10 +5,10 @@ import {
   Redirect
 } from 'react-router-dom';
 import { createHashHistory } from 'history'
-import Admin from './pages/admin-page/admin';
-import ClientPage from './pages/client-page/client-page';
-import LoginAdmin from './pages/login-admin/login-admin';
-import LoginClient from './pages/login-client/login-client';
+import Admin from './pages/admin/admin-page/admin';
+import ClientPage from './pages/client/client-page/client-page';
+import LoginAdmin from './pages/admin/login-admin/login-admin';
+import LoginClient from './pages/client/login-client/login-client';
 
 class App extends Component {
   constructor(props) {
@@ -16,7 +16,7 @@ class App extends Component {
 
     this.state = {
       userAuth: false,
-      adminAuth: false,
+      adminAuth: true,
       id: 0,
       name: "Imię i nazwisko"
     };
