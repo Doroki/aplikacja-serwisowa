@@ -19,7 +19,7 @@ class App extends Component {
 
     this.state = {
       userAuth: false,
-      adminAuth: true,
+      adminAuth: false,
       id: 0,
       name: "Imię i nazwisko"
     };

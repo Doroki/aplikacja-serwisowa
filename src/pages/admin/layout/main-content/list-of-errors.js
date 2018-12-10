@@ -24,7 +24,7 @@ class ErrorList extends NotificationListPrototype {
         const objToSend = obj;
         objToSend.tabel = "zgloszenia";
 
-        fetch('https://aplikacja-wsb.herokuapp.com/api/update-notification', {
+        fetch('http://aplikacja-wsb.herokuapp.com/api/update-notification', {
             method: "POST",
             body: JSON.stringify(obj),
             headers: {

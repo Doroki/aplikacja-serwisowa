@@ -17,7 +17,7 @@ class LoginAdmin extends React.Component {
     authorizeEntry(e, login, password) {
         e.preventDefault();
 
-        fetch("https://aplikacja-wsb.herokuapp.com/api/login-admin", {
+        fetch("http://aplikacja-wsb.herokuapp.com/api/login-admin", {
             method: "POST",
             body: JSON.stringify({login: login, password: password}),
             headers: {

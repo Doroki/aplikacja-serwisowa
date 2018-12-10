@@ -56,7 +56,7 @@ class SendEmail extends Component {
 
     sendEmail() {
         if (this.validateData()) {
-            this.sendData(`https://aplikacja-wsb.herokuapp.com/api/send-email`, {
+            this.sendData(`http://aplikacja-wsb.herokuapp.com/api/send-email`, {
                 to: this.state.emailTo,
                 subject: this.state.topic,
                 text: this.state.content

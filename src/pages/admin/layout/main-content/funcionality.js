@@ -24,7 +24,7 @@ class FuncionalityList extends NotificationListPrototype {
         const objToSend = obj;
         objToSend.tabel = "funkcjonalnosc";
 
-        fetch('https://aplikacja-wsb.herokuapp.com/api/update-notification', {
+        fetch('http://aplikacja-wsb.herokuapp.com/api/update-notification', {
             method: "POST",
             body: JSON.stringify(obj),
             headers: {

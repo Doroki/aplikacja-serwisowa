@@ -17,7 +17,7 @@ class LoginClient extends Component {
     authorizeEntry(e, login, password) {
         e.preventDefault();
         this.setState({login: login, password: password})
-        fetch("https://aplikacja-wsb.herokuapp.com/api/login-client", {
+        fetch("http://aplikacja-wsb.herokuapp.com/api/login-client", {
             method: "POST",
             body: JSON.stringify({login: login, password: password}),
             headers: {

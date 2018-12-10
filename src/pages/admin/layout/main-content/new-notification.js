@@ -73,7 +73,7 @@ class NewNotification extends Component {
             return;
         } 
 
-        this.sendData(`https://aplikacja-wsb.herokuapp.com/api/new-${linkToSend}`, dataToSend)
+        this.sendData(`http://aplikacja-wsb.herokuapp.com/api/new-${linkToSend}`, dataToSend)
     }
 
     sendData(url, data) {
