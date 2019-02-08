@@ -285,6 +285,13 @@ class ClientPage extends Component {
                         <DropdownToggle color="default" className="dropdown-button fa fa-user-circle" />
                         <DropdownMenu>
                             <DropdownItem onClick={this.logout.bind(this)} >Wyloguj</DropdownItem>
+                            <DropdownItem></DropdownItem>
+                            <DropdownItem>
+                                <a href="SmallService.apk" download> Aplikacja Android </a>
+                            </DropdownItem>
+                            <DropdownItem>
+                                <a href="serviceMobileApp.app" download> Aplikacja iOS </a>
+                            </DropdownItem>
                         </DropdownMenu>
                     </Dropdown>
                 </Navbar>
